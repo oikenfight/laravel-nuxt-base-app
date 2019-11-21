@@ -1,0 +1,9 @@
+FROM api
+
+# ARG MY_WEB_APP
+# ARG APP_ROOT
+# RUN mkdir ${APP_ROOT}
+# WORKDIR ${APP_ROOT}
+
+ENTRYPOINT []
+CMD ["/bin/sh"]
