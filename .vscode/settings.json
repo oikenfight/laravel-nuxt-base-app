@@ -1,0 +1,35 @@
+{
+  "editor.tabSize": 2,
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+
+  // 作業ディレクトリを変更（root に .eslint.js がないため）
+  "eslint.workingDirectories": ["./nuxt", "./laravel"],
+  // eslint に使用する設定ファイル
+  "eslint.options": { "configFile": ".eslintrc.js" },
+  // ESLint の設定
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": [
+    "javascript",
+    "vue",
+    "html"
+  ],
+  // eslint の整形機能との競合を回避
+  "editor.formatOnSave": false,
+  // ESLint の自動修正を保存時に自動的に適用
+  "editor.codeActionsOnSaveTimeout": 1000,
+  "editor.codeActionsOnSave": {
+    // For ESLint
+    "source.fixAll.eslint": true,
+  },
+  "prettier.eslintIntegration": true,
+
+  "editor.detectIndentation": false,
+  "vsicons.projectDetection.autoReload": true,
+  "eslint.lintTask.enable": true,
+  "files.autoSave": "onFocusChange"
+}
