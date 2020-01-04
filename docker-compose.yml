@@ -43,7 +43,8 @@ services:
     volumes:
       - ./nuxt:/src
     command:
-      "npm run start"
+      # "npm run start"
+      "npm run dev"
   nginx_web:
     image: nginx_web
     container_name: nginx_web
