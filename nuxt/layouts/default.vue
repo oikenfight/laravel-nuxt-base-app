@@ -1,117 +1,136 @@
 <template>
-  <v-app dark>
+  <v-app id="">
+    <v-app-bar app clipped-left dark color="teal">
+      <v-app-bar-nav-icon
+        @click="
+          drawer = !drawer
+          permanent = !permanent
+        "
+      />
+      <span class="title ml-3 mr-5">
+        Ore<span class="font-weight-light">Note</span>
+      </span>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="search"
+      />
+      <v-spacer />
+    </v-app-bar>
+
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
       app
+      clipped
+      dark
+      color="teal"
+      :permanent="permanent"
+      :width="325"
     >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <!-- tree head -->
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            Navigation lists
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider />
+
+      <!-- content -->
+      <v-row dense>
+        <!-- left -->
+        <v-col cols="6">
+          <v-list dense>
+            <!-- folders by the rack -->
+            <v-list-item-group v-model="tree">
+              <v-row v-for="rack in myRacks" :key="rack.id">
+                <v-list-item @click="selectRack(rack)">
+                  <v-subheader>
+                    {{ rack.name }}
+                  </v-subheader>
+                </v-list-item>
+                <v-list-item
+                  v-for="folder in myFolders(rack.id)"
+                  :key="folder.id"
+                  @click="selectFolder({ rack, folder })"
+                >
+                  <v-list-item-icon style="margin-right: 5px">
+                    <v-icon small v-text="folder.icon" />
+                  </v-list-item-icon>
+                  <v-list-item-title v-text="folder.name" />
+                </v-list-item>
+              </v-row>
+            </v-list-item-group>
+          </v-list>
+        </v-col>
+        <!-- right -->
+        <v-col cols="6">
+          <v-list dense>
+            <v-row v-for="file in myFiles" :key="file.id">
+              <v-card
+                class="mx-auto"
+                outlined
+                light
+                style="margin: 3px;"
+                @click="selectFile(file)"
+              >
+                <v-card-subtitle class="pb-0">2019/12/31</v-card-subtitle>
+                <v-card-text class="text--primary">
+                  <div>{{ file.title }}</div>
+                </v-card-text>
+              </v-card>
+            </v-row>
+          </v-list>
+        </v-col>
+      </v-row>
     </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
+
     <v-content>
-      <v-container>
-        <nuxt />
+      <v-container fluid class="grey lighten-4 fill-height">
+        <v-row justify="center" align="center">
+          <nuxt />
+        </v-row>
       </v-container>
     </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :fixed="fixed"
-      app
-    >
-      <span>&copy; 2019</span>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+  data: () => ({
+    drawer: null,
+    permanent: true,
+    open: ['public'],
+    selectedFolderId: null,
+    tree: []
+  }),
+  computed: {
+    ...mapGetters({
+      myRacks: 'tree/myRacks',
+      myFolders: 'tree/myFolders',
+      myFiles: 'tree/myFiles',
+      rack: 'tree/rack',
+      folder: 'tree/folder',
+      file: 'tree/file'
+    })
+  },
+  methods: {
+    ...mapActions({
+      selectRack: 'tree/selectRack',
+      selectFolder: 'tree/selectFolder',
+      selectFile: 'tree/selectFile'
+    })
   }
 }
 </script>
+
+<style>
+#keep .v-navigation-drawer__border {
+  display: none;
+}
+</style>
