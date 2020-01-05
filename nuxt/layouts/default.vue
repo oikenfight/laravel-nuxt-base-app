@@ -46,14 +46,14 @@
           <v-list dense>
             <!-- folders by the rack -->
             <v-list-item-group v-model="tree">
-              <v-row v-for="rack in myRacks" :key="rack.id">
+              <v-row v-for="rack in allRacks" :key="rack.id">
                 <v-list-item @click="selectRack(rack)">
                   <v-subheader>
                     {{ rack.name }}
                   </v-subheader>
                 </v-list-item>
                 <v-list-item
-                  v-for="folder in myFolders(rack.id)"
+                  v-for="folder in folders(rack.id)"
                   :key="folder.id"
                   @click="selectFolder({ rack, folder })"
                 >
@@ -69,17 +69,17 @@
         <!-- right -->
         <v-col cols="6">
           <v-list dense>
-            <v-row v-for="file in myFiles" :key="file.id">
+            <v-row v-for="note in notes" :key="note.id">
               <v-card
                 class="mx-auto"
                 outlined
                 light
                 style="margin: 3px;"
-                @click="selectFile(file)"
+                @click="selectNote(note)"
               >
                 <v-card-subtitle class="pb-0">2019/12/31</v-card-subtitle>
                 <v-card-text class="text--primary">
-                  <div>{{ file.title }}</div>
+                  <div>{{ note.title }}</div>
                 </v-card-text>
               </v-card>
             </v-row>
@@ -111,19 +111,19 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      myRacks: 'tree/myRacks',
-      myFolders: 'tree/myFolders',
-      myFiles: 'tree/myFiles',
+      allRacks: 'tree/allRacks',
+      folders: 'tree/folders',
+      notes: 'tree/notes',
       rack: 'tree/rack',
       folder: 'tree/folder',
-      file: 'tree/file'
+      note: 'tree/note'
     })
   },
   methods: {
     ...mapActions({
       selectRack: 'tree/selectRack',
       selectFolder: 'tree/selectFolder',
-      selectFile: 'tree/selectFile'
+      selectNote: 'tree/selectNote'
     })
   }
 }
