@@ -1,15 +1,14 @@
 export const state = () => ({
   rack: null,
   folder: null,
-  note: null,
-  notes: null,
+  noteIds: [],
 
   //
   // TODO: rack に folderIds をもたせる or リレーション用のデータストアを追加する
   //
 
   // ラック
-  allRacks: [
+  racksAll: [
     {
       id: 1,
       name: 'rack1'
@@ -26,7 +25,7 @@ export const state = () => ({
 
   // フォルダ
   // rackId: {folder}
-  allFolders: {
+  foldersAll: {
     1: [
       {
         id: 11,
@@ -50,35 +49,6 @@ export const state = () => ({
       }
     ],
     3: []
-  },
-
-  // ファイル
-  // noteId: [itemId, ...]
-  allNotes: {
-    1: {
-      title: 'title1',
-      itemIds: [1, 2, 3]
-    },
-    2: {
-      title: 'title2',
-      itemIds: [4, 5]
-    },
-    3: {
-      title: 'title3',
-      itemIds: [6]
-    },
-    4: {
-      title: 'title4',
-      itemIds: []
-    },
-    5: {
-      title: 'title5',
-      itemIds: []
-    },
-    6: {
-      title: '',
-      itemIds: []
-    }
   }
 })
 
@@ -89,23 +59,14 @@ export const getters = {
   folder: (state) => {
     return state.folder
   },
-  note: (state) => {
-    return state.note
+  racksAll: (state) => {
+    return state.racksAll
   },
-  allRacks: (state) => {
-    return state.allRacks
-  },
-  allFolders: (state) => {
-    return state.allFolders
-  },
-  allNotes: (state) => {
-    return state.allNotes
+  foldersAll: (state) => {
+    return state.foldersAll
   },
   folders: (state) => (rackId) => {
-    return state.allFolders[rackId]
-  },
-  notes: (state) => {
-    return state.notes
+    return state.foldersAll[rackId]
   }
   // notes: (state) => (noteIds) => {
   //   return noteIds.map((noteId) => {
@@ -152,15 +113,12 @@ export const getters = {
 export const actions = {
   selectRack(context, rack) {
     context.commit('SET_RACK', rack)
-    context.commit('SET_MY_FILES_IN_RACK', rack)
+    context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
   selectFolder(context, { rack, folder }) {
     context.commit('SET_RACK', rack)
     context.commit('SET_FOLDER', folder)
-    context.commit('SET_MY_FILES_IN_FOLDER', folder)
-  },
-  selectNote(context, rack, folder, note) {
-    context.commit('SET_FILE', note)
+    context.commit('SET_NOTEIDS_IN_FOLDER', folder)
   }
 }
 
@@ -174,24 +132,24 @@ export const mutations = {
   SET_FILE(state, note) {
     state.note = note
   },
-  SET_MY_FILES_IN_RACK(state, rack) {
-    console.log(rack)
+  SET_NOTEIDS_IN_RACK(state, rack) {
     // folders by target rackId
-    const folders = state.allFolders[rack.id]
+    const folders = state.foldersAll[rack.id]
     // noteIds by target folder
-    const noteIds = folders.map((folder) => {
+    const noteIdsList = folders.map((folder) => {
       return folder.noteIds
     })
-    // notes by target noteIds
-    state.notes = noteIds.flat().map((noteId) => {
-      return state.allNotes[noteId]
-    }, state)
+    state.noteIds = noteIdsList.flat()
+    // // notes by target noteIds
+    // state.notes = noteIds.flat().map((noteId) => {
+    //   return state.allNotes[noteId]
+    // }, state)
   },
-  SET_MY_FILES_IN_FOLDER(state, folder) {
-    console.log(folder)
+  SET_NOTEIDS_IN_FOLDER(state, folder) {
     // notes by noteIds of the target folder
-    state.notes = folder.noteIds.map((noteId) => {
-      return state.allNotes[noteId]
-    }, state)
+    // state.notes = folder.noteIds.map((noteId) => {
+    //   return state.allNotes[noteId]
+    // }, state)
+    state.noteIds = folder.noteIds
   }
 }
