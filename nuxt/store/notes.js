@@ -1,20 +1,21 @@
 export const state = () => ({
-  // 選択した note が持つアイテム
+  // 選択された Note
+  note: null,
+  // Rack or Folder 内の Notes
   notes: {},
-
-  // noteId: [itemId, ...]
+  // 全データ（{noteId: [itemId, ...]}, ...）
   notesAll: {
     1: {
       title: 'title1',
-      itemIds: [1, 2, 3]
+      itemIds: [101, 102, 103]
     },
     2: {
       title: 'title2',
-      itemIds: [4, 5]
+      itemIds: [201, 202]
     },
     3: {
       title: 'title3',
-      itemIds: [6]
+      itemIds: [301]
     },
     4: {
       title: 'title4',
@@ -34,18 +35,10 @@ export const state = () => ({
   itemsAll: {
     101: '# item101',
     102: '# item102',
-    1101: '# item1101',
-    1102: '# item1102',
-    11201: '# item11201',
-    11202: '# item11202',
-    1201: '# item1201',
-    1202: '# item1202',
-    1301: '# item1301',
-    1302: '# item1302',
+    103: '# item102',
     201: '# item201',
-    2101: '# item2101',
-    2201: '# item2201',
-    2301: '# item2301'
+    202: '# item202',
+    301: '# item301'
   }
 })
 
@@ -56,14 +49,17 @@ export const getters = {
   notes: (state) => {
     return state.notes
   },
-  note: (state) => (noteId) => {
-    return state.notesAll[noteId]
+  note: (state) => {
+    return state.note
   }
 }
 
 export const actions = {
   setNotes(context, noteIds) {
     context.commit('SET_NOTES', noteIds)
+  },
+  setNote(context, note) {
+    context.commit('SET_NOTE', note)
   },
   add(context, item) {
     // TODO: crate item to DB
@@ -87,6 +83,9 @@ export const mutations = {
     state.notes = noteIds.map((noteId) => {
       return state.notesAll[noteId]
     }, state)
+  },
+  SET_NOTE(state, note) {
+    state.note = note
   },
   ADD_ITEM(state, item) {},
   UPDATE_ITEM(state, item) {},
