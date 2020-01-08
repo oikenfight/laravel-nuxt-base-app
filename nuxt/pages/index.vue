@@ -1,23 +1,28 @@
 <template>
   <v-container fluid class="grey lighten-4" style="height: 100%;">
-    <v-row v-if="!note">
-      open note !!
+    <v-row v-if="note">
+      <v-col cols="12">
+        <v-row align="start" justify="center">
+          <v-col cols="11">
+            <v-text-field v-model="newTitle" label="title" />
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12">
+        <v-row
+          v-for="itemId in note.itemIds"
+          :key="itemId"
+          align="start"
+          justify="center"
+        >
+          <v-col cols="11">
+            <div v-html="$md.render(item(itemId))"></div>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
     <v-row v-else>
-      <v-col cols="12">
-        <v-row align="start" justify="center">
-          <v-col cols="11">
-            <v-text-field :value="title" label="title" @change="inputTitle" />
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col cols="12">
-        <v-row align="start" justify="center">
-          <v-col cols="11">
-            <div v-html="$md.render(input)"></div>
-          </v-col>
-        </v-row>
-      </v-col>
+      open note !!
     </v-row>
   </v-container>
 </template>
@@ -35,16 +40,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      note: 'notes/note'
+      note: 'notes/note',
+      item: 'notes/item'
     }),
-    title() {
-      return this.note.title
+    newTitle() {
+      return this.note ? this.note.title : ''
     }
   },
   method: {
-    ...mapActions({
-      inputTitle: ''
-    })
+    ...mapActions({})
   }
 }
 </script>
