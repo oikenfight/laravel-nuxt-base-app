@@ -67,30 +67,10 @@ export const getters = {
   },
   folders: (state) => (rackId) => {
     return state.foldersAll[rackId]
+  },
+  noteIds: (state) => {
+    return state.noteIds
   }
-  // notes: (state) => (noteIds) => {
-  //   return noteIds.map((noteId) => {
-  //     return state.notes[noteId]
-  //   }, state)
-  // },
-  // notesByRack: (state, getters) => (rackId) => {
-  //   // folders by target rackId
-  //   const folders = state.folders[rackId]
-  //   // noteIds by target folder
-  //   const noteIds = folders.map((folder) => {
-  //     return folder.noteIds
-  //   })
-  //   // notes by target noteIds
-  //   return getters.notes(noteIds.flat())
-  // },
-  // notesByFolder: (state, getters) => (rackId, folderId) => {
-  //   // folders by target rackId
-  //   const folders = state.folders[rackId]
-  //   // folder by target folderId
-  //   const folder = folders.filter((folder) => folder.id === folderId)[0]
-  //   // notes by target folder
-  //   return getters.notes(folder.noteIds)
-  // },
   // treeItems: (state) => {
   //   // ファイル名、構成ファイル情報を付与してツリーを完成して返却
   //   const assenbleItems = (tree) => {
@@ -111,11 +91,11 @@ export const getters = {
 }
 
 export const actions = {
-  selectRack(context, rack) {
+  setRack(context, rack) {
     context.commit('SET_RACK', rack)
     context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
-  selectFolder(context, { rack, folder }) {
+  setFolder(context, { rack, folder }) {
     context.commit('SET_RACK', rack)
     context.commit('SET_FOLDER', folder)
     context.commit('SET_NOTEIDS_IN_FOLDER', folder)

@@ -46,7 +46,7 @@
           <v-list dense>
             <!-- folders by the rack -->
             <v-list-item-group v-model="tree">
-              <v-row v-for="rack in allRacks" :key="rack.id">
+              <v-row v-for="rack in racksAll" :key="rack.id">
                 <v-list-item @click="selectRack(rack)">
                   <v-subheader>
                     {{ rack.name }}
@@ -89,11 +89,7 @@
     </v-navigation-drawer>
 
     <v-content>
-      <v-container fluid class="grey lighten-4 fill-height">
-        <v-row justify="center" align="center">
-          <nuxt />
-        </v-row>
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>
@@ -111,19 +107,19 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      allRacks: 'tree/allRacks',
+      racksAll: 'tree/racksAll',
       folders: 'tree/folders',
-      notes: 'tree/notes',
       rack: 'tree/rack',
       folder: 'tree/folder',
-      note: 'tree/note'
+      notes: 'notes/notes',
+      note: 'notes/note'
     })
   },
   methods: {
     ...mapActions({
       selectRack: 'tree/selectRack',
       selectFolder: 'tree/selectFolder',
-      selectNote: 'tree/selectNote'
+      selectNote: 'notes/selectNote'
     })
   }
 }
