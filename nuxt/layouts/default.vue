@@ -112,8 +112,7 @@ export default {
       rack: 'tree/rack',
       folder: 'tree/folder',
       noteIds: 'tree/noteIds',
-      notes: 'notes/notes',
-      note: 'notes/note'
+      notes: 'notes/notes'
     })
   },
   methods: {
@@ -121,7 +120,7 @@ export default {
       setRack: 'tree/setRack',
       setFolder: 'tree/setFolder',
       setNotes: 'notes/setNotes',
-      selectNote: 'notes/selectNote'
+      setNote: 'notes/setNote'
     }),
     selectRack(rack) {
       // Rack をセット（同時に NoteIds もセットされる）
@@ -134,6 +133,9 @@ export default {
       this.setFolder(rack, folder)
       // セット完了後、Folder の NoteIds から Notes をセット
       this.setNotes(this.noteIds)
+    },
+    selectNote(note) {
+      this.setNote(note)
     }
   }
 }
