@@ -111,16 +111,30 @@ export default {
       folders: 'tree/folders',
       rack: 'tree/rack',
       folder: 'tree/folder',
+      noteIds: 'tree/noteIds',
       notes: 'notes/notes',
       note: 'notes/note'
     })
   },
   methods: {
     ...mapActions({
-      selectRack: 'tree/selectRack',
-      selectFolder: 'tree/selectFolder',
+      setRack: 'tree/setRack',
+      setFolder: 'tree/setFolder',
+      setNotes: 'notes/setNotes',
       selectNote: 'notes/selectNote'
-    })
+    }),
+    selectRack(rack) {
+      // Rack をセット（同時に NoteIds もセットされる）
+      this.setRack(rack)
+      // セット完了後、Rack.Folders の各 NoteIds から Notes をセット
+      this.setNotes(this.noteIds)
+    },
+    selectFolder(rack, folder) {
+      // Folder をセット（同時に NoteIds もセットされる）
+      this.setFolder(rack, folder)
+      // セット完了後、Folder の NoteIds から Notes をセット
+      this.setNotes(this.noteIds)
+    }
   }
 }
 </script>
