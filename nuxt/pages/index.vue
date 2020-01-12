@@ -1,26 +1,52 @@
 <template>
-  <v-container fluid class="grey lighten-4" style="height: 100%;">
-    <v-row v-if="note">
-      <v-col cols="12">
-        <v-row align="start" justify="center">
-          <v-col cols="11">
-            <v-text-field v-model="newTitle" label="title" />
-          </v-col>
+  <v-container fluid class="grey lighten-5" style="height: 100%;">
+    <v-row v-if="note" align="start" justify="center">
+      <v-col cols="11">
+        <!-- note title -->
+        <v-row>
+          <v-text-field
+            v-model="noteTitle"
+            outlined
+            label="Note Title"
+            type="text"
+          >
+            <template v-slot:append>
+              <v-btn class="ma-1" large color="grey" icon @click="clearTitle">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-btn class="ma-1" large color="grey" icon @click="updateTitle">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+          </v-text-field>
         </v-row>
-      </v-col>
-      <v-col cols="12">
-        <v-row
-          v-for="itemId in note.itemIds"
-          :key="itemId"
-          align="start"
-          justify="center"
-        >
-          <v-col cols="11">
-            <div v-html="$md.render(item(itemId))"></div>
+        <!-- note body -->
+        <v-row v-for="itemId in note.itemIds" :key="itemId">
+          <v-col
+            cols="12"
+            :class="{ itemSelected: activeItemId === itemId }"
+            @mouseenter="activeItemId = itemId"
+            @mouseleave="activeItemId = null"
+          >
+            <!-- action buttons -->
+            <v-btn-toggle v-if="activeItemId === itemId" class="float-right">
+              <v-btn small>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn small>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+              <v-btn small>
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+            <!-- item body -->
+            <div class="ma-1" v-html="$md.render(item(itemId))"></div>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+
     <v-row v-else>
       open note !!
     </v-row>
@@ -35,20 +61,36 @@ export default {
   components: {},
   data() {
     return {
-      input: '# hello World!'
+      noteTitle: '', // タイトルフォームと bind
+      activeItemId: null // item の mouseover/mouseout でセット
     }
   },
   computed: {
     ...mapGetters({
       note: 'notes/note',
       item: 'notes/item'
-    }),
-    newTitle() {
-      return this.note ? this.note.title : ''
+    })
+  },
+  watch: {
+    note() {
+      this.noteTitle = this.note.title ? this.note.title : ''
     }
   },
-  method: {
-    ...mapActions({})
+  methods: {
+    ...mapActions({}),
+    clearTitle() {
+      this.noteTitle = ''
+    },
+    updateTitle() {
+      const newNoteTitle = this.noteTitle
+      this.$store.dispatch('notes/updateTitle', newNoteTitle)
+    }
   }
 }
 </script>
+
+<style scoped>
+.itemSelected {
+  background-color: #eeeeee;
+}
+</style>
