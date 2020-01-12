@@ -31,5 +31,8 @@
   "editor.detectIndentation": false,
   "vsicons.projectDetection.autoReload": true,
   "eslint.lintTask.enable": true,
-  "files.autoSave": "onFocusChange"
+  "files.autoSave": "onFocusChange",
+  "editor.quickSuggestions": {
+    "strings": true,
+  }
 }
