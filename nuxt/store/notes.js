@@ -4,32 +4,38 @@ export const state = () => ({
   // Rack or Folder 内の Notes
   notes: {},
   // 全データ（{noteId: [itemId, ...]}, ...）
-  notesAll: {
-    1: {
+  notesAll: [
+    {
+      id: 1,
       title: 'title1',
       itemIds: [101, 102, 103]
     },
-    2: {
+    {
+      id: 2,
       title: 'title2',
       itemIds: [201, 202]
     },
-    3: {
+    {
+      id: 3,
       title: 'title3',
       itemIds: [301]
     },
-    4: {
+    {
+      id: 4,
       title: 'title4',
       itemIds: []
     },
-    5: {
+    {
+      id: 5,
       title: 'title5',
       itemIds: []
     },
-    6: {
+    {
+      id: 6,
       title: '',
       itemIds: []
     }
-  },
+  ],
 
   // アイテム
   itemsAll: {
@@ -73,8 +79,9 @@ export const actions = {
     // TODO: delete item from DB
     context.commit('DELETE_ITEM', item)
   },
-  inputTitle(context, note) {
-    context.commit('UPDATE_NOTE_TITLE', note)
+  updateTitle(context, newNoteTitle) {
+    // TODO: update note
+    context.commit('UPDATE_TITLE', newNoteTitle)
   }
 }
 
@@ -86,6 +93,11 @@ export const mutations = {
   },
   SET_NOTE(state, note) {
     state.note = note
+  },
+  UPDATE_TITLE(state, newNoteTitle) {
+    const index = state.notes.findIndex((note) => note === state.note)
+    state.note.title = newNoteTitle
+    state.notes[index] = state.note
   },
   ADD_ITEM(state, item) {},
   UPDATE_ITEM(state, item) {},
