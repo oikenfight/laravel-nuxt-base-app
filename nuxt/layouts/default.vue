@@ -112,7 +112,7 @@ export default {
       rack: 'tree/rack',
       folder: 'tree/folder',
       noteIds: 'tree/noteIds',
-      notes: 'notes/notes'
+      notes: 'notes/notes' // selectRack or selectFolder
     })
   },
   methods: {
