@@ -41,7 +41,7 @@
 
       <!-- content -->
       <v-row dense>
-        <!-- left -->
+        <!-- left: Tree -->
         <v-col cols="6">
           <v-list dense>
             <!-- folders by the rack -->
@@ -55,7 +55,7 @@
                 <v-list-item
                   v-for="folder in folders(rack.id)"
                   :key="folder.id"
-                  @click="selectFolder({ rack, folder })"
+                  @click="selectFolder(rack, folder)"
                 >
                   <v-list-item-icon style="margin-right: 5px">
                     <v-icon small v-text="folder.icon" />
@@ -66,10 +66,10 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <!-- right -->
+        <!-- right: Notes -->
         <v-col cols="6">
           <v-list dense>
-            <v-row v-for="note in notes" :key="note.id">
+            <v-row v-for="note in notes(noteIds)" :key="note.id">
               <v-card
                 class="mx-auto"
                 outlined
@@ -107,35 +107,26 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      racksAll: 'tree/racksAll',
-      folders: 'tree/folders',
-      rack: 'tree/rack',
-      folder: 'tree/folder',
-      noteIds: 'tree/noteIds',
-      notes: 'notes/notes' // selectRack or selectFolder
+      racksAll: 'tree/racksAll', // 全 Racks
+      folders: 'tree/folders', // rackId を引数に取得
+      rack: 'tree/rack', // 選択された rack
+      folder: 'tree/folder', // 選択された folder
+      noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
+      notes: 'notes/notes' // noteIds を引数に取得
     })
   },
   methods: {
-    ...mapActions({
-      setRack: 'tree/setRack',
-      setFolder: 'tree/setFolder',
-      setNotes: 'notes/setNotes',
-      setNote: 'notes/setNote'
-    }),
+    ...mapActions({}),
     selectRack(rack) {
       // Rack をセット（同時に NoteIds もセットされる）
-      this.setRack(rack)
-      // セット完了後、Rack.Folders の各 NoteIds から Notes をセット
-      this.setNotes(this.noteIds)
+      this.$store.dispatch('tree/selectRack', rack)
     },
     selectFolder(rack, folder) {
       // Folder をセット（同時に NoteIds もセットされる）
-      this.setFolder(rack, folder)
-      // セット完了後、Folder の NoteIds から Notes をセット
-      this.setNotes(this.noteIds)
+      this.$store.dispatch('tree/selectFolder', { rack, folder })
     },
     selectNote(note) {
-      this.setNote(note)
+      this.$store.dispatch('notes/setNote', note)
     }
   }
 }

@@ -91,11 +91,11 @@ export const getters = {
 }
 
 export const actions = {
-  setRack(context, rack) {
+  selectRack(context, rack) {
     context.commit('SET_RACK', rack)
     context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
-  setFolder(context, { rack, folder }) {
+  selectFolder(context, { rack, folder }) {
     context.commit('SET_RACK', rack)
     context.commit('SET_FOLDER', folder)
     context.commit('SET_NOTEIDS_IN_FOLDER', folder)
@@ -120,16 +120,8 @@ export const mutations = {
       return folder.noteIds
     })
     state.noteIds = noteIdsList.flat()
-    // // notes by target noteIds
-    // state.notes = noteIds.flat().map((noteId) => {
-    //   return state.allNotes[noteId]
-    // }, state)
   },
   SET_NOTEIDS_IN_FOLDER(state, folder) {
-    // notes by noteIds of the target folder
-    // state.notes = folder.noteIds.map((noteId) => {
-    //   return state.allNotes[noteId]
-    // }, state)
     state.noteIds = folder.noteIds
   }
 }
