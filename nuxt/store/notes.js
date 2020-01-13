@@ -1,8 +1,6 @@
 export const state = () => ({
   // 選択された Note
   note: null,
-  // Rack or Folder 内の Notes
-  notes: {},
   // 全データ（{noteId: [itemId, ...]}, ...）
   notesAll: [
     {
@@ -52,11 +50,14 @@ export const getters = {
   item: (state) => (itemId) => {
     return state.itemsAll[itemId]
   },
-  notes: (state) => {
-    return state.notes
+  notes: (state) => (noteIds) => {
+    return state.notesAll.filter((note) => noteIds.includes(note.id))
   },
   note: (state) => {
     return state.note
+  },
+  noteById: (state) => (noteId) => {
+    return state.notesAll.find((note) => note.id === noteId)
   }
 }
 
@@ -71,9 +72,9 @@ export const actions = {
     // TODO: crate item to DB
     context.commit('ADD_ITEM', item)
   },
-  update(context, item) {
+  updateItem(context, itemEdited) {
     // TODO: update item in DB
-    context.commit('UPDATE_ITEM', item)
+    context.commit('UPDATE_ITEM', itemEdited)
   },
   delete(context, item) {
     // TODO: delete item from DB
@@ -100,6 +101,8 @@ export const mutations = {
     state.notes[index] = state.note
   },
   ADD_ITEM(state, item) {},
-  UPDATE_ITEM(state, item) {},
+  UPDATE_ITEM(state, itemEdited) {
+    state.itemsAll[itemEdited.id] = itemEdited.body
+  },
   DELETE_ITEM(state, item) {}
 }
