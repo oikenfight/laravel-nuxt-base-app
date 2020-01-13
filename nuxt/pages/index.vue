@@ -1,92 +1,167 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
+  <v-container fluid class="grey lighten-5" style="height: 100%;">
+    <!-- noteId がセットされている（selectNote されている）場合 -->
+    <v-row v-if="noteId" align="start" justify="center">
+      <v-col cols="11">
+        <!-- note title -->
+        <v-row>
+          <v-text-field
+            v-model="noteEdited.title"
+            outlined
+            label="Note Title"
+            type="text"
           >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
+            <template v-slot:append>
+              <v-btn class="ma-1" large color="grey" icon @click="clearTitle">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-btn class="ma-1" large color="grey" icon @click="updateTitle">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+          </v-text-field>
+        </v-row>
+        <v-divider />
+        <!-- note body -->
+        <v-row v-for="itemId in note(noteId).itemIds" :key="itemId">
+          <v-col
+            cols="12"
+            :class="{ itemSelected: activeItemId === itemId }"
+            @mouseenter="activeItemId = itemId"
+            @mouseleave="activeItemId = null"
           >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+            <!-- item body -->
+            <!-- edit -->
+            <div v-if="itemEdited.id === itemId">
+              <v-textarea
+                v-model="itemEdited.body"
+                label="item body"
+                auto-grow
+                outlined
+                rows="3"
+                row-height="15"
+              >
+                <template v-slot:append-outer>
+                  <v-btn class="ma-1" color="grey" icon @click="updateItem">
+                    <v-icon>mdi-send</v-icon>
+                  </v-btn>
+                </template>
+              </v-textarea>
+            </div>
+            <!-- display -->
+            <div v-else>
+              <!-- action buttons -->
+              <v-btn-toggle v-if="activeItemId === itemId" class="float-right">
+                <v-btn small @click="editItem(itemId)">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn small @click="deleteItem(itemId)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <v-btn small>
+                  <v-icon>mdi-dots-horizontal</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+              <div class="ma-1" v-html="$md.render(item(itemId))"></div>
+            </div>
+          </v-col>
+        </v-row>
+        <v-divider />
+        <!-- new item -->
+        <v-row justify="center" style="height: 20px; position: relative">
+          <v-fab-transition>
+            <v-btn
+              color="grey lighten-1"
+              dark
+              right
+              absolute
+              bottom
+              fab
+              @click="addItem"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-row>
+      </v-col>
+    </v-row>
+    <!-- noteId がセットされていない（ selectNoteされていない）場合 -->
+    <v-row v-else>
+      open note !!
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
+  layout: 'defualt',
+  components: {},
+  data() {
+    return {
+      activeItemId: null, // item の mouseover/mouseout でセット
+      noteEdited: {}, // 編集中 Note
+      itemEdited: {} // 編集中 Item
+    }
+  },
+  computed: {
+    ...mapGetters({
+      noteId: 'notes/noteId', // selectNote メソッドでセットされる
+      note: 'notes/note', // noteId を引数にして、Note オブジェクトを取得
+      item: 'notes/item' // itemId を引数に、Item オブジェクトを取得
+    })
+  },
+  watch: {
+    noteId() {
+      this.noteEdited = this.noteId
+        ? Object.assign({}, this.note(this.noteId))
+        : ''
+    }
+  },
+  mounted() {
+    this.initItemEdited()
+  },
+  methods: {
+    ...mapActions({}),
+    clearTitle() {
+      this.noteEdited.title = ''
+    },
+    updateTitle() {
+      const newNoteTitle = this.noteEdited.title
+      this.$store.dispatch('notes/updateTitle', newNoteTitle)
+    },
+    addItem() {
+      this.$store.dispatch('notes/addItem')
+      // 新規追加された item の ID を取得
+      const newItemId = this.noteEdited.itemIds.slice(-1)[0]
+      this.initItemEdited(newItemId)
+    },
+    editItem(itemId) {
+      this.itemEdited.id = itemId
+      this.itemEdited.body = this.item(itemId)
+    },
+    updateItem() {
+      this.$store.dispatch('notes/updateItem', this.itemEdited)
+      this.initItemEdited()
+    },
+    deleteItem(itemId) {
+      const deleteItemId = itemId
+      this.$store.dispatch('notes/deleteItem', deleteItemId)
+      this.initItemEdited()
+    },
+    initNoteEdited(id = null, title = null, itemId = []) {
+      this.noteEdited = { id, title, itemId }
+    },
+    initItemEdited(id = null, body = null) {
+      this.itemEdited = { id, body }
+    }
   }
 }
 </script>
+
+<style scoped>
+.itemSelected {
+  background-color: #eeeeee;
+}
+</style>
