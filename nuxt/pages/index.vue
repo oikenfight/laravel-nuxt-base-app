@@ -55,7 +55,7 @@
                 <v-btn small @click="editItem(itemId)">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn small>
+                <v-btn small @click="deleteItem(itemId)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
                 <v-btn small>
@@ -143,6 +143,11 @@ export default {
     },
     updateItem() {
       this.$store.dispatch('notes/updateItem', this.itemEdited)
+      this.initItemEdited()
+    },
+    deleteItem(itemId) {
+      const deleteItemId = itemId
+      this.$store.dispatch('notes/deleteItem', deleteItemId)
       this.initItemEdited()
     },
     initNoteEdited(id = null, title = null, itemId = []) {

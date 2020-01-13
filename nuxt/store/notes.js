@@ -72,16 +72,17 @@ export const actions = {
     // TODO: crate item to DB
     const newItemId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
     // TODO: Item class とか作るか。 あとで書き直す。
-    context.commit('ADD_ITEM_TO_ITEMS', newItemId)
+    context.commit('ADD_ITEM', newItemId)
     context.commit('ADD_ITEM_TO_NOTE', newItemId)
   },
   updateItem(context, itemEdited) {
     // TODO: update item in DB
     context.commit('UPDATE_ITEM', itemEdited)
   },
-  delete(context, item) {
+  deleteItem(context, deleteItemId) {
     // TODO: delete item from DB
-    context.commit('DELETE_ITEM', item)
+    context.commit('DELETE_ITEM', deleteItemId)
+    context.commit('DELETE_ITEM_FROM_NOTE', deleteItemId)
   },
   updateTitle(context, newNoteTitle) {
     // TODO: update note
@@ -102,7 +103,7 @@ export const mutations = {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
     state.notesAll[index].title = newNoteTitle
   },
-  ADD_ITEM_TO_ITEMS(state, newItemId) {
+  ADD_ITEM(state, newItemId) {
     state.itemsAll[newItemId] = ''
   },
   ADD_ITEM_TO_NOTE(state, newItemId) {
@@ -112,5 +113,13 @@ export const mutations = {
   UPDATE_ITEM(state, itemEdited) {
     state.itemsAll[itemEdited.id] = itemEdited.body
   },
-  DELETE_ITEM(state, item) {}
+  DELETE_ITEM(state, deleteItemId) {
+    delete state.itemsAll[deleteItemId]
+  },
+  DELETE_ITEM_FROM_NOTE(state, deleteItemId) {
+    const index = state.notesAll.findIndex((note) => note.id === state.noteId)
+    state.notesAll[index].itemIds = state.notesAll[index].itemIds.filter(
+      (itemId) => itemId !== deleteItemId
+    )
+  }
 }
