@@ -7,8 +7,16 @@
           permanent = !permanent
         "
       />
-      <span class="title ml-3 mr-5"> Ore<span class="font-weight-light">Note</span> </span>
-      <v-text-field solo-inverted flat hide-details label="Search" prepend-inner-icon="search" />
+      <span class="title ml-3 mr-5">
+        Ore<span class="font-weight-light">Note</span>
+      </span>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="search"
+      />
       <v-spacer />
     </v-app-bar>
 
@@ -62,7 +70,13 @@
         <v-col cols="6">
           <v-list dense>
             <v-row v-for="note in notes(noteIds)" :key="note.id">
-              <v-card class="mx-auto" outlined light style="margin: 3px;" @click="selectNote(note)">
+              <v-card
+                class="mx-auto"
+                outlined
+                light
+                style="margin: 3px;"
+                @click="selectNote(note)"
+              >
                 <v-card-subtitle class="pb-0">2019/12/31</v-card-subtitle>
                 <v-card-text class="text--primary">
                   <div>{{ note.title }}</div>

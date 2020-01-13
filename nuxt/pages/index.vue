@@ -5,7 +5,12 @@
       <v-col cols="11">
         <!-- note title -->
         <v-row>
-          <v-text-field v-model="noteEdited.title" outlined label="Note Title" type="text">
+          <v-text-field
+            v-model="noteEdited.title"
+            outlined
+            label="Note Title"
+            type="text"
+          >
             <template v-slot:append>
               <v-btn class="ma-1" large color="grey" icon @click="clearTitle">
                 <v-icon>mdi-close</v-icon>
@@ -65,7 +70,15 @@
         <!-- new item -->
         <v-row justify="center" style="height: 20px; position: relative">
           <v-fab-transition>
-            <v-btn color="grey lighten-1" dark right absolute bottom fab @click="addItem">
+            <v-btn
+              color="grey lighten-1"
+              dark
+              right
+              absolute
+              bottom
+              fab
+              @click="addItem"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -101,7 +114,9 @@ export default {
   },
   watch: {
     noteId() {
-      this.noteEdited = this.noteId ? Object.assign({}, this.note(this.noteId)) : ''
+      this.noteEdited = this.noteId
+        ? Object.assign({}, this.note(this.noteId))
+        : ''
     }
   },
   mounted() {
