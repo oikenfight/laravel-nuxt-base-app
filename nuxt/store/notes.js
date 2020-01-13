@@ -68,13 +68,12 @@ export const actions = {
   setNoteId(context, noteId) {
     context.commit('SET_NOTE_ID', noteId)
   },
-  addItem(context, item) {
+  addItem(context) {
     // TODO: crate item to DB
-    const itemId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
+    const newItemId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
     // TODO: Item class とか作るか。 あとで書き直す。
-    const newItem = {}
-    newItem[itemId] = ''
-    context.commit('ADD_ITEM_TO_ITEMS', newItem)
+    context.commit('ADD_ITEM_TO_ITEMS', newItemId)
+    context.commit('ADD_ITEM_TO_NOTE', newItemId)
   },
   updateItem(context, itemEdited) {
     // TODO: update item in DB
@@ -100,12 +99,15 @@ export const mutations = {
     state.noteId = noteId
   },
   UPDATE_TITLE(state, newNoteTitle) {
-    const index = state.notes.findIndex((note) => note === state.note)
-    state.note.title = newNoteTitle
-    state.notes[index] = state.note
+    const index = state.notesAll.findIndex((note) => note.id === state.noteId)
+    state.notesAll[index].title = newNoteTitle
   },
-  ADD_ITEM_TO_ITEMS(state, newItem) {
-    state.itemsAll.push(newItem)
+  ADD_ITEM_TO_ITEMS(state, newItemId) {
+    state.itemsAll[newItemId] = ''
+  },
+  ADD_ITEM_TO_NOTE(state, newItemId) {
+    const index = state.notesAll.findIndex((note) => note.id === state.noteId)
+    state.notesAll[index].itemIds.push(newItemId)
   },
   UPDATE_ITEM(state, itemEdited) {
     state.itemsAll[itemEdited.id] = itemEdited.body

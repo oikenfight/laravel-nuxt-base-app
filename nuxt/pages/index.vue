@@ -6,7 +6,7 @@
         <!-- note title -->
         <v-row>
           <v-text-field
-            v-model="noteTitle"
+            v-model="noteEdited.title"
             outlined
             label="Note Title"
             type="text"
@@ -100,9 +100,9 @@ export default {
   components: {},
   data() {
     return {
-      noteTitle: '', // タイトルフォームと bind
       activeItemId: null, // item の mouseover/mouseout でセット
-      itemEdited: {}
+      noteEdited: {}, // 編集中 Note
+      itemEdited: {} // 編集中 Item
     }
   },
   computed: {
@@ -114,7 +114,9 @@ export default {
   },
   watch: {
     noteId() {
-      this.noteTitle = this.noteId ? this.note(this.noteId).title : ''
+      this.noteEdited = this.noteId
+        ? Object.assign({}, this.note(this.noteId))
+        : ''
     }
   },
   mounted() {
@@ -123,14 +125,17 @@ export default {
   methods: {
     ...mapActions({}),
     clearTitle() {
-      this.noteTitle = ''
+      this.noteEdited.title = ''
     },
     updateTitle() {
-      const newNoteTitle = this.noteTitle
+      const newNoteTitle = this.noteEdited.title
       this.$store.dispatch('notes/updateTitle', newNoteTitle)
     },
     addItem() {
-      this.$store.dispatch('ntoes/addItem')
+      this.$store.dispatch('notes/addItem')
+      // 新規追加された item の ID を取得
+      const newItemId = this.noteEdited.itemIds.slice(-1)[0]
+      this.initItemEdited(newItemId)
     },
     editItem(itemId) {
       this.itemEdited.id = itemId
@@ -140,8 +145,11 @@ export default {
       this.$store.dispatch('notes/updateItem', this.itemEdited)
       this.initItemEdited()
     },
-    initItemEdited() {
-      this.itemEdited = { id: null, body: null }
+    initNoteEdited(id = null, title = null, itemId = []) {
+      this.noteEdited = { id, title, itemId }
+    },
+    initItemEdited(id = null, body = null) {
+      this.itemEdited = { id, body }
     }
   }
 }
