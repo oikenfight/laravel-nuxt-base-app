@@ -126,7 +126,7 @@ export default {
       this.$store.dispatch('tree/selectFolder', { rack, folder })
     },
     selectNote(note) {
-      this.$store.dispatch('notes/setNote', note)
+      this.$store.dispatch('notes/setNoteId', note.id)
     }
   }
 }

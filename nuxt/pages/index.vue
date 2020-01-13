@@ -1,6 +1,7 @@
 <template>
   <v-container fluid class="grey lighten-5" style="height: 100%;">
-    <v-row v-if="note" align="start" justify="center">
+    <!-- noteId がセットされている（selectNote されている）場合 -->
+    <v-row v-if="noteId" align="start" justify="center">
       <v-col cols="11">
         <!-- note title -->
         <v-row>
@@ -20,8 +21,9 @@
             </template>
           </v-text-field>
         </v-row>
+        <v-divider />
         <!-- note body -->
-        <v-row v-for="itemId in note.itemIds" :key="itemId">
+        <v-row v-for="itemId in note(noteId).itemIds" :key="itemId">
           <v-col
             cols="12"
             :class="{ itemSelected: activeItemId === itemId }"
@@ -64,9 +66,26 @@
             </div>
           </v-col>
         </v-row>
+        <v-divider />
+        <!-- new item -->
+        <v-row justify="center" style="height: 20px; position: relative">
+          <v-fab-transition>
+            <v-btn
+              color="grey lighten-1"
+              dark
+              right
+              absolute
+              bottom
+              fab
+              @click="addItem"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-row>
       </v-col>
     </v-row>
-
+    <!-- noteId がセットされていない（ selectNoteされていない）場合 -->
     <v-row v-else>
       open note !!
     </v-row>
@@ -88,13 +107,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      note: 'notes/note',
-      item: 'notes/item'
+      noteId: 'notes/noteId', // selectNote メソッドでセットされる
+      note: 'notes/note', // noteId を引数にして、Note オブジェクトを取得
+      item: 'notes/item' // itemId を引数に、Item オブジェクトを取得
     })
   },
   watch: {
-    note() {
-      this.noteTitle = this.note.title ? this.note.title : ''
+    noteId() {
+      this.noteTitle = this.noteId ? this.note(this.noteId).title : ''
     }
   },
   mounted() {
@@ -108,6 +128,9 @@ export default {
     updateTitle() {
       const newNoteTitle = this.noteTitle
       this.$store.dispatch('notes/updateTitle', newNoteTitle)
+    },
+    addItem() {
+      this.$store.dispatch('ntoes/addItem')
     },
     editItem(itemId) {
       this.itemEdited.id = itemId
