@@ -45,6 +45,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/markdownit',
     'nuxt-material-design-icons',
     'nuxtjs-mdi-font'
   ],
@@ -73,6 +74,13 @@ export default {
         }
       }
     }
+  },
+  markdownit: {
+    injected: true, // $mdを利用してmarkdownをhtmlにレンダリング
+    breaks: true, // 改行コードを<br>に変換
+    html: true, // HTML タグを有効
+    linkify: true, // URLに似たテキストをリンクに自動変換
+    typography: true // 言語に依存しない 置換 + 引用符 を有効
   },
   /*
    ** Build configuration

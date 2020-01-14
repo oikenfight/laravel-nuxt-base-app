@@ -1,10 +1,14 @@
 export const state = () => ({
   rack: null,
   folder: null,
-  file: null,
-  myFiles: null,
+  noteIds: [],
+
+  //
+  // TODO: rack に folderIds をもたせる or リレーション用のデータストアを追加する
+  //
+
   // ラック
-  allRacks: [
+  racksAll: [
     {
       id: 1,
       name: 'rack1'
@@ -21,19 +25,19 @@ export const state = () => ({
 
   // フォルダ
   // rackId: {folder}
-  allFolders: {
+  foldersAll: {
     1: [
       {
         id: 11,
         name: 'rack1-folder1',
         icon: 'mdi-folder',
-        fileIds: [1, 2, 3]
+        noteIds: [1, 2, 3]
       },
       {
         id: 12,
         name: 'rack1-folder2-test',
         icon: 'mdi-folder',
-        fileIds: [4, 5]
+        noteIds: [4, 5]
       }
     ],
     2: [
@@ -41,39 +45,10 @@ export const state = () => ({
         id: 21,
         name: 'rack2-folder1',
         icon: 'mdi-folder',
-        fileIds: [6]
+        noteIds: [6]
       }
     ],
     3: []
-  },
-
-  // ファイル
-  // fileId: [itemId, ...]
-  allFiles: {
-    1: {
-      title: 'title1',
-      itemIds: [1, 2, 3]
-    },
-    2: {
-      title: 'title2',
-      itemIds: [4, 5]
-    },
-    3: {
-      title: 'title3',
-      itemIds: [6]
-    },
-    4: {
-      title: 'title4',
-      itemIds: []
-    },
-    5: {
-      title: 'title5',
-      itemIds: []
-    },
-    6: {
-      title: '',
-      itemIds: []
-    }
   }
 })
 
@@ -84,44 +59,18 @@ export const getters = {
   folder: (state) => {
     return state.folder
   },
-  file: (state) => {
-    return state.file
+  racksAll: (state) => {
+    return state.racksAll
   },
-  allRacks: (state) => {
-    return state.myRacks
+  foldersAll: (state) => {
+    return state.foldersAll
   },
-  allFolders: (state) => {
-    return state.allFolders
+  folders: (state) => (rackId) => {
+    return state.foldersAll[rackId]
   },
-  allFiles: (state) => {
-    return state.myFiles
-  },
-  myFolders: (state) => (rackId) => {
-    return state.myFolders[rackId]
+  noteIds: (state) => {
+    return state.noteIds
   }
-  // files: (state) => (fileIds) => {
-  //   return fileIds.map((fileId) => {
-  //     return state.files[fileId]
-  //   }, state)
-  // },
-  // filesByRack: (state, getters) => (rackId) => {
-  //   // folders by target rackId
-  //   const folders = state.folders[rackId]
-  //   // fileIds by target folder
-  //   const fileIds = folders.map((folder) => {
-  //     return folder.fileIds
-  //   })
-  //   // files by target fileIds
-  //   return getters.files(fileIds.flat())
-  // },
-  // filesByFolder: (state, getters) => (rackId, folderId) => {
-  //   // folders by target rackId
-  //   const folders = state.folders[rackId]
-  //   // folder by target folderId
-  //   const folder = folders.filter((folder) => folder.id === folderId)[0]
-  //   // files by target folder
-  //   return getters.files(folder.fileIds)
-  // },
   // treeItems: (state) => {
   //   // ファイル名、構成ファイル情報を付与してツリーを完成して返却
   //   const assenbleItems = (tree) => {
@@ -144,15 +93,12 @@ export const getters = {
 export const actions = {
   selectRack(context, rack) {
     context.commit('SET_RACK', rack)
-    context.commit('SET_MY_FILES_IN_RACK', rack)
+    context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
   selectFolder(context, { rack, folder }) {
     context.commit('SET_RACK', rack)
     context.commit('SET_FOLDER', folder)
-    context.commit('SET_MY_FILES_IN_FOLDER', folder)
-  },
-  selectFile(context, rack, folder, file) {
-    context.commit('SET_FILE', file)
+    context.commit('SET_NOTEIDS_IN_FOLDER', folder)
   }
 }
 
@@ -163,25 +109,19 @@ export const mutations = {
   SET_FOLDER(state, folder) {
     state.folder = folder
   },
-  SET_FILE(state, file) {
-    state.file = file
+  SET_FILE(state, note) {
+    state.note = note
   },
-  SET_MY_FILES_IN_RACK(state, rack) {
+  SET_NOTEIDS_IN_RACK(state, rack) {
     // folders by target rackId
-    const folders = state.folders[rack.id]
-    // fileIds by target folder
-    const fileIds = folders.map((folder) => {
-      return folder.fileIds
+    const folders = state.foldersAll[rack.id]
+    // noteIds by target folder
+    const noteIdsList = folders.map((folder) => {
+      return folder.noteIds
     })
-    // files by target fileIds
-    state.myFiles = fileIds.flat().map((fileId) => {
-      return state.files[fileId]
-    }, state)
+    state.noteIds = noteIdsList.flat()
   },
-  SET_MY_FILES_IN_FOLDER(state, folder) {
-    // files by fileIds of the target folder
-    state.myFiles = folder.fileIds.map((fileId) => {
-      return state.files[fileId]
-    }, state)
+  SET_NOTEIDS_IN_FOLDER(state, folder) {
+    state.noteIds = folder.noteIds
   }
 }

@@ -41,21 +41,21 @@
 
       <!-- content -->
       <v-row dense>
-        <!-- left -->
+        <!-- left: Tree -->
         <v-col cols="6">
           <v-list dense>
             <!-- folders by the rack -->
             <v-list-item-group v-model="tree">
-              <v-row v-for="rack in myRacks" :key="rack.id">
+              <v-row v-for="rack in racksAll" :key="rack.id">
                 <v-list-item @click="selectRack(rack)">
                   <v-subheader>
                     {{ rack.name }}
                   </v-subheader>
                 </v-list-item>
                 <v-list-item
-                  v-for="folder in myFolders(rack.id)"
+                  v-for="folder in folders(rack.id)"
                   :key="folder.id"
-                  @click="selectFolder({ rack, folder })"
+                  @click="selectFolder(rack, folder)"
                 >
                   <v-list-item-icon style="margin-right: 5px">
                     <v-icon small v-text="folder.icon" />
@@ -66,20 +66,20 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <!-- right -->
+        <!-- right: Notes -->
         <v-col cols="6">
           <v-list dense>
-            <v-row v-for="file in myFiles" :key="file.id">
+            <v-row v-for="note in notes(noteIds)" :key="note.id">
               <v-card
                 class="mx-auto"
                 outlined
                 light
                 style="margin: 3px;"
-                @click="selectFile(file)"
+                @click="selectNote(note)"
               >
                 <v-card-subtitle class="pb-0">2019/12/31</v-card-subtitle>
                 <v-card-text class="text--primary">
-                  <div>{{ file.title }}</div>
+                  <div>{{ note.title }}</div>
                 </v-card-text>
               </v-card>
             </v-row>
@@ -89,11 +89,7 @@
     </v-navigation-drawer>
 
     <v-content>
-      <v-container fluid class="grey lighten-4 fill-height">
-        <v-row justify="center" align="center">
-          <nuxt />
-        </v-row>
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>
@@ -111,20 +107,27 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      myRacks: 'tree/myRacks',
-      myFolders: 'tree/myFolders',
-      myFiles: 'tree/myFiles',
-      rack: 'tree/rack',
-      folder: 'tree/folder',
-      file: 'tree/file'
+      racksAll: 'tree/racksAll', // 全 Racks
+      folders: 'tree/folders', // rackId を引数に取得
+      rack: 'tree/rack', // 選択された rack
+      folder: 'tree/folder', // 選択された folder
+      noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
+      notes: 'notes/notes' // noteIds を引数に取得
     })
   },
   methods: {
-    ...mapActions({
-      selectRack: 'tree/selectRack',
-      selectFolder: 'tree/selectFolder',
-      selectFile: 'tree/selectFile'
-    })
+    ...mapActions({}),
+    selectRack(rack) {
+      // Rack をセット（同時に NoteIds もセットされる）
+      this.$store.dispatch('tree/selectRack', rack)
+    },
+    selectFolder(rack, folder) {
+      // Folder をセット（同時に NoteIds もセットされる）
+      this.$store.dispatch('tree/selectFolder', { rack, folder })
+    },
+    selectNote(note) {
+      this.$store.dispatch('notes/setNoteId', note.id)
+    }
   }
 }
 </script>
