@@ -52,7 +52,7 @@
               <v-divider></v-divider>
             </v-col>
             <v-list-item
-              v-for="folder in folders(rack.id)"
+              v-for="folder in folders(rack.folderIds)"
               :key="folder.id"
               class="ma-1 pa-1"
               @click="selectFolder(rack, folder)"

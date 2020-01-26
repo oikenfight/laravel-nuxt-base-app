@@ -11,45 +11,43 @@ export const state = () => ({
   racksAll: [
     {
       id: 1,
-      name: 'rack1'
+      name: 'rack1',
+      folderIds: [11, 12]
     },
     {
       id: 2,
-      name: 'rack2'
+      name: 'rack2',
+      folderIds: [21]
     },
     {
       id: 3,
-      name: 'rack3'
+      name: 'rack3',
+      folderIds: []
     }
   ],
 
   // フォルダ
   // rackId: {folder}
-  foldersAll: {
-    1: [
-      {
-        id: 11,
-        name: 'rack1-folder1',
-        icon: 'mdi-folder',
-        noteIds: [1, 2, 3]
-      },
-      {
-        id: 12,
-        name: 'rack1-folder2-test',
-        icon: 'mdi-folder',
-        noteIds: [4, 5]
-      }
-    ],
-    2: [
-      {
-        id: 21,
-        name: 'rack2-folder1',
-        icon: 'mdi-folder',
-        noteIds: [6]
-      }
-    ],
-    3: []
-  }
+  foldersAll: [
+    {
+      id: 11,
+      name: 'rack1-folder1',
+      icon: 'mdi-folder',
+      noteIds: [1, 2, 3]
+    },
+    {
+      id: 12,
+      name: 'rack1-folder2-test',
+      icon: 'mdi-folder',
+      noteIds: [4, 5]
+    },
+    {
+      id: 21,
+      name: 'rack2-folder1',
+      icon: 'mdi-folder',
+      noteIds: [6]
+    }
+  ]
 })
 
 export const getters = {
@@ -71,8 +69,8 @@ export const getters = {
   foldersAll: (state) => {
     return state.foldersAll
   },
-  folders: (state) => (rackId) => {
-    return state.foldersAll[rackId]
+  folders: (state) => (folderIds) => {
+    return state.foldersAll.filter((folder) => folderIds.includes(folder.id))
   },
   noteIds: (state) => {
     return state.noteIds
@@ -106,10 +104,10 @@ export const actions = {
     context.commit('SET_RACK_ID', rack.id)
     context.commit('SET_FOLDER_ID', folder.id)
     context.commit('SET_NOTEIDS_IN_FOLDER', folder)
+  },
+  addNoteId(context, noteId) {
+    context.commit('ADD_NOTE_ID', noteId)
   }
-  // addNoteId(context, noteId) {
-  //   context.commit('ADD_NOTE_ID', noteId)
-  // }
 }
 
 export const mutations = {
@@ -126,18 +124,21 @@ export const mutations = {
     state.folderId = folderId
   },
   SET_NOTEIDS_IN_RACK(state, rack) {
-    // folders by target rackId
-    const folders = state.foldersAll[rack.id]
-    // noteIds by target folder
-    const noteIdsList = folders.map((folder) => {
-      return folder.noteIds
+    // Rack内のFoldersのnoteIdsを集める
+    const noteIdsList = state.foldersAll.map((folder) => {
+      if (rack.folderIds.includes(folder.id)) {
+        return folder.noteIds
+      }
     })
     state.noteIds = noteIdsList.flat()
   },
   SET_NOTEIDS_IN_FOLDER(state, folder) {
     state.noteIds = folder.noteIds
+  },
+  ADD_NOTE_ID(state, noteId) {
+    const index = state.foldersAll.findIndex(
+      (folder) => folder.id === state.folderId
+    )
+    state.foldersAll[index].noteIds.push(noteId)
   }
-  // ADD_NOTE_ID(state, noteId) {
-  //   state.folder.
-  // }
 }
