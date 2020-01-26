@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="grey lighten-5" style="height: 100%;">
+  <v-container>
     <!-- noteId がセットされている（selectNote されている）場合 -->
     <v-row v-if="noteId" align="start" justify="center">
       <v-col cols="11">
