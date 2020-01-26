@@ -72,7 +72,7 @@
       <v-list dense class="float-left" width="125">
         <!-- New Note -->
         <v-row justify="center" style="height: 45px;">
-          <v-fab-transition v-if="folder">
+          <v-fab-transition v-if="folderId">
             <v-btn
               color="grey lighten-1"
               dark
@@ -144,8 +144,8 @@ export default {
     ...mapGetters({
       racksAll: 'tree/racksAll', // 全 Racks
       folders: 'tree/folders', // rackId を引数に取得
-      rack: 'tree/rack', // 選択された rack
-      folder: 'tree/folder', // 選択された folder
+      rackId: 'tree/rackId', // 選択された rack
+      folderId: 'tree/folderId', // 選択された folder
       noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
       notes: 'notes/notes', // noteIds を引数に取得
       noteId: 'notes/noteId' // 選択中の NoteId

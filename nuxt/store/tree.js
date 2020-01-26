@@ -1,6 +1,6 @@
 export const state = () => ({
-  rack: null,
-  folder: null,
+  rackId: null,
+  folderId: null,
   noteIds: [],
 
   //
@@ -53,11 +53,17 @@ export const state = () => ({
 })
 
 export const getters = {
-  rack: (state) => {
-    return state.rack
+  rackId: (state) => {
+    return state.rackId
   },
-  folder: (state) => {
-    return state.folder
+  folderId: (state) => {
+    return state.folderId
+  },
+  rack: (state) => (rackId) => {
+    return state.racksAll.find((rack) => rack.id === rackId)
+  },
+  folder: (state) => (folderId) => {
+    return state.foldersAll.find((folder) => folder.id === folderId)
   },
   racksAll: (state) => {
     return state.racksAll
@@ -92,13 +98,13 @@ export const getters = {
 
 export const actions = {
   selectRack(context, rack) {
-    context.commit('CREAR_FOLDER')
-    context.commit('SET_RACK', rack)
+    context.commit('CREAR_FOLDER_ID')
+    context.commit('SET_RACK_ID', rack.id)
     context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
   selectFolder(context, { rack, folder }) {
-    context.commit('SET_RACK', rack)
-    context.commit('SET_FOLDER', folder)
+    context.commit('SET_RACK_ID', rack.id)
+    context.commit('SET_FOLDER_ID', folder.id)
     context.commit('SET_NOTEIDS_IN_FOLDER', folder)
   }
   // addNoteId(context, noteId) {
@@ -107,17 +113,17 @@ export const actions = {
 }
 
 export const mutations = {
-  CREAR_RACK(state) {
-    state.rack = null
+  CREAR_RACK_ID(state) {
+    state.rackId = null
   },
-  CREAR_FOLDER(state) {
-    state.folder = null
+  CREAR_FOLDER_ID(state) {
+    state.folderId = null
   },
-  SET_RACK(state, rack) {
-    state.rack = rack
+  SET_RACK_ID(state, rackId) {
+    state.rackId = rackId
   },
-  SET_FOLDER(state, folder) {
-    state.folder = folder
+  SET_FOLDER_ID(state, folderId) {
+    state.folderId = folderId
   },
   SET_NOTEIDS_IN_RACK(state, rack) {
     // folders by target rackId
