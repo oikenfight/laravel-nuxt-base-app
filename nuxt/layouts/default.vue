@@ -147,7 +147,8 @@ export default {
       rack: 'tree/rack', // 選択された rack
       folder: 'tree/folder', // 選択された folder
       noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
-      notes: 'notes/notes' // noteIds を引数に取得
+      notes: 'notes/notes', // noteIds を引数に取得
+      noteId: 'notes/noteId' // 選択中の NoteId
     })
   },
   methods: {
@@ -164,7 +165,8 @@ export default {
       this.$store.dispatch('notes/setNoteId', note.id)
     },
     addNote() {
-      console.log('add note method')
+      this.$store.dispatch('notes/createNote') // ノートを作成し、notes/NoteId をセットする
+      this.$store.dispatch('tree/addNoteId', this.noteId)
     }
   }
 }
