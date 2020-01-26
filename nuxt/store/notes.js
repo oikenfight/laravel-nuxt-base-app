@@ -68,6 +68,17 @@ export const actions = {
   setNoteId(context, noteId) {
     context.commit('SET_NOTE_ID', noteId)
   },
+  createNote(context) {
+    // TODO: crate item to DB
+    const newNoteId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
+    const newNote = {
+      id: newNoteId,
+      title: '',
+      itemIds: []
+    }
+    context.commit('ADD_NOTE', newNote)
+    context.commit('SET_NOTE_ID', newNoteId)
+  },
   addItem(context) {
     // TODO: crate item to DB
     const newItemId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
@@ -98,6 +109,9 @@ export const mutations = {
   },
   SET_NOTE_ID(state, noteId) {
     state.noteId = noteId
+  },
+  ADD_NOTE(state, note) {
+    state.notesAll.push(note)
   },
   UPDATE_TITLE(state, newNoteTitle) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
