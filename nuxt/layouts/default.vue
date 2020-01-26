@@ -88,9 +88,9 @@
     </v-navigation-drawer>
 
     <!-- Application Bar -->
-    <v-app-bar class="grey lighten-5" app>
+    <!-- <v-app-bar class="grey lighten-5" app>
       <v-toolbar-title>Vuetify</v-toolbar-title>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <!-- Content -->
     <v-content class="grey lighten-5" app>
