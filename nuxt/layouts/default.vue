@@ -7,7 +7,7 @@
       mini-variant-width="50"
       :mini-variant.sync="mini"
       permanent
-      width="305"
+      width="302"
     >
       <!-- Profile -->
       <v-list-item class="px-2">
@@ -70,20 +70,34 @@
 
       <!-- Notes -->
       <v-list dense class="float-left" width="125">
-        <v-row v-for="note in notes(noteIds)" :key="note.id">
-          <v-card
-            class="mx-auto"
-            outlined
-            light
-            style="margin: 3px;"
-            @click="selectNote(note)"
-          >
-            <v-card-subtitle class="pb-0">2019/12/31</v-card-subtitle>
+        <!-- New Note -->
+        <v-row justify="center" style="height: 45px;">
+          <v-fab-transition v-if="folder">
+            <v-btn
+              color="grey lighten-1"
+              dark
+              small
+              right
+              absolute
+              fab
+              @click="addNote"
+            >
+              <v-icon>mdi-note-plus</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-row>
+
+        <!-- Note List -->
+        <v-col v-for="note in notes(noteIds)" :key="note.id" class="ma-0 pa-0">
+          <v-card class="ma-2" outlined light @click="selectNote(note)">
+            <v-card-subtitle class="py-0 my-0 mr-0 pr-0">
+              2019/12/31
+            </v-card-subtitle>
             <v-card-text class="text--primary">
               <div>{{ note.title }}</div>
             </v-card-text>
           </v-card>
-        </v-row>
+        </v-col>
       </v-list>
     </v-navigation-drawer>
 
@@ -117,7 +131,6 @@ export default {
     drawer: null,
     permanent: true,
     open: ['public'],
-    selectedFolderId: null,
     tree: [],
     menues: [
       { title: 'Search', icon: 'search' },
@@ -149,6 +162,9 @@ export default {
     },
     selectNote(note) {
       this.$store.dispatch('notes/setNoteId', note.id)
+    },
+    addNote() {
+      console.log('add note method')
     }
   }
 }

@@ -92,6 +92,7 @@ export const getters = {
 
 export const actions = {
   selectRack(context, rack) {
+    context.commit('CREAR_FOLDER')
     context.commit('SET_RACK', rack)
     context.commit('SET_NOTEIDS_IN_RACK', rack)
   },
@@ -103,14 +104,17 @@ export const actions = {
 }
 
 export const mutations = {
+  CREAR_RACK(state) {
+    state.rack = null
+  },
+  CREAR_FOLDER(state) {
+    state.folder = null
+  },
   SET_RACK(state, rack) {
     state.rack = rack
   },
   SET_FOLDER(state, folder) {
     state.folder = folder
-  },
-  SET_FILE(state, note) {
-    state.note = note
   },
   SET_NOTEIDS_IN_RACK(state, rack) {
     // folders by target rackId
