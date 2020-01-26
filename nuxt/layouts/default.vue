@@ -1,56 +1,89 @@
 <template>
   <v-app id="">
-    <v-app-bar app clipped-left dark color="teal">
-      <v-app-bar-nav-icon
-        @click="
-          drawer = !drawer
-          permanent = !permanent
-        "
-      />
-      <span class="title ml-3 mr-5">
-        Ore<span class="font-weight-light">Note</span>
-      </span>
-      <v-text-field
-        solo-inverted
-        flat
-        hide-details
-        label="Search"
-        prepend-inner-icon="search"
-      />
-      <v-spacer />
-    </v-app-bar>
+    <v-row class="fill-height" no-gutters>
+      <v-navigation-drawer
+        dark
+        mini-variant-width="50"
+        :mini-variant.sync="mini"
+        permanent
+      >
+        <v-list-item class="px-2">
+          <v-list-item-avatar>
+            <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-title>Yuta Oikawa</v-list-item-title>
+          <v-btn icon @click.stop="mini = !mini">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+        </v-list-item>
 
-    <v-navigation-drawer
+        <v-divider></v-divider>
+
+        <v-list dense width="50" class="fill-height float-left">
+          <v-list-item-group>
+            <v-list-item v-for="menu in menues" :key="menu.title">
+              <v-list-item-icon>
+                <v-icon v-text="menu.icon"></v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+
+        <v-divider vertical class="float-left"></v-divider>
+
+        <v-list class="grow">
+          <v-list-item v-for="link in links" :key="link" link>
+            <v-list-item-title v-text="link"></v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </v-row>
+
+    <!-- <v-navigation-drawer
       v-model="drawer"
       app
-      clipped
+      mini-variant
       dark
       color="teal"
       :permanent="permanent"
       :width="325"
     >
-      <!-- tree head -->
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
             Navigation lists
+            <v-btn
+              class="mx-2 float-right"
+              fab
+              small
+              outlined
+              color="grey lighten-2"
+            >
+              <v-icon dark>mdi-pencil</v-icon>
+            </v-btn>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-divider />
 
-      <!-- content -->
       <v-row dense>
-        <!-- left: Tree -->
         <v-col cols="6">
           <v-list dense>
-            <!-- folders by the rack -->
             <v-list-item-group v-model="tree">
               <v-row v-for="rack in racksAll" :key="rack.id">
                 <v-list-item @click="selectRack(rack)">
                   <v-subheader>
                     {{ rack.name }}
                   </v-subheader>
+                  <v-btn
+                    class="float-right"
+                    fab
+                    text
+                    x-small
+                    color="grey lighten-2"
+                  >
+                    <v-icon class="float-right">mdi-dots-horizontal</v-icon>
+                  </v-btn>
                 </v-list-item>
                 <v-list-item
                   v-for="folder in folders(rack.id)"
@@ -66,7 +99,6 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <!-- right: Notes -->
         <v-col cols="6">
           <v-list dense>
             <v-row v-for="note in notes(noteIds)" :key="note.id">
@@ -86,7 +118,7 @@
           </v-list>
         </v-col>
       </v-row>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
 
     <v-content>
       <nuxt />
@@ -103,7 +135,14 @@ export default {
     permanent: true,
     open: ['public'],
     selectedFolderId: null,
-    tree: []
+    tree: [],
+    menues: [
+      { title: 'Search', icon: 'search' },
+      { title: 'Notes', icon: 'mdi-note-multiple' },
+      { title: 'Releases', icon: 'mdi-folder-lock-open' }
+    ],
+    links: ['Home', 'Contacts', 'Settings'],
+    mini: true
   }),
   computed: {
     ...mapGetters({
