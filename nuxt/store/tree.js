@@ -101,6 +101,9 @@ export const actions = {
     context.commit('SET_FOLDER', folder)
     context.commit('SET_NOTEIDS_IN_FOLDER', folder)
   }
+  // addNoteId(context, noteId) {
+  //   context.commit('ADD_NOTE_ID', noteId)
+  // }
 }
 
 export const mutations = {
@@ -128,4 +131,7 @@ export const mutations = {
   SET_NOTEIDS_IN_FOLDER(state, folder) {
     state.noteIds = folder.noteIds
   }
+  // ADD_NOTE_ID(state, noteId) {
+  //   state.folder.
+  // }
 }
