@@ -1,10 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * AuthServiceProvider class
+ * 
+ * @package App\Providers
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**

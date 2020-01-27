@@ -6,14 +6,14 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * AppServiceProvider class
+ * RepositoriesServiceProvider class
  * 
  * @package App\Providers
  */
-class AppServiceProvider extends ServiceProvider
+class RepositoriesServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      *
      * @return void
      */
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      *
      * @return void
      */
