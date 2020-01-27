@@ -16,7 +16,7 @@ namespace App\Entities\Contracts;
  * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface $user
  * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|RackInterface $rack
- * @property-read \Illuminate\Database\Eloquent\Relations\HasMany|NoteInterface $notes
+ * @property-read \Illuminate\Database\Eloquent\Relations\HasMany|NoteInterface[] $notes
  */
 interface FolderInterface extends EntityInterface
 {
@@ -31,7 +31,7 @@ interface FolderInterface extends EntityInterface
   public function rack();
 
   /**
-   * @return \Illuminate\Database\Eloquent\Relations\hasMany|NoteInterface
+   * @return \Illuminate\Database\Eloquent\Relations\hasMany|NoteInterface[]
    */
   public function notes();
 }

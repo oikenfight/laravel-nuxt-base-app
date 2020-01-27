@@ -11,6 +11,7 @@ namespace App\Entities\Contracts;
  * @property int $user_id
  * @property int $note_id
  * @property string $body
+ * @property int $order_index
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
