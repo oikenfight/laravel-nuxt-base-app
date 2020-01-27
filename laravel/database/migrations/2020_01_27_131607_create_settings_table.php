@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             // TODO: implement setting
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

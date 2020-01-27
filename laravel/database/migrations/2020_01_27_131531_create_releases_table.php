@@ -17,6 +17,7 @@ class CreateReleasesTable extends Migration
             // implement releases
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -21,6 +21,7 @@ class CreateFoldersTable extends Migration
             $table->foreign('rack_id')->references('id')->on('racks');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

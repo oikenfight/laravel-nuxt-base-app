@@ -21,6 +21,7 @@ class CreateNotesTable extends Migration
             $table->foreign('folder_id')->references('id')->on('folders');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

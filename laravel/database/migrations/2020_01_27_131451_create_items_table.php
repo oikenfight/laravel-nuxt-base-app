@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->string('body');
             $table->integer('order_index')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
