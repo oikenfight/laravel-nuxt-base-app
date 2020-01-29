@@ -140,16 +140,16 @@ class ItemRepository implements ItemRepositoryInterface
         return $this->query->get();
     }
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return ItemRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): ItemRepositoryInterface
-    {
-        $filter->apply($this->query);
-        return $this;
-    }
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return ItemRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): ItemRepositoryInterface
+    // {
+    //     $filter->apply($this->query);
+    //     return $this;
+    // }
 
     /**
      * @return int

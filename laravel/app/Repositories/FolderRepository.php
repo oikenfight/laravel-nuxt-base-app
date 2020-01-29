@@ -140,16 +140,16 @@ class FolderRepository implements FolderRepositoryInterface
         return $this->query->get();
     }
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return FolderRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): FolderRepositoryInterface
-    {
-        $filter->apply($this->query);
-        return $this;
-    }
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return FolderRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): FolderRepositoryInterface
+    // {
+    //     $filter->apply($this->query);
+    //     return $this;
+    // }
 
     /**
      * @return int

@@ -65,12 +65,12 @@ interface FolderRepositoryInterface extends RepositoryInterface
      */
     public function all(): Collection;
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return FolderRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): FolderRepositoryInterface;
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return FolderRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): FolderRepositoryInterface;
 
     /**
      * @return int

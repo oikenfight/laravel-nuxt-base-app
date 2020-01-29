@@ -65,12 +65,12 @@ interface ItemRepositoryInterface extends RepositoryInterface
      */
     public function all(): Collection;
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return ItemRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): ItemRepositoryInterface;
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return ItemRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): ItemRepositoryInterface;
 
     /**
      * @return int

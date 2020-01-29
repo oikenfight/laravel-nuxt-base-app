@@ -66,12 +66,12 @@ interface RackRepositoryInterface extends RepositoryInterface
      */
     public function all(): Collection;
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return RackRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): RackRepositoryInterface;
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return RackRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): RackRepositoryInterface;
 
     /**
      * @return int

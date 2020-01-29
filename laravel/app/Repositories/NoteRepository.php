@@ -140,16 +140,16 @@ class NoteRepository implements NoteRepositoryInterface
         return $this->query->get();
     }
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return NoteRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): NoteRepositoryInterface
-    {
-        $filter->apply($this->query);
-        return $this;
-    }
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return NoteRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): NoteRepositoryInterface
+    // {
+    //     $filter->apply($this->query);
+    //     return $this;
+    // }
 
     /**
      * @return int

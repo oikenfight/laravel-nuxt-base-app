@@ -65,12 +65,12 @@ interface NoteRepositoryInterface extends RepositoryInterface
      */
     public function all(): Collection;
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return NoteRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): NoteRepositoryInterface;
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return NoteRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): NoteRepositoryInterface;
 
     /**
      * @return int

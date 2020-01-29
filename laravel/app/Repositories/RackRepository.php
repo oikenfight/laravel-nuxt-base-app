@@ -140,16 +140,16 @@ class RackRepository implements RackRepositoryInterface
         return $this->query->get();
     }
 
-    /**
-     * @param FilterInterface $filter
-     *
-     * @return RackRepositoryInterface
-     */
-    public function filtering(FilterInterface $filter): RackRepositoryInterface
-    {
-        $filter->apply($this->query);
-        return $this;
-    }
+    // /**
+    //  * @param FilterInterface $filter
+    //  *
+    //  * @return RackRepositoryInterface
+    //  */
+    // public function filtering(FilterInterface $filter): RackRepositoryInterface
+    // {
+    //     $filter->apply($this->query);
+    //     return $this;
+    // }
 
     /**
      * @return int
