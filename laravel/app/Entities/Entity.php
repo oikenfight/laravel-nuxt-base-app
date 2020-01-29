@@ -6,7 +6,12 @@ use App\Entities\Contracts\EntityInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Entity extends Model implements EntityInterface
+/**
+ * Class Entity
+ *
+ * @package App\Entities
+ */
+abstract class Entity extends Model implements EntityInterface
 {
   use SoftDeletes;
 }

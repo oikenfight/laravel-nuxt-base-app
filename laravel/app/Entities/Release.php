@@ -2,9 +2,15 @@
 
 namespace App\Entities;
 
+use App\Entities\Contracts\ReleaseInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Release extends Model
+/**
+ * Class Release
+ *
+ * @package App\Entities
+ */
+class Release extends Model implements ReleaseInterface
 {
     //
 }
