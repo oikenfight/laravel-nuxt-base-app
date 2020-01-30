@@ -1,11 +1,16 @@
 <?php
+declare(strict_types=1);
 
-namespace App;
+namespace App\Entities;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
+/**
+ * User class
+ */
 class User extends Authenticatable
 {
     use Notifiable;
