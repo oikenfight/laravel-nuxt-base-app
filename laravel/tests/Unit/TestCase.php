@@ -15,8 +15,10 @@ abstract class TestCase extends \Tests\TestCase
 {
     /**
      * tearDown
+     * @throws \Throwable
+     * @return void
      */
-    public function tearDown()
+    public function tearDown() :void
     {
         parent::tearDown();
         Mockery::close();
@@ -43,6 +45,7 @@ abstract class TestCase extends \Tests\TestCase
      * @param $value - new value of the property being modified
      *
      * @return void
+     * @throws \ReflectionException
      */
     protected function setHiddenProperty($object, $property, $value)
     {
@@ -58,6 +61,7 @@ abstract class TestCase extends \Tests\TestCase
      * @param $property
      *
      * @return \ReflectionProperty
+     * @throws \ReflectionException
      */
     protected function getHiddenProperty($object, $property)
     {
@@ -76,6 +80,7 @@ abstract class TestCase extends \Tests\TestCase
      * @param $params
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     protected function callHiddenMethod($object, $method, ...$params)
     {
@@ -91,6 +96,7 @@ abstract class TestCase extends \Tests\TestCase
      * @param $method
      *
      * @return \ReflectionMethod
+     * @throws \ReflectionException
      */
     protected function getHiddenMethod($object, $method)
     {
@@ -100,36 +106,5 @@ abstract class TestCase extends \Tests\TestCase
         $methodRef->setAccessible(true);
 
         return $methodRef;
-    }
-
-    /**
-     * app() を通して ServiceContainer 内のインスタンスを置き換える for singleton
-     *
-     * @param $abstract
-     * @param $object
-     */
-    public function replaceServiceContainerInstanceForSingleton($abstract, $object)
-    {
-        app()->singleton($abstract, function () use ($object) {
-            return $object;
-        });
-    }
-
-    /**
-     * freeze bcrypt() value.
-     *
-     * @param $fixedPassword
-     *
-     * @return void
-     */
-    protected function freezeBcrypt($fixedPassword)
-    {
-        $bcryptHasher = Mockery::mock(\Illuminate\Hashing\BcryptHasher::class);
-        $bcryptHasher->shouldReceive('make')->andReturn($fixedPassword);
-        $hashManager = Mockery::mock(\Illuminate\Hashing\HashManager::class);
-        $hashManager->shouldReceive('driver')->withArgs(['bcrypt'])->andReturn($bcryptHasher);
-        app()->bind('hash', function () use ($hashManager) {
-            return $hashManager;
-        });
     }
 }
