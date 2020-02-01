@@ -3,14 +3,16 @@
 namespace App\Entities;
 
 use App\Entities\Contracts\FolderInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\RackInterface;
+use App\Entities\Contracts\UserInterface;
 
 /**
  * Class Folder
  *
  * @package App\Entities
  */
-class Folder extends Model implements FolderInterface
+class Folder extends Entity implements FolderInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -51,4 +53,28 @@ class Folder extends Model implements FolderInterface
     'updated_at',
     'deleted_at',
   ];
+
+    /**
+     * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        // TODO: Implement user() method.
+    }
+
+    /**
+     * @return RackInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function rack()
+    {
+        // TODO: Implement rack() method.
+    }
+
+    /**
+     * @return NoteInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function notes()
+    {
+        // TODO: Implement notes() method.
+    }
 }

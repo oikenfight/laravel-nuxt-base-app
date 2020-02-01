@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Entities\Contracts\FolderInterface;
+use App\Entities\Contracts\ItemInterface;
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\RackInterface;
+use App\Entities\Contracts\UserInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 /**
  * User class
  */
-class User extends Authenticatable
+class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
 
@@ -41,4 +46,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return RackInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function racks()
+    {
+        // TODO: Implement racks() method.
+    }
+
+    /**
+     * @return FolderInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function folders()
+    {
+        // TODO: Implement folders() method.
+    }
+
+    /**
+     * @return NoteInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function notes()
+    {
+        // TODO: Implement notes() method.
+    }
+
+    /**
+     * @return ItemInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function items()
+    {
+        // TODO: Implement items() method.
+    }
 }

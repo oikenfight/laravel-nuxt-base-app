@@ -3,14 +3,15 @@
 namespace App\Entities;
 
 use App\Entities\Contracts\ItemInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\UserInterface;
 
 /**
  * Class Item
  *
  * @package App\Entities
  */
-class Item extends Model implements ItemInterface
+class Item extends Entity implements ItemInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -53,4 +54,20 @@ class Item extends Model implements ItemInterface
     'updated_at',
     'deleted_at',
   ];
+
+    /**
+     * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        // TODO: Implement user() method.
+    }
+
+    /**
+     * @return NoteInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function note()
+    {
+        // TODO: Implement note() method.
+    }
 }
