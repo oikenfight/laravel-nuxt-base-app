@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entities\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 /**
  * FolderInterface interface
- * 
+ *
  * @package App\Entities\Contracts
  * @property int $id
  * @property int $user_id
@@ -14,24 +17,24 @@ namespace App\Entities\Contracts;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface $user
- * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|RackInterface $rack
- * @property-read \Illuminate\Database\Eloquent\Relations\HasMany|NoteInterface[] $notes
+ * @property-read BelongsTo|UserInterface $user
+ * @property-read BelongsTo|RackInterface $rack
+ * @property-read HasMany|NoteInterface[] $notes
  */
 interface FolderInterface extends EntityInterface
 {
   /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface
+   * @return BelongsTo|UserInterface
    */
   public function user();
 
   /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|RackInterface
+   * @return BelongsTo|RackInterface
    */
   public function rack();
 
   /**
-   * @return \Illuminate\Database\Eloquent\Relations\hasMany|NoteInterface[]
+   * @return hasMany|NoteInterface[]
    */
   public function notes();
 }

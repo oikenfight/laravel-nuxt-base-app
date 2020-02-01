@@ -15,6 +15,11 @@ use App\Entities\Contracts\UserInterface;
 class Folder extends Entity implements FolderInterface
 {
     /**
+     * @var string tableName
+     */
+    protected $table = 'folders';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -51,7 +56,7 @@ class Folder extends Entity implements FolderInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
 
     /**
@@ -59,7 +64,7 @@ class Folder extends Entity implements FolderInterface
      */
     public function user()
     {
-        // TODO: Implement user() method.
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -67,7 +72,7 @@ class Folder extends Entity implements FolderInterface
      */
     public function rack()
     {
-        // TODO: Implement rack() method.
+        return $this->belongsTo(Rack::class);
     }
 
     /**
@@ -75,6 +80,6 @@ class Folder extends Entity implements FolderInterface
      */
     public function notes()
     {
-        // TODO: Implement notes() method.
+        return $this->hasMany(Note::class);
     }
 }

@@ -14,6 +14,11 @@ use App\Entities\Contracts\UserInterface;
 class Item extends Entity implements ItemInterface
 {
     /**
+     * @var string tableName
+     */
+    protected $table = 'items';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -52,7 +57,7 @@ class Item extends Entity implements ItemInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
 
     /**
@@ -60,7 +65,7 @@ class Item extends Entity implements ItemInterface
      */
     public function user()
     {
-        // TODO: Implement user() method.
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -68,6 +73,6 @@ class Item extends Entity implements ItemInterface
      */
     public function note()
     {
-        // TODO: Implement note() method.
+        return $this->belongsTo(Note::class);
     }
 }

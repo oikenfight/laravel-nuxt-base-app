@@ -15,6 +15,11 @@ use App\Entities\Contracts\UserInterface;
 class Note extends Entity implements NoteInterface
 {
     /**
+     * @var string tableName
+     */
+    protected $table = 'notes';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -51,7 +56,7 @@ class Note extends Entity implements NoteInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
 
     /**
@@ -59,7 +64,7 @@ class Note extends Entity implements NoteInterface
      */
     public function user()
     {
-        // TODO: Implement user() method.
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -67,7 +72,7 @@ class Note extends Entity implements NoteInterface
      */
     public function folder()
     {
-        // TODO: Implement folder() method.
+        return $this->belongsTo(Folder::class);
     }
 
     /**
@@ -75,6 +80,6 @@ class Note extends Entity implements NoteInterface
      */
     public function items()
     {
-        // TODO: Implement items() method.
+        return $this->hasMany(Item::class);
     }
 }

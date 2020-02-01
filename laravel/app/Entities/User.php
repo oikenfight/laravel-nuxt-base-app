@@ -21,12 +21,19 @@ class User extends Authenticatable implements UserInterface
     use Notifiable;
 
     /**
+     * @var string tableName
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -35,7 +42,8 @@ class User extends Authenticatable implements UserInterface
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -52,7 +60,7 @@ class User extends Authenticatable implements UserInterface
      */
     public function racks()
     {
-        // TODO: Implement racks() method.
+        return $this->hasMany(Rack::class);
     }
 
     /**
@@ -60,7 +68,7 @@ class User extends Authenticatable implements UserInterface
      */
     public function folders()
     {
-        // TODO: Implement folders() method.
+        return $this->hasMany(Folder::class);
     }
 
     /**
@@ -68,7 +76,7 @@ class User extends Authenticatable implements UserInterface
      */
     public function notes()
     {
-        // TODO: Implement notes() method.
+        return $this->hasMany(Note::class);
     }
 
     /**
@@ -76,6 +84,6 @@ class User extends Authenticatable implements UserInterface
      */
     public function items()
     {
-        // TODO: Implement items() method.
+        return $this->hasMany(Item::class);
     }
 }

@@ -14,6 +14,11 @@ use App\Entities\Contracts\UserInterface;
 class Rack extends Entity implements RackInterface
 {
     /**
+     * @var string tableName
+     */
+    protected $table = 'racks';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -48,7 +53,7 @@ class Rack extends Entity implements RackInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
 
     /**
@@ -56,7 +61,7 @@ class Rack extends Entity implements RackInterface
      */
     public function user()
     {
-        // TODO: Implement user() method.
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -64,6 +69,6 @@ class Rack extends Entity implements RackInterface
      */
     public function folders()
     {
-        // TODO: Implement folders() method.
+        return $this->hasMany(Folder::class);
     }
 }
