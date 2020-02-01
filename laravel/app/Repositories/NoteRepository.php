@@ -52,7 +52,7 @@ class NoteRepository implements NoteRepositoryInterface
      */
     protected function orderBy(): self
     {
-        $this->query->orderBy('order_index');
+        $this->query->orderBy('updated_at');
         return $this;
     }
 
@@ -71,7 +71,11 @@ class NoteRepository implements NoteRepositoryInterface
      */
     public function create(array $inputs): NoteInterface
     {
-        $note = $this->eloquent->newInstance([]);
+        $note = $this->eloquent->newInstance([
+            'user_id' => array_get($inputs, 'user_id'),
+            'folder_id' => array_get($inputs, 'folder_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
         $note->save();
 
         return $note;
@@ -107,7 +111,11 @@ class NoteRepository implements NoteRepositoryInterface
             throw new NoteNotFoundException('Note '.$noteId.' not found.');
         };
 
-        $note->update([]);
+        $note->update([
+            'user_id' => array_get($inputs, 'user_id'),
+            'folder_id' => array_get($inputs, 'folder_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
 
         return $note;
     }

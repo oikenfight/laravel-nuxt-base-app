@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * RepositoriesServiceProvider class
- * 
+ *
  * @package App\Providers
  */
 class RepositoriesServiceProvider extends ServiceProvider
@@ -19,7 +19,22 @@ class RepositoriesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            \App\Repositories\Contracts\FolderRepositoryInterface::class,
+            \App\Repositories\FolderRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\ItemRepositoryInterface::class,
+            \App\Repositories\ItemRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\NoteRepositoryInterface::class,
+            \App\Repositories\NoteRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Contracts\RackRepositoryInterface::class,
+            \App\Repositories\RackRepository::class
+        );
     }
 
     /**

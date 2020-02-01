@@ -173,8 +173,12 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-
+        App\Providers\EntitiesServiceProvider::class,
+        App\Providers\ObserversServiceProvider::class,
+        App\Providers\RepositoriesServiceProvider::class,
+        App\Providers\RequestsServiceProvider::class,
+        App\Providers\UseCasesServiceProvider::class,
+        App\Providers\ValidatorsServiceProvider::class,
     ],
 
     /*

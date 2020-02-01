@@ -3,16 +3,9 @@ declare(strict_types=1);
 
 namespace App\Entities\Contracts;
 
-
-$table->bigIncrements('id');
-$table->string('name');
-$table->string('email')->unique();
-$table->timestamp('email_verified_at')->nullable();
-$table->string('password');
-
 /**
  * UserInterface interface
- * 
+ *
  * @package App\Entities\Contracts
  * @property int $id
  * @property string $name
@@ -36,7 +29,7 @@ interface UserInterface extends EntityInterface
   /**
    * @return \Illuminate\Database\Eloquent\Relations\hasMany|FolderInterface[]
    */
-  public function folders(); 
+  public function folders();
 
   /**
    * @return \Illuminate\Database\Eloquent\Relations\hasMany|NoteInterface[]

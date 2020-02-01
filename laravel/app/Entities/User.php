@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Entities\Contracts\FolderInterface;
+use App\Entities\Contracts\ItemInterface;
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\RackInterface;
+use App\Entities\Contracts\UserInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,9 +16,14 @@ use Illuminate\Notifications\Notifiable;
 /**
  * User class
  */
-class User extends Authenticatable
+class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
+
+    /**
+     * @var string tableName
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +31,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -30,7 +42,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -41,4 +54,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return RackInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function racks()
+    {
+        return $this->hasMany(Rack::class);
+    }
+
+    /**
+     * @return FolderInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
+
+    /**
+     * @return NoteInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    /**
+     * @return ItemInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

@@ -2,16 +2,23 @@
 
 namespace App\Entities;
 
+use App\Entities\Contracts\FolderInterface;
+use App\Entities\Contracts\ItemInterface;
 use App\Entities\Contracts\NoteInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\Contracts\UserInterface;
 
 /**
  * Class Note
  *
  * @package App\Entities
  */
-class Note extends Model implements NoteInterface
+class Note extends Entity implements NoteInterface
 {
+    /**
+     * @var string tableName
+     */
+    protected $table = 'notes';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,6 +56,30 @@ class Note extends Model implements NoteInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
+
+    /**
+     * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return FolderInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class);
+    }
+
+    /**
+     * @return ItemInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

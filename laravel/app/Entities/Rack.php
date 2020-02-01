@@ -2,16 +2,22 @@
 
 namespace App\Entities;
 
+use App\Entities\Contracts\FolderInterface;
 use App\Entities\Contracts\RackInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\Contracts\UserInterface;
 
 /**
  * Class Rack
  *
  * @package App\Entities
  */
-class Rack extends Model implements RackInterface
+class Rack extends Entity implements RackInterface
 {
+    /**
+     * @var string tableName
+     */
+    protected $table = 'racks';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,6 +53,22 @@ class Rack extends Model implements RackInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
+
+    /**
+     * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return FolderInterface|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function folders()
+    {
+        return $this->hasMany(Folder::class);
+    }
 }

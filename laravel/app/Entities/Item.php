@@ -3,15 +3,21 @@
 namespace App\Entities;
 
 use App\Entities\Contracts\ItemInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\UserInterface;
 
 /**
  * Class Item
  *
  * @package App\Entities
  */
-class Item extends Model implements ItemInterface
+class Item extends Entity implements ItemInterface
 {
+    /**
+     * @var string tableName
+     */
+    protected $table = 'items';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -51,6 +57,22 @@ class Item extends Model implements ItemInterface
   protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
+//    'deleted_at',
   ];
+
+    /**
+     * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return NoteInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function note()
+    {
+        return $this->belongsTo(Note::class);
+    }
 }
