@@ -29,6 +29,7 @@ abstract class TestCase extends \Tests\TestCase
      * @param $object
      *
      * @return ReflectionClass
+     * @throws \ReflectionException
      */
     protected function getReflectionClass($object)
     {
