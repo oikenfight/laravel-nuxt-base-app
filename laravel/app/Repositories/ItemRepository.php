@@ -71,7 +71,12 @@ class ItemRepository implements ItemRepositoryInterface
      */
     public function create(array $inputs): ItemInterface
     {
-        $item = $this->eloquent->newInstance([]);
+        $item = $this->eloquent->newInstance([
+            'user_id' => array_get($inputs, 'user_id'),
+            'note_id' => array_get($inputs, 'note_id'),
+            'body' => array_get($inputs, 'body'),
+            'order_index' => array_get($inputs, 'order_index'),
+        ]);
         $item->save();
 
         return $item;
@@ -107,7 +112,12 @@ class ItemRepository implements ItemRepositoryInterface
             throw new ItemNotFoundException('Item '.$itemId.' not found.');
         };
 
-        $item->update([]);
+        $item->update([
+            'user_id' => array_get($inputs, 'user_id'),
+            'note_id' => array_get($inputs, 'note_id'),
+            'body' => array_get($inputs, 'body'),
+            'order_index' => array_get($inputs, 'order_index'),
+        ]);
 
         return $item;
     }

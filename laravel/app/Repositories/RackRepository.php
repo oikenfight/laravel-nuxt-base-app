@@ -52,7 +52,7 @@ class RackRepository implements RackRepositoryInterface
      */
     protected function orderBy(): self
     {
-        $this->query->orderBy('order_index');
+        $this->query->orderBy('updated_at');
         return $this;
     }
 
@@ -71,7 +71,10 @@ class RackRepository implements RackRepositoryInterface
      */
     public function create(array $inputs): RackInterface
     {
-        $rack = $this->eloquent->newInstance([]);
+        $rack = $this->eloquent->newInstance([
+            'user_id' => array_get($inputs, 'user_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
         $rack->save();
 
         return $rack;
@@ -107,7 +110,10 @@ class RackRepository implements RackRepositoryInterface
             throw new RackNotFoundException('Rack '.$rackId.' not found.');
         };
 
-        $rack->update([]);
+        $rack->update([
+            'user_id' => array_get($inputs, 'user_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
 
         return $rack;
     }

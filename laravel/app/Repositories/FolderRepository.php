@@ -52,7 +52,7 @@ class FolderRepository implements FolderRepositoryInterface
      */
     protected function orderBy(): self
     {
-        $this->query->orderBy('order_index');
+        $this->query->orderBy('updated_at');
         return $this;
     }
 
@@ -71,7 +71,11 @@ class FolderRepository implements FolderRepositoryInterface
      */
     public function create(array $inputs): FolderInterface
     {
-        $folder = $this->eloquent->newInstance([]);
+        $folder = $this->eloquent->newInstance([
+            'user_id' => array_get($inputs, 'user_id'),
+            'rack_id' => array_get($inputs, 'rack_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
         $folder->save();
 
         return $folder;
@@ -107,7 +111,11 @@ class FolderRepository implements FolderRepositoryInterface
             throw new FolderNotFoundException('Folder '.$folderId.' not found.');
         };
 
-        $folder->update([]);
+        $folder->update([
+            'user_id' => array_get($inputs, 'user_id'),
+            'rack_id' => array_get($inputs, 'rack_id'),
+            'name' => array_get($inputs, 'name'),
+        ]);
 
         return $folder;
     }
