@@ -81,15 +81,15 @@ final class InitDataSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < self::USER_NUM; $i++) {
+        for ($i = 1; $i <= self::USER_NUM; $i++) {
             $user = $this->userData($i);
-            for ($j = 1; $j < self::RACK_NUM; $j++) {
+            for ($j = 1; $j <= self::RACK_NUM; $j++) {
                 $rack = $this->rackData($user, $j);
-                for ($k = 1; $k < self::FOLDER_NUM; $k++) {
+                for ($k = 1; $k <= self::FOLDER_NUM; $k++) {
                     $folder = $this->folderData($user, $rack, $k);
-                    for ($l = 1; $l < self::NOTE_NUM; $l++) {
+                    for ($l = 1; $l <= self::NOTE_NUM; $l++) {
                         $note = $this->noteData($user, $folder, $l);
-                        for ($m = 1; $m < self::ITEM_NUM; $m++) {
+                        for ($m = 1; $m <= self::ITEM_NUM; $m++) {
                             $item = $this->itemData($user, $note, $m);
                         }
                     }
@@ -167,7 +167,7 @@ final class InitDataSeeder extends Seeder
         $itemInstance = $this->item->newInstance([
             'user_id' => $user->id,
             'note_id' => $note->id,
-            'body' => self::INIT_ITEM_BODY[$m],
+            'body' => self::INIT_ITEM_BODY[$m - 1],
             'order_index' => $m,
         ]);
         $itemInstance->save();
