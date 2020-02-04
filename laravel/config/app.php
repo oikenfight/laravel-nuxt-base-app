@@ -177,6 +177,8 @@ return [
         App\Providers\ObserversServiceProvider::class,
         App\Providers\RepositoriesServiceProvider::class,
         App\Providers\RequestsServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        App\Providers\RUlesServiceProvider::class,
         App\Providers\UseCasesServiceProvider::class,
         App\Providers\ValidatorsServiceProvider::class,
     ],
