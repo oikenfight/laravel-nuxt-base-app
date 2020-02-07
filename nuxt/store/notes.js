@@ -67,13 +67,13 @@ export const getters = {
 
 export const actions = {
   getNotesAll(context) {
-    axios.get('http://api:8080/api/note').then((response) => {
+    axios.get('http://localhost:8080/api/note').then((response) => {
       context.commit('SET_NOTES_ALL', response.data.notes)
     })
   },
   getItemsAll(context) {
-    axios.get('http://api:8080/api/item').then((response) => {
-      context.commit('SET_ITEMS_ALL', response.data.notes)
+    axios.get('http://localhost:8080/api/item').then((response) => {
+      context.commit('SET_ITEMS_ALL', response.data.items)
     })
   },
   setNotes(context, noteIds) {
@@ -117,7 +117,7 @@ export const actions = {
 
 export const mutations = {
   SET_NOTES_ALL(state, resNotes) {
-    state.notesAll = resNotes()
+    state.notesAll = resNotes
   },
   SET_ITEMS_ALL(state, resItems) {
     state.itemsAll = resItems

@@ -152,6 +152,8 @@ export default {
     })
   },
   created() {
+    this.$store.dispatch('tree/getRacksAll')
+    this.$store.dispatch('tree/getFoldersAll')
     this.$store.dispatch('notes/getNotesAll')
     this.$store.dispatch('notes/getItemsAll')
   },
