@@ -151,6 +151,10 @@ export default {
       noteId: 'notes/noteId' // 選択中の NoteId
     })
   },
+  created() {
+    this.$store.dispatch('notes/getNotesAll')
+    this.$store.dispatch('notes/getItemsAll')
+  },
   methods: {
     ...mapActions({}),
     selectRack(rack) {

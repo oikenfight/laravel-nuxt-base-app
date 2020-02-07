@@ -1,49 +1,53 @@
+import axios from 'axios'
+
 export const state = () => ({
   // 選択された NoteId
   noteId: null,
   // 全データ
-  notesAll: [
-    {
-      id: 1,
-      title: 'title1',
-      itemIds: [101, 102, 103]
-    },
-    {
-      id: 2,
-      title: 'title2',
-      itemIds: [201, 202]
-    },
-    {
-      id: 3,
-      title: 'title3',
-      itemIds: [301]
-    },
-    {
-      id: 4,
-      title: 'title4',
-      itemIds: []
-    },
-    {
-      id: 5,
-      title: 'title5',
-      itemIds: []
-    },
-    {
-      id: 6,
-      title: '',
-      itemIds: []
-    }
-  ],
-
-  // アイテム
-  itemsAll: {
-    101: '# item101',
-    102: '# item102',
-    103: '# item102',
-    201: '# item201',
-    202: '# item202',
-    301: '# item301'
-  }
+  notesAll: [],
+  itemsAll: []
+  // notesAll: [
+  //   {
+  //     id: 1,
+  //     title: 'title1',
+  //     itemIds: [101, 102, 103]
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'title2',
+  //     itemIds: [201, 202]
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'title3',
+  //     itemIds: [301]
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'title4',
+  //     itemIds: []
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'title5',
+  //     itemIds: []
+  //   },
+  //   {
+  //     id: 6,
+  //     title: '',
+  //     itemIds: []
+  //   }
+  // ],
+  //
+  // // アイテム
+  // itemsAll: {
+  //   101: '# item101',
+  //   102: '# item102',
+  //   103: '# item102',
+  //   201: '# item201',
+  //   202: '# item202',
+  //   301: '# item301'
+  // }
 })
 
 export const getters = {
@@ -62,6 +66,16 @@ export const getters = {
 }
 
 export const actions = {
+  getNotesAll(context) {
+    axios.get('http://api:8080/api/note').then((response) => {
+      context.commit('SET_NOTES_ALL', response.data.notes)
+    })
+  },
+  getItemsAll(context) {
+    axios.get('http://api:8080/api/item').then((response) => {
+      context.commit('SET_ITEMS_ALL', response.data.notes)
+    })
+  },
   setNotes(context, noteIds) {
     context.commit('SET_NOTES', noteIds)
   },
@@ -102,6 +116,12 @@ export const actions = {
 }
 
 export const mutations = {
+  SET_NOTES_ALL(state, resNotes) {
+    state.notesAll = resNotes()
+  },
+  SET_ITEMS_ALL(state, resItems) {
+    state.itemsAll = resItems
+  },
   SET_NOTES(state, noteIds) {
     state.notes = noteIds.map((noteId) => {
       return state.notesAll[noteId]
