@@ -8,6 +8,7 @@ use App\Entities\Contracts\UserInterface;
 use App\Entities\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class IndexController
@@ -25,8 +26,9 @@ final class IndexController extends Controller
         $user = User::find(1);
 
         // TODO: UseCase 作る
-        /** @var ItemInterface $items */
-        $items = $user->items->sortBy('order_id');
+        /** @var Collection|ItemInterface[] $items */
+        $items = $user->items;
+        $items = $items->keyBy('id')->all();
 
         return response()->json(['items' => $items]);
     }

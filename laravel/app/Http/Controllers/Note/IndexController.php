@@ -28,7 +28,7 @@ final class IndexController extends Controller
         /** @var NoteInterface[] $notes */
         $notes = $user->notes;
         foreach ($notes as $key => $note) {
-            $note['itemsIds'] = $note->items->sortBy('order_index')->pluck('id');
+            $note['itemIds'] = $note->items->sortBy('order_index')->pluck('id');
         }
 
         return response()->json(['notes' => $notes]);
