@@ -31,6 +31,6 @@ final class IndexController extends Controller
             $folder['noteIds'] = $folder->notes->pluck('id');
         }
 
-        return response()->json(['racks' => $folders]);
+        return response()->json(['folders' => $folders]);
     }
 }
