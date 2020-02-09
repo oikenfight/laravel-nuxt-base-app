@@ -6,52 +6,6 @@ export const state = () => ({
   noteIds: [],
   racksAll: [],
   foldersAll: []
-
-  //
-  // TODO: rack に folderIds をもたせる or リレーション用のデータストアを追加する
-  //
-
-  // // ラック
-  // racksAll: [
-  //   {
-  //     id: 1,
-  //     name: 'rack1',
-  //     folderIds: [11, 12]
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'rack2',
-  //     folderIds: [21]
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'rack3',
-  //     folderIds: []
-  //   }
-  // ],
-  //
-  // // フォルダ
-  // // rackId: {folder}
-  // foldersAll: [
-  //   {
-  //     id: 11,
-  //     name: 'rack1-folder1',
-  //     icon: 'mdi-folder',
-  //     noteIds: [1, 2, 3]
-  //   },
-  //   {
-  //     id: 12,
-  //     name: 'rack1-folder2-test',
-  //     icon: 'mdi-folder',
-  //     noteIds: [4, 5]
-  //   },
-  //   {
-  //     id: 21,
-  //     name: 'rack2-folder1',
-  //     icon: 'mdi-folder',
-  //     noteIds: [6]
-  //   }
-  // ]
 })
 
 export const getters = {
@@ -101,13 +55,11 @@ export const getters = {
 export const actions = {
   getRacksAll(context) {
     axios.get('http://localhost:8080/api/rack').then((response) => {
-      console.log(response.data)
       context.commit('SET_RACKS_ALL', response.data.racks)
     })
   },
   getFoldersAll(context) {
     axios.get('http://localhost:8080/api/folder').then((response) => {
-      console.log(response.data)
       context.commit('SET_FOLDERS_ALL', response.data.folders)
     })
   },
