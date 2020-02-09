@@ -6,6 +6,7 @@ use App\Entities\Contracts\FolderInterface;
 use App\Entities\Contracts\ItemInterface;
 use App\Entities\Contracts\NoteInterface;
 use App\Entities\Contracts\UserInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Class Note
@@ -76,7 +77,7 @@ class Note extends Entity implements NoteInterface
     }
 
     /**
-     * @return ItemInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany|Collection|ItemInterface[]
      */
     public function items()
     {

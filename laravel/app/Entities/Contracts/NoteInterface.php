@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entities\Contracts;
 
+use Illuminate\Support\Collection;
+
 /**
  * NoteInterface interface
- * 
+ *
  * @package App\Entities\Contracts
  * @property int $id
  * @property int $user_id
@@ -16,7 +18,7 @@ namespace App\Entities\Contracts;
  * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface $user
  * @property-read \Illuminate\Database\Eloquent\Relations\BelongsTo|FolderInterface $folder
- * @property-read \Illuminate\Database\Eloquent\Relations\hasMany|ItemInterface[] $items
+ * @property-read \Illuminate\Database\Eloquent\Relations\hasMany|Collection|ItemInterface[] $items
  */
 interface NoteInterface extends EntityInterface
 {
@@ -31,7 +33,7 @@ interface NoteInterface extends EntityInterface
   public function folder();
 
   /**
-   * @return \Illuminate\Database\Eloquent\Relations\hasMany|ItemInterface[]
+   * @return \Illuminate\Database\Eloquent\Relations\hasMany|Collection|ItemInterface[]
    */
   public function items();
 }
