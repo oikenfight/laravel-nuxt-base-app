@@ -147,7 +147,7 @@ export const mutations = {
     state.notesAll[index].itemIds.push(newItemId)
   },
   UPDATE_ITEM(state, itemEdited) {
-    state.itemsAll[itemEdited.id] = itemEdited.body
+    state.itemsAll[itemEdited.id] = itemEdited
   },
   DELETE_ITEM(state, deleteItemId) {
     delete state.itemsAll[deleteItemId]

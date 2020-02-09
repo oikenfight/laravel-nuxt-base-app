@@ -23,7 +23,7 @@
         </v-row>
         <v-divider />
         <!-- note body -->
-        <v-row v-for="itemId in note(noteId).itemIds" :key="itemId">
+        <v-row v-for="itemId in noteEdited.itemIds" :key="itemId">
           <v-col
             cols="12"
             :class="{ itemSelected: activeItemId === itemId }"
@@ -62,7 +62,7 @@
                   <v-icon>mdi-dots-horizontal</v-icon>
                 </v-btn>
               </v-btn-toggle>
-              <div class="ma-1" v-html="$md.render(item(itemId))"></div>
+              <div class="ma-1" v-html="$md.render(item(itemId).body)"></div>
             </div>
           </v-col>
         </v-row>
@@ -138,8 +138,7 @@ export default {
       this.initItemEdited(newItemId)
     },
     editItem(itemId) {
-      this.itemEdited.id = itemId
-      this.itemEdited.body = this.item(itemId)
+      this.itemEdited = Object.assign({}, this.item(itemId))
     },
     updateItem() {
       this.$store.dispatch('notes/updateItem', this.itemEdited)
