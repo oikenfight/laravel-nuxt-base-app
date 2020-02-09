@@ -3,10 +3,10 @@
     <!-- noteId がセットされている（selectNote されている）場合 -->
     <v-row v-if="noteId" align="start" justify="center">
       <v-col cols="11">
-        <!-- note title -->
+        <!-- note name -->
         <v-row>
           <v-text-field
-            v-model="noteEdited.title"
+            v-model="noteEdited.name"
             outlined
             label="Note Title"
             type="text"
@@ -23,7 +23,7 @@
         </v-row>
         <v-divider />
         <!-- note body -->
-        <v-row v-for="itemId in note(noteId).itemIds" :key="itemId">
+        <v-row v-for="itemId in noteEdited.itemIds" :key="itemId">
           <v-col
             cols="12"
             :class="{ itemSelected: activeItemId === itemId }"
@@ -62,7 +62,7 @@
                   <v-icon>mdi-dots-horizontal</v-icon>
                 </v-btn>
               </v-btn-toggle>
-              <div class="ma-1" v-html="$md.render(item(itemId))"></div>
+              <div class="ma-1" v-html="$md.render(item(itemId).body)"></div>
             </div>
           </v-col>
         </v-row>
@@ -125,10 +125,10 @@ export default {
   methods: {
     ...mapActions({}),
     clearTitle() {
-      this.noteEdited.title = ''
+      this.noteEdited.name = ''
     },
     updateTitle() {
-      const newNoteTitle = this.noteEdited.title
+      const newNoteTitle = this.noteEdited.name
       this.$store.dispatch('notes/updateTitle', newNoteTitle)
     },
     addItem() {
@@ -138,8 +138,7 @@ export default {
       this.initItemEdited(newItemId)
     },
     editItem(itemId) {
-      this.itemEdited.id = itemId
-      this.itemEdited.body = this.item(itemId)
+      this.itemEdited = Object.assign({}, this.item(itemId))
     },
     updateItem() {
       this.$store.dispatch('notes/updateItem', this.itemEdited)
@@ -150,8 +149,8 @@ export default {
       this.$store.dispatch('notes/deleteItem', deleteItemId)
       this.initItemEdited()
     },
-    initNoteEdited(id = null, title = null, itemId = []) {
-      this.noteEdited = { id, title, itemId }
+    initNoteEdited(id = null, name = null, itemId = []) {
+      this.noteEdited = { id, name, itemId }
     },
     initItemEdited(id = null, body = null) {
       this.itemEdited = { id, body }

@@ -25,7 +25,7 @@
       <!-- Side Menu（固定） -->
       <v-list dense width="50" class="fill-height float-left">
         <v-list-item-group>
-          <v-list-item v-for="menu in menues" :key="menu.title">
+          <v-list-item v-for="menu in menues" :key="menu.name">
             <v-list-item-icon>
               <v-icon v-text="menu.icon"></v-icon>
             </v-list-item-icon>
@@ -94,7 +94,7 @@
               2019/12/31
             </v-card-subtitle>
             <v-card-text class="text--primary">
-              <div>{{ note.title }}</div>
+              <div>{{ note.name }}</div>
             </v-card-text>
           </v-card>
         </v-col>
@@ -133,9 +133,9 @@ export default {
     open: ['public'],
     tree: [],
     menues: [
-      { title: 'Search', icon: 'search' },
-      { title: 'Notes', icon: 'mdi-note-multiple' },
-      { title: 'Releases', icon: 'mdi-folder-lock-open' }
+      { name: 'Search', icon: 'search' },
+      { name: 'Notes', icon: 'mdi-note-multiple' },
+      { name: 'Releases', icon: 'mdi-folder-lock-open' }
     ],
     links: ['Home', 'Contacts', 'Settings'],
     mini: true
@@ -150,6 +150,12 @@ export default {
       notes: 'notes/notes', // noteIds を引数に取得
       noteId: 'notes/noteId' // 選択中の NoteId
     })
+  },
+  created() {
+    this.$store.dispatch('tree/getRacksAll')
+    this.$store.dispatch('tree/getFoldersAll')
+    this.$store.dispatch('notes/getNotesAll')
+    this.$store.dispatch('notes/getItemsAll')
   },
   methods: {
     ...mapActions({}),

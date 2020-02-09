@@ -1,49 +1,53 @@
+import axios from 'axios'
+
 export const state = () => ({
   // 選択された NoteId
   noteId: null,
   // 全データ
-  notesAll: [
-    {
-      id: 1,
-      title: 'title1',
-      itemIds: [101, 102, 103]
-    },
-    {
-      id: 2,
-      title: 'title2',
-      itemIds: [201, 202]
-    },
-    {
-      id: 3,
-      title: 'title3',
-      itemIds: [301]
-    },
-    {
-      id: 4,
-      title: 'title4',
-      itemIds: []
-    },
-    {
-      id: 5,
-      title: 'title5',
-      itemIds: []
-    },
-    {
-      id: 6,
-      title: '',
-      itemIds: []
-    }
-  ],
-
-  // アイテム
-  itemsAll: {
-    101: '# item101',
-    102: '# item102',
-    103: '# item102',
-    201: '# item201',
-    202: '# item202',
-    301: '# item301'
-  }
+  notesAll: [],
+  itemsAll: []
+  // notesAll: [
+  //   {
+  //     id: 1,
+  //     name: 'name1',
+  //     itemIds: [101, 102, 103]
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'name2',
+  //     itemIds: [201, 202]
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'name3',
+  //     itemIds: [301]
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'name4',
+  //     itemIds: []
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'name5',
+  //     itemIds: []
+  //   },
+  //   {
+  //     id: 6,
+  //     name: '',
+  //     itemIds: []
+  //   }
+  // ],
+  //
+  // // アイテム
+  // itemsAll: {
+  //   101: '# item101',
+  //   102: '# item102',
+  //   103: '# item102',
+  //   201: '# item201',
+  //   202: '# item202',
+  //   301: '# item301'
+  // }
 })
 
 export const getters = {
@@ -62,6 +66,16 @@ export const getters = {
 }
 
 export const actions = {
+  getNotesAll(context) {
+    axios.get('http://localhost:8080/api/note').then((response) => {
+      context.commit('SET_NOTES_ALL', response.data.notes)
+    })
+  },
+  getItemsAll(context) {
+    axios.get('http://localhost:8080/api/item').then((response) => {
+      context.commit('SET_ITEMS_ALL', response.data.items)
+    })
+  },
   setNotes(context, noteIds) {
     context.commit('SET_NOTES', noteIds)
   },
@@ -73,7 +87,7 @@ export const actions = {
     const newNoteId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
     const newNote = {
       id: newNoteId,
-      title: '',
+      name: '',
       itemIds: []
     }
     context.commit('ADD_NOTE', newNote)
@@ -102,6 +116,14 @@ export const actions = {
 }
 
 export const mutations = {
+  SET_NOTES_ALL(state, resNotes) {
+    console.log(resNotes)
+    state.notesAll = resNotes
+  },
+  SET_ITEMS_ALL(state, resItems) {
+    console.log(resItems)
+    state.itemsAll = resItems
+  },
   SET_NOTES(state, noteIds) {
     state.notes = noteIds.map((noteId) => {
       return state.notesAll[noteId]
@@ -115,7 +137,7 @@ export const mutations = {
   },
   UPDATE_TITLE(state, newNoteTitle) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
-    state.notesAll[index].title = newNoteTitle
+    state.notesAll[index].name = newNoteTitle
   },
   ADD_ITEM(state, newItemId) {
     state.itemsAll[newItemId] = ''
@@ -125,7 +147,7 @@ export const mutations = {
     state.notesAll[index].itemIds.push(newItemId)
   },
   UPDATE_ITEM(state, itemEdited) {
-    state.itemsAll[itemEdited.id] = itemEdited.body
+    state.itemsAll[itemEdited.id] = itemEdited
   },
   DELETE_ITEM(state, deleteItemId) {
     delete state.itemsAll[deleteItemId]

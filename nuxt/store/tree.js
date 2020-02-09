@@ -1,53 +1,11 @@
+import axios from 'axios'
+
 export const state = () => ({
   rackId: null,
   folderId: null,
   noteIds: [],
-
-  //
-  // TODO: rack に folderIds をもたせる or リレーション用のデータストアを追加する
-  //
-
-  // ラック
-  racksAll: [
-    {
-      id: 1,
-      name: 'rack1',
-      folderIds: [11, 12]
-    },
-    {
-      id: 2,
-      name: 'rack2',
-      folderIds: [21]
-    },
-    {
-      id: 3,
-      name: 'rack3',
-      folderIds: []
-    }
-  ],
-
-  // フォルダ
-  // rackId: {folder}
-  foldersAll: [
-    {
-      id: 11,
-      name: 'rack1-folder1',
-      icon: 'mdi-folder',
-      noteIds: [1, 2, 3]
-    },
-    {
-      id: 12,
-      name: 'rack1-folder2-test',
-      icon: 'mdi-folder',
-      noteIds: [4, 5]
-    },
-    {
-      id: 21,
-      name: 'rack2-folder1',
-      icon: 'mdi-folder',
-      noteIds: [6]
-    }
-  ]
+  racksAll: [],
+  foldersAll: []
 })
 
 export const getters = {
@@ -95,6 +53,16 @@ export const getters = {
 }
 
 export const actions = {
+  getRacksAll(context) {
+    axios.get('http://localhost:8080/api/rack').then((response) => {
+      context.commit('SET_RACKS_ALL', response.data.racks)
+    })
+  },
+  getFoldersAll(context) {
+    axios.get('http://localhost:8080/api/folder').then((response) => {
+      context.commit('SET_FOLDERS_ALL', response.data.folders)
+    })
+  },
   selectRack(context, rack) {
     context.commit('CREAR_FOLDER_ID')
     context.commit('SET_RACK_ID', rack.id)
@@ -111,6 +79,12 @@ export const actions = {
 }
 
 export const mutations = {
+  SET_RACKS_ALL(state, resRacks) {
+    state.racksAll = resRacks
+  },
+  SET_FOLDERS_ALL(state, resFolders) {
+    state.foldersAll = resFolders
+  },
   CREAR_RACK_ID(state) {
     state.rackId = null
   },
