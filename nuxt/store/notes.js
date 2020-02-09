@@ -9,32 +9,32 @@ export const state = () => ({
   // notesAll: [
   //   {
   //     id: 1,
-  //     title: 'title1',
+  //     name: 'name1',
   //     itemIds: [101, 102, 103]
   //   },
   //   {
   //     id: 2,
-  //     title: 'title2',
+  //     name: 'name2',
   //     itemIds: [201, 202]
   //   },
   //   {
   //     id: 3,
-  //     title: 'title3',
+  //     name: 'name3',
   //     itemIds: [301]
   //   },
   //   {
   //     id: 4,
-  //     title: 'title4',
+  //     name: 'name4',
   //     itemIds: []
   //   },
   //   {
   //     id: 5,
-  //     title: 'title5',
+  //     name: 'name5',
   //     itemIds: []
   //   },
   //   {
   //     id: 6,
-  //     title: '',
+  //     name: '',
   //     itemIds: []
   //   }
   // ],
@@ -87,7 +87,7 @@ export const actions = {
     const newNoteId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
     const newNote = {
       id: newNoteId,
-      title: '',
+      name: '',
       itemIds: []
     }
     context.commit('ADD_NOTE', newNote)
@@ -117,9 +117,11 @@ export const actions = {
 
 export const mutations = {
   SET_NOTES_ALL(state, resNotes) {
+    console.log(resNotes)
     state.notesAll = resNotes
   },
   SET_ITEMS_ALL(state, resItems) {
+    console.log(resItems)
     state.itemsAll = resItems
   },
   SET_NOTES(state, noteIds) {
@@ -135,7 +137,7 @@ export const mutations = {
   },
   UPDATE_TITLE(state, newNoteTitle) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
-    state.notesAll[index].title = newNoteTitle
+    state.notesAll[index].name = newNoteTitle
   },
   ADD_ITEM(state, newItemId) {
     state.itemsAll[newItemId] = ''

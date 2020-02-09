@@ -3,10 +3,10 @@
     <!-- noteId がセットされている（selectNote されている）場合 -->
     <v-row v-if="noteId" align="start" justify="center">
       <v-col cols="11">
-        <!-- note title -->
+        <!-- note name -->
         <v-row>
           <v-text-field
-            v-model="noteEdited.title"
+            v-model="noteEdited.name"
             outlined
             label="Note Title"
             type="text"
@@ -125,10 +125,10 @@ export default {
   methods: {
     ...mapActions({}),
     clearTitle() {
-      this.noteEdited.title = ''
+      this.noteEdited.name = ''
     },
     updateTitle() {
-      const newNoteTitle = this.noteEdited.title
+      const newNoteTitle = this.noteEdited.name
       this.$store.dispatch('notes/updateTitle', newNoteTitle)
     },
     addItem() {
@@ -150,8 +150,8 @@ export default {
       this.$store.dispatch('notes/deleteItem', deleteItemId)
       this.initItemEdited()
     },
-    initNoteEdited(id = null, title = null, itemId = []) {
-      this.noteEdited = { id, title, itemId }
+    initNoteEdited(id = null, name = null, itemId = []) {
+      this.noteEdited = { id, name, itemId }
     },
     initItemEdited(id = null, body = null) {
       this.itemEdited = { id, body }
