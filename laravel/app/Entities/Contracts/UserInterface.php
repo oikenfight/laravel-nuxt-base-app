@@ -10,7 +10,9 @@ namespace App\Entities\Contracts;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property string $email_verified_at
+ * @property string $provider_id
+ * @property string $provider_name
+ * @property \Carbon\Carbon|null $email_verified_at
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
