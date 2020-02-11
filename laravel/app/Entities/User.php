@@ -15,6 +15,43 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * User class
+ *
+ * @property int $id
+ * @property string|null $provider_id
+ * @property string|null $provider_name
+ * @property string $name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $password
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Folder[] $folders
+ * @property-read int|null $folders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
+ * @property-read int|null $notes_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Rack[] $racks
+ * @property-read int|null $racks_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereProviderName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements UserInterface
 {
