@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Contracts\UserInterface;
-use App\Entities\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\User;
 
 /**
  * Class OAuthController
@@ -34,7 +34,13 @@ final class OAuthController extends Controller
      */
     public function socialOAuth(string $provider)
     {
-        return Socialite::driver($provider)->redirect();
+        \Log::debug('here is session');
+        $redirectURL = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
+        \Log::debug($redirectURL);
+
+        return response()->json([
+            'redirect_url' => $redirectURL,
+        ]);
     }
 
     /**
@@ -45,8 +51,13 @@ final class OAuthController extends Controller
      */
     public function handleProviderCallback(string $provider)
     {
-        $socialUser = Socialite::driver($provider)->user();
+        /** @var User $socialUser */
+        $socialUser = Socialite::driver($provider)->stateless()->user();
+        \Log::debug($socialUser->getName());
+
+        /** @var UserInterface $user */
         $user = $this->user->firstOrNew(['email' => $socialUser->getEmail()]);
+        \Log::debug('user instance');
 
         if ($user->exists) {
             abort(403);
@@ -57,8 +68,13 @@ final class OAuthController extends Controller
         $user->provider_name = $provider;
         $user->save();
 
-        dd($user);
+        $token = $user->createToken('Passport_Token')->accessToken;
 
-        return redirect()->route('http://localhost');
+        \Log::debug($token);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 }
