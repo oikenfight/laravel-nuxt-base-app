@@ -30,7 +30,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: 'plugins/axios.js', ssr: false }],
+  plugins: ['plugins/axios.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -47,7 +47,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/markdownit',
     'nuxt-material-design-icons',
-    'nuxtjs-mdi-font'
+    'nuxtjs-mdi-font',
+    ['cookie-universal-nuxt', { parseJSON: false }]
   ],
   /*
    ** Axios module configuration
