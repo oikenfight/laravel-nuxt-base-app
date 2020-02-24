@@ -25,7 +25,7 @@
       <!-- Side Menu（固定） -->
       <v-list dense width="50" class="fill-height float-left">
         <v-list-item-group>
-          <v-list-item v-for="menu in menues" :key="menu.name">
+          <v-list-item v-for="menu in menus" :key="menu.name">
             <v-list-item-icon>
               <v-icon v-text="menu.icon"></v-icon>
             </v-list-item-icon>
@@ -107,12 +107,12 @@
     </v-app-bar> -->
 
     <!-- Content -->
-    <v-content class="grey lighten-5" app>
+    <v-content class="" app>
       <nuxt />
     </v-content>
 
     <!-- Footer -->
-    <v-footer class="grey lighten-5" app inset>
+    <v-footer class="" app inset>
       <span class="">md-editor @oikawa</span>
     </v-footer>
     <!-- <v-footer class="grey lighten-5" app>
@@ -127,12 +127,13 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  middleware: 'auth',
   data: () => ({
     drawer: null,
     permanent: true,
     open: ['public'],
     tree: [],
-    menues: [
+    menus: [
       { name: 'Search', icon: 'search' },
       { name: 'Notes', icon: 'mdi-note-multiple' },
       { name: 'Releases', icon: 'mdi-folder-lock-open' }
@@ -151,7 +152,8 @@ export default {
       noteId: 'notes/noteId' // 選択中の NoteId
     })
   },
-  created() {
+  mounted() {
+    // TODO この辺の初期データは SSR でもってきたいところ。
     this.$store.dispatch('tree/getRacksAll')
     this.$store.dispatch('tree/getFoldersAll')
     this.$store.dispatch('notes/getNotesAll')
