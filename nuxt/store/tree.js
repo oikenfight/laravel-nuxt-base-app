@@ -60,8 +60,6 @@ export const actions = {
       .catch((err) => {
         console.log(err)
       })
-    console.log(data)
-    console.log('here is getRacksAll')
     context.commit('SET_RACKS_ALL', data.racks)
   },
   async getFoldersAll(context) {
@@ -70,8 +68,6 @@ export const actions = {
       .catch((err) => {
         console.log(err)
       })
-    console.log(data)
-    console.log('here is getFoldersAll')
     context.commit('SET_FOLDERS_ALL', data.folders)
   },
   selectRack(context, rack) {
