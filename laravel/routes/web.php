@@ -19,7 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'middleware' => 'guest'], function () {
-    Route::get('{provider}', 'OAuthController@socialOAuth')->where('provider', 'google')->name('socialOAuth');
-    Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->where('provider', 'google')->name('oauthCallback');
-});
+
