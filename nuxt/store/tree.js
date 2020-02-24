@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export const state = () => ({
   rackId: null,
   folderId: null,
@@ -53,15 +51,28 @@ export const getters = {
 }
 
 export const actions = {
-  getRacksAll(context) {
-    axios.get('http://localhost:8080/api/rack').then((response) => {
-      context.commit('SET_RACKS_ALL', response.data.racks)
-    })
+  async getRacksAll(context) {
+    // await this.$axios.$get('/api/rack').then((response) => {
+    //   context.commit('SET_RACKS_ALL', response.data.racks)
+    // })
+    const data = await this.$axios
+      .$get('http://localhost:8080/api/rack')
+      .catch((err) => {
+        console.log(err)
+      })
+    console.log(data)
+    console.log('here is getRacksAll')
+    context.commit('SET_RACKS_ALL', data.racks)
   },
-  getFoldersAll(context) {
-    axios.get('http://localhost:8080/api/folder').then((response) => {
-      context.commit('SET_FOLDERS_ALL', response.data.folders)
-    })
+  async getFoldersAll(context) {
+    const data = await this.$axios
+      .$get('http://localhost:8080/api/folder')
+      .catch((err) => {
+        console.log(err)
+      })
+    console.log(data)
+    console.log('here is getFoldersAll')
+    context.commit('SET_FOLDERS_ALL', data.folders)
   },
   selectRack(context, rack) {
     context.commit('CREAR_FOLDER_ID')
@@ -85,10 +96,10 @@ export const mutations = {
   SET_FOLDERS_ALL(state, resFolders) {
     state.foldersAll = resFolders
   },
-  CREAR_RACK_ID(state) {
+  CLEAR_RACK_ID(state) {
     state.rackId = null
   },
-  CREAR_FOLDER_ID(state) {
+  CLEAR_FOLDER_ID(state) {
     state.folderId = null
   },
   SET_RACK_ID(state, rackId) {
