@@ -23,7 +23,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     // セミコロンなし
-    "semi": [2, "never"],
+    "semi": [1, "never"],
     // アロー関数に括弧が必要（prettier との競合を避けるため）
     "arrow-parens": ["error", "always"],
     // 関数の括弧前のスペース不要（prettier と競合を避けるため）
