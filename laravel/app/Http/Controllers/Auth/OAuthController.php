@@ -34,7 +34,6 @@ final class OAuthController extends Controller
      */
     public function socialOAuth(string $provider)
     {
-        \Log::debug('here is session');
         $redirectURL = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
         \Log::debug($redirectURL);
 
@@ -53,23 +52,21 @@ final class OAuthController extends Controller
     {
         /** @var User $socialUser */
         $socialUser = Socialite::driver($provider)->stateless()->user();
-        \Log::debug($socialUser->getName());
 
         /** @var UserInterface $user */
         $user = $this->user->firstOrNew(['email' => $socialUser->getEmail()]);
-        \Log::debug('user instance');
 
-        if ($user->exists) {
-            abort(403);
+        // 新規ユーザの場合
+        if (!$user->exists) {
+            $user->name = $socialUser->getName();
+            $user->provider_id = $socialUser->getId();
+            $user->provider_name = $provider;
+            $user->save();
         }
-
-        $user->name = $socialUser->getName();
-        $user->provider_id = $socialUser->getId();
-        $user->provider_name = $provider;
-        $user->save();
 
         $token = $user->createToken('Passport_Token')->accessToken;
 
+        \Log::debug($socialUser->getName());
         \Log::debug($token);
 
         return response()->json([
