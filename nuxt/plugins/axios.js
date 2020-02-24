@@ -1,11 +1,4 @@
 export default function({ $axios, store }) {
-  // $axios.onResponse((config) => {
-  //   $axios.setHeader('Access-Control-Allow-Origin', '*')
-  //   if (store.state.token) {
-  //     config.headers.common.Authorization = `Bearer ${store.state.token}`
-  //   }
-  //   return config
-  // })
   if (process.client) {
     $axios.setBaseURL('http://localhost:8080')
   }
@@ -14,11 +7,10 @@ export default function({ $axios, store }) {
     $axios.setBaseURL('http://nginx_api')
   }
   $axios.onRequest((config) => {
-    console.log(store.state.token)
-    if (store.state.token) {
-      console.log('Making request to ' + config.url)
-      config.headers.common.Authorization = store.state.token
-      console.log(config)
+    config.headers.common.Accept = 'application/json'
+    // token がセットされている場合
+    if (store.getters.token) {
+      config.headers.common.Authorization = 'Bearer ' + store.getters.token
       return config
     }
   })
