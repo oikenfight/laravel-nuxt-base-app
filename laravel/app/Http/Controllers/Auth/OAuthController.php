@@ -64,7 +64,7 @@ final class OAuthController extends Controller
             $user->save();
         }
 
-        $token = $user->createToken('Passport_Token')->accessToken;
+        $token = $user->createToken('access_token')->accessToken;
 
         \Log::debug($socialUser->getName());
         \Log::debug($token);
