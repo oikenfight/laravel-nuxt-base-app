@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export const state = () => ({
   // 選択された NoteId
   noteId: null,
@@ -66,13 +64,13 @@ export const getters = {
 }
 
 export const actions = {
-  getNotesAll(context) {
-    axios.get('http://localhost:8080/api/note').then((response) => {
+  async getNotesAll(context) {
+    await this.$axios.get('http://localhost:8080/api/note').then((response) => {
       context.commit('SET_NOTES_ALL', response.data.notes)
     })
   },
-  getItemsAll(context) {
-    axios.get('http://localhost:8080/api/item').then((response) => {
+  async getItemsAll(context) {
+    await this.$axios.get('http://localhost:8080/api/item').then((response) => {
       context.commit('SET_ITEMS_ALL', response.data.items)
     })
   },
@@ -117,11 +115,9 @@ export const actions = {
 
 export const mutations = {
   SET_NOTES_ALL(state, resNotes) {
-    console.log(resNotes)
     state.notesAll = resNotes
   },
   SET_ITEMS_ALL(state, resItems) {
-    console.log(resItems)
     state.itemsAll = resItems
   },
   SET_NOTES(state, noteIds) {

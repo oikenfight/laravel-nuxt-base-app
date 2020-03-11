@@ -17,6 +17,21 @@ use App\Http\Controllers\Rack\IndexController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->delete('/user/access_token', function (Request $request) {
+    \Log::debug($request->user()->token());
+
+    return response()->json([
+        'result' => $request->user()->token()->revoke()
+    ]);
+});
+
+/**
+ * Auth
+ */
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'middleware' => 'guest:api'], function () {
+    Route::get('{provider}', 'OAuthController@socialOAuth')->where('provider', 'google')->name('socialOAuth');
+    Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->where('provider', 'google')->name('oauthCallback');
+});
 
 // Rack
 Route::group(['prefix' => 'rack', 'namespace' => 'Rack', 'middleware' => 'api'], function () {

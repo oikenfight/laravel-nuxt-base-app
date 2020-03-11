@@ -14,12 +14,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $user_id
  * @property int $rack_id
  * @property string $name
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
- * @property-read BelongsTo|UserInterface $user
- * @property-read BelongsTo|RackInterface $rack
- * @property-read HasMany|NoteInterface[] $notes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
+ * @property-read int|null $notes_count
+ * @property-read \App\Entities\Rack $rack
+ * @property-read \App\Entities\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereRackId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder whereUserId($value)
  */
 interface FolderInterface extends EntityInterface
 {

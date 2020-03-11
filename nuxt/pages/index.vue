@@ -3,6 +3,13 @@
     <!-- noteId がセットされている（selectNote されている）場合 -->
     <v-row v-if="noteId" align="start" justify="center">
       <v-col cols="11">
+        <v-row>
+          <v-card v-if="user">
+            {{ user.name }}
+            {{ user.email }}
+            {{ token }}
+          </v-card>
+        </v-row>
         <!-- note name -->
         <v-row>
           <v-text-field
@@ -12,10 +19,10 @@
             type="text"
           >
             <template v-slot:append>
-              <v-btn class="ma-1" large color="grey" icon @click="clearTitle">
+              <v-btn class="ma-1" large color="" icon @click="clearTitle">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-btn class="ma-1" large color="grey" icon @click="updateTitle">
+              <v-btn class="ma-1" large color="" icon @click="updateTitle">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
@@ -42,7 +49,7 @@
                 row-height="15"
               >
                 <template v-slot:append-outer>
-                  <v-btn class="ma-1" color="grey" icon @click="updateItem">
+                  <v-btn class="ma-1" color="" icon @click="updateItem">
                     <v-icon>mdi-send</v-icon>
                   </v-btn>
                 </template>
@@ -70,15 +77,7 @@
         <!-- new item -->
         <v-row justify="center" style="height: 20px; position: relative">
           <v-fab-transition>
-            <v-btn
-              color="grey lighten-1"
-              dark
-              right
-              absolute
-              bottom
-              fab
-              @click="addItem"
-            >
+            <v-btn color="" dark right absolute bottom fab @click="addItem">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -96,7 +95,8 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  layout: 'defualt',
+  layout: 'default',
+  middleware: 'auth',
   components: {},
   data() {
     return {
@@ -107,6 +107,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'user', // ログインユーザ
+      token: 'token', // これは確認用
       noteId: 'notes/noteId', // selectNote メソッドでセットされる
       note: 'notes/note', // noteId を引数にして、Note オブジェクトを取得
       item: 'notes/item' // itemId を引数に、Item オブジェクトを取得
@@ -161,6 +163,6 @@ export default {
 
 <style scoped>
 .itemSelected {
-  background-color: #eeeeee;
+  background-color: #808080;
 }
 </style>
