@@ -11,11 +11,8 @@ export default {
   layout: 'guest',
   name: 'Redirect',
   asyncData({ app, error }) {
-    // TODO なんでこれで動くん？？（ページ遷移では動作するけど、URL アクセスでは動かない）
-    // SSR だとすると、localhost ではなく、nginx_api が正しいのでは。
-    // ちなみに、nginx_api にすると、URL アクセスでは動作するが、ページ遷移ではネットワークエラーとなる
     return app.$axios
-      .get('http://localhost:8080/api/auth/google')
+      .get('/api/auth/google')
       .then((response) => {
         return { authUrl: response.data.redirect_url }
       })
