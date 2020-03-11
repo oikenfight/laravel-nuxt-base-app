@@ -29,31 +29,20 @@ export default {
       return !this.failedMessage
     }
   },
-
-  mounted() {
-    this.$axios
-      .get('http://localhost:8080/api/auth/google/callback', {
+  async mounted() {
+    try {
+      const callbackData = await this.$axios.$get('/api/auth/google/callback', {
         params: this.$route.query
       })
-      .then((response) => {
-        this.setUser(response.data.user)
-        this.setToken(response.data.token)
-        this.setLoggedIn(true)
-        console.log('here is callback.vue then')
-        console.log(this.$store.getters.user)
-        console.log(this.$store.getters.isAuthenticated)
+      console.log(callbackData)
+      this.setToken({ token: callbackData.token })
+      this.setUser({ user: callbackData.user })
 
-        this.$router.push('/')
-      })
-      .catch((error) => {
-        this.failedMessage = error.message
-      })
+      this.$router.push('/')
+    } catch (error) {
+      this.failedMessage = error.message
+    }
   },
-
-  methods: mapMutations({
-    setUser: 'setUser',
-    setToken: 'setToken',
-    setLoggedIn: 'setLoggedIn'
-  })
+  methods: mapMutations(['setToken', 'setUser'])
 }
 </script>
