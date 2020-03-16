@@ -13,7 +13,9 @@ export const getters = {
     return state.notesAll.find((note) => note.id === noteId)
   },
   notes: (state) => (noteIds) => {
-    return state.notesAll.filter((note) => noteIds.includes(note.id))
+    return noteIds
+      ? state.notesAll.filter((note) => noteIds.includes(note.id))
+      : {}
   },
   notesAll: (state) => {
     return state.notesAll
