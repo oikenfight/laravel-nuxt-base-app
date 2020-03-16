@@ -73,35 +73,9 @@
       <v-divider vertical inset class="float-left"></v-divider>
 
       <!-- Racks/Folders -->
-      <v-list dense class="float-left pt-2" width="125" no-gutters>
-        <v-list-item-group v-model="tree">
-          <v-col v-for="rack in racksAll" :key="rack.id" class="ma-0 pa-0">
-            <v-list-item class="mt-1 pt-1 mx-0 px-0" @click="selectRack(rack)">
-              <v-subheader>
-                {{ rack.name }}
-              </v-subheader>
-              <v-spacer></v-spacer>
-              <v-btn text fab x-small>
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </v-list-item>
-            <v-col class="my-0 py-0">
-              <v-divider></v-divider>
-            </v-col>
-            <v-list-item
-              v-for="folder in folders(rack.folderIds)"
-              :key="folder.id"
-              class="ma-1 pa-1"
-              @click="selectFolder(rack, folder)"
-            >
-              <v-list-item-icon class="ma-1">
-                <v-icon small v-text="folder.icon" />
-              </v-list-item-icon>
-              <v-list-item-title v-text="folder.name" />
-            </v-list-item>
-          </v-col>
-        </v-list-item-group>
-      </v-list>
+      <v-flex width="125">
+        <Tree @select="selectFolder"></Tree>
+      </v-flex>
 
       <v-divider vertical inset class="float-left"></v-divider>
 
@@ -109,7 +83,7 @@
       <v-list dense class="float-left" width="125">
         <!-- New Note -->
         <v-row justify="center" style="height: 45px;">
-          <v-fab-transition v-if="folderId">
+          <v-fab-transition v-if="notesSelectable">
             <v-btn
               color="grey lighten-1"
               dark
@@ -125,8 +99,8 @@
         </v-row>
 
         <!-- Note List -->
-        <v-col v-for="note in notes(noteIds)" :key="note.id" class="ma-0 pa-0">
-          <v-card class="ma-2" outlined light @click="selectNote(note)">
+        <v-col v-for="note in notesSelectable" :key="note.id" class="ma-0 pa-0">
+          <v-card class="ma-2" outlined light @click="selectNote(note.id)">
             <v-card-subtitle class="py-0 my-0 mr-0 pr-0">
               2019/12/31
             </v-card-subtitle>
@@ -162,9 +136,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Tree from '@/components/Tree/Default.vue'
 
 export default {
   middleware: 'auth',
+  components: { Tree },
   data: () => ({
     drawer: null,
     permanent: true,
@@ -176,38 +152,40 @@ export default {
       { name: 'Releases', icon: 'mdi-folder-lock-open' }
     ],
     links: ['Home', 'Contacts', 'Settings'],
-    mini: true
+    mini: true,
+    rackSelected: {},
+    folderSelected: {},
+    noteSelected: {},
+    itemSelected: {}
   }),
   computed: {
     ...mapGetters({
-      racksAll: 'tree/racksAll', // 全 Racks
-      folders: 'tree/folders', // rackId を引数に取得
-      rackId: 'tree/rackId', // 選択された rack
-      folderId: 'tree/folderId', // 選択された folder
+      racksAll: 'rack/racksAll', // 全 Racks
+      folders: 'folder/folders', // フォルダIDを配列で渡し、フォルダを取得
+      notes: 'note/notes', // ノートIDを配列で渡し、ノートを取得
       noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
-      notes: 'notes/notes', // noteIds を引数に取得
       noteId: 'notes/noteId' // 選択中の NoteId
-    })
+    }),
+    notesSelectable() {
+      return this.notes(this.folderSelected.noteIds)
+    }
   },
   mounted() {
     // TODO この辺の初期データは SSR でもってきたいところ。
-    this.$store.dispatch('tree/getRacksAll')
-    this.$store.dispatch('tree/getFoldersAll')
-    this.$store.dispatch('notes/getNotesAll')
-    this.$store.dispatch('notes/getItemsAll')
+    this.$store.dispatch('rack/fetchAll')
+    this.$store.dispatch('folder/fetchAll')
+    this.$store.dispatch('note/fetchAll')
+    this.$store.dispatch('item/fetchAll')
   },
   methods: {
     ...mapActions({}),
-    selectRack(rack) {
-      // Rack をセット（同時に NoteIds もセットされる）
-      this.$store.dispatch('tree/selectRack', rack)
-    },
     selectFolder(rack, folder) {
       // Folder をセット（同時に NoteIds もセットされる）
-      this.$store.dispatch('tree/selectFolder', { rack, folder })
+      this.rackSelected = rack
+      this.folderSelected = folder
     },
-    selectNote(note) {
-      this.$store.dispatch('notes/setNoteId', note.id)
+    selectNote(noteId) {
+      this.$router.push('/notes/' + noteId)
     },
     addNote() {
       this.$store.dispatch('notes/createNote') // ノートを作成し、notes/NoteId をセットする
