@@ -19,9 +19,6 @@ export const actions = {
     })
     commit('SET_ITEMS_ALL', { items: data.items })
   },
-  select({ commit }, { itemId }) {
-    commit('SET_ITEM', { itemId })
-  },
   create({ commit }) {
     // TODO 新規アイテム作成
     // TODO Noteにアイテムを追加
@@ -31,23 +28,20 @@ export const actions = {
     commit('DELETE', { itemId })
     commit('note/REMOVE_ITEM', { itemId })
   },
-  update({ commit }, { body }) {
+  update({ commit }, { item }) {
     // TODO: update item body
-    commit('UPDATE', { body })
+    commit('UPDATE', { item })
   }
 }
 
 export const mutations = {
-  SET_ITEMS_ALL(state, items) {
+  SET_ITEMS_ALL(state, { items }) {
     state.itemsAll = items
   },
-  SET_ITEM_ID(state, { itemId }) {
-    state.itemId = itemId
-  },
-  ADD(state, item) {
+  ADD(state, { item }) {
     state.itemsAll[item.id] = ''
   },
-  UPDATE(state, { body }) {
+  UPDATE(state, { item }) {
     // TODO 対象item の body を更新
   },
   DELETE(state, { itemId }) {

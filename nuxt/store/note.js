@@ -10,6 +10,7 @@ export const getters = {
     return state.noteId
   },
   note: (state) => (noteId) => {
+    noteId = parseInt(noteId)
     return state.notesAll.find((note) => note.id === noteId)
   },
   notes: (state) => (noteIds) => {
@@ -28,9 +29,6 @@ export const actions = {
       console.log(err)
     })
     commit('SET_NOTES_ALL', { notes: data.notes })
-  },
-  setNoteId({ commit }, noteId) {
-    commit('SET_NOTE_ID', noteId)
   },
   createNote({ commit }) {
     // TODO: crate item to DB
@@ -51,9 +49,9 @@ export const actions = {
     commit('DELETE_ITEM', { itemId })
     commit('DELETE_ITEM_FROM_NOTE', { itemId })
   },
-  updateTitle({ commit }, { titleNew }) {
+  updateTitle({ commit }, { note }) {
     // TODO: update note
-    commit('UPDATE_TITLE', { titleNew })
+    commit('UPDATE', { note })
   }
 }
 
@@ -61,15 +59,13 @@ export const mutations = {
   SET_NOTES_ALL(state, { notes }) {
     state.notesAll = notes
   },
-  SET_NOTE_ID(state, { noteId }) {
-    state.noteId = noteId
-  },
-  ADD_NOTE(state, { note }) {
+  ADD(state, { note }) {
     state.notesAll.push(note)
   },
-  UPDATE_TITLE(state, { titleNew }) {
-    const index = state.notesAll.findIndex((note) => note.id === state.noteId)
-    state.notesAll[index].name = titleNew
+  UPDATE(state, { note }) {
+    console.log(note)
+    const index = state.notesAll.findIndex((val) => val.id === note.id)
+    state.notesAll[index] = note
   },
   ADD_ITEM(state, { itemId }) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
