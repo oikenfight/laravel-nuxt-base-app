@@ -74,7 +74,7 @@
 
       <!-- Racks/Folders -->
       <v-flex width="125">
-        <Tree @select="selectFolder"></Tree>
+        <tree @select="selectFolder"></tree>
       </v-flex>
 
       <v-divider vertical inset class="float-left"></v-divider>
@@ -136,11 +136,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Tree from '@/components/Tree/Default.vue'
+import tree from '@/components/tree/default.vue'
 
 export default {
   middleware: 'auth',
-  components: { Tree },
+  components: { tree },
   data: () => ({
     drawer: null,
     permanent: true,
@@ -170,13 +170,6 @@ export default {
       return this.notes(this.folderSelected.noteIds)
     }
   },
-  mounted() {
-    // TODO この辺の初期データは SSR でもってきたいところ。
-    this.$store.dispatch('rack/fetchAll')
-    this.$store.dispatch('folder/fetchAll')
-    this.$store.dispatch('note/fetchAll')
-    this.$store.dispatch('item/fetchAll')
-  },
   methods: {
     ...mapActions({}),
     selectFolder(rack, folder) {
@@ -185,7 +178,7 @@ export default {
       this.folderSelected = folder
     },
     selectNote(noteId) {
-      this.$router.push('/notes/' + noteId)
+      this.$router.push('/note/' + noteId)
     },
     addNote() {
       this.$store.dispatch('notes/createNote') // ノートを作成し、notes/NoteId をセットする
