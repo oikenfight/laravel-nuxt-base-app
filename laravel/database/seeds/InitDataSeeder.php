@@ -139,7 +139,7 @@ final class InitDataSeeder extends Seeder
         $folderInstance = $this->folder->newInstance([
             'user_id' => $user->id,
             'rack_id' => $rack->id,
-            'name' => 'rack' . (string)$k,
+            'name' => 'rack' . (string)$rack->id . '-folder' . (string)$k,
         ]);
         $folderInstance->save();
         return $folderInstance;
@@ -156,7 +156,7 @@ final class InitDataSeeder extends Seeder
         $noteInstance = $this->note->newInstance([
             'user_id' => $user->id,
             'folder_id' => $folder->id,
-            'name' => 'rack' . (string)$l,
+            'name' => 'note' . (string)$l,
         ]);
         $noteInstance->save();
         return $noteInstance;
