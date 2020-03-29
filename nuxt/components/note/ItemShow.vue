@@ -15,18 +15,32 @@
     </v-btn-toggle>
 
     <!--  markdown show  -->
-    <div class="ma-1" v-html="$md.render(item.body)"></div>
+    <div v-if="item" class="ma-1" v-html="$md.render(item.body)"></div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'ItemShow',
-  props: ['item', 'isActive'],
+  props: ['itemId', 'isActive'],
   data() {
-    return {}
+    return {
+      item: null
+    }
+  },
+  computed: {
+    ...mapGetters({
+      itemVuex: 'item/item'
+    })
+  },
+  mounted() {
+    this.item = this.itemVuex(this.itemId)
+    console.log(this.item.body)
   },
   methods: {
+    ...mapActions({}),
     edit(item) {
       this.$emit('edit', { item })
     },
