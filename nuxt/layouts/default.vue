@@ -57,7 +57,10 @@
 
       <!-- Notes -->
       <v-flex>
-        <NotesSelectable :notes="notesSelectable"></NotesSelectable>
+        <NotesSelectable
+          :notes="notesSelectable"
+          :folder="folderSelected"
+        ></NotesSelectable>
       </v-flex>
     </v-navigation-drawer>
 
@@ -102,11 +105,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      racksAll: 'rack/racksAll', // 全 Racks
-      folders: 'folder/folders', // フォルダIDを配列で渡し、フォルダを取得
-      notes: 'note/notes', // ノートIDを配列で渡し、ノートを取得
-      noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
-      noteId: 'notes/noteId' // 選択中の NoteId
+      notes: 'note/notes' // ノートIDを配列で渡し、ノートを取得
     }),
     notesSelectable() {
       return this.notes(this.folderSelected.noteIds)
