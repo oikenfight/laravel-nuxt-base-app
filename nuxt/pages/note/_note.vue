@@ -3,7 +3,7 @@
     <v-row align="start" justify="center">
       <v-col cols="11">
         <!-- note title-->
-        <noteTitle></noteTitle>
+        <NoteTitle></NoteTitle>
 
         <v-divider></v-divider>
 
@@ -16,30 +16,26 @@
             @mouseleave="itemIdActive = null"
           >
             <!-- アイテム編集コンポーネント -->
-            <itemEdit
+            <ItemEdit
               v-if="itemIdEdited === itemId"
               :itemId="itemIdEdited"
               @update="updatedItem"
-            ></itemEdit>
+            ></ItemEdit>
 
             <!-- アイテム表示コンポーネント -->
-            <itemShow
+            <ItemShow
               v-else
-              :item="item(itemId)"
+              :itemId="itemId"
               :isActive="itemIdActive === itemId"
-              @edit="editItem"
-            ></itemShow>
+              @edit="editingItem"
+            ></ItemShow>
           </v-col>
         </v-row>
-        <v-divider />
+
+        <v-divider></v-divider>
+
         <!-- new item -->
-        <v-row justify="center" style="height: 20px; position: relative">
-          <v-fab-transition>
-            <v-btn color="" dark right absolute bottom fab @click="addItem">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-fab-transition>
-        </v-row>
+        <ButtonNewItem @add="addedItem"></ButtonNewItem>
       </v-col>
     </v-row>
   </v-container>
@@ -47,18 +43,20 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import noteTitle from '@/components/note/title.vue'
-import itemEdit from '@/components/note/itemEdit.vue'
-import itemShow from '@/components/note/itemShow.vue'
+import NoteTitle from '@/components/note/Title.vue'
+import ItemEdit from '@/components/note/ItemEdit.vue'
+import ItemShow from '@/components/note/ItemShow.vue'
+import ButtonNewItem from '@/components/note/ButtonNewItem'
 
 export default {
   name: 'Note',
   layout: 'default',
   middleware: 'auth',
   components: {
-    noteTitle,
-    itemEdit,
-    itemShow
+    NoteTitle,
+    ItemEdit,
+    ItemShow,
+    ButtonNewItem
   },
   data() {
     return {
@@ -70,8 +68,7 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user', // ログインユーザ
-      noteVuex: 'note/note',
-      item: 'item/item' // itemId を引数に、Item オブジェクトを取得
+      noteVuex: 'note/note'
     })
   },
   mounted() {
@@ -79,13 +76,10 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    addItem() {
-      this.$store.dispatch('notes/addItem')
-      // 新規追加された item の ID を取得
-      const newItemId = this.noteEdited.itemIds.slice(-1)[0]
-      this.initItemEdited(newItemId)
+    addedItem({ item }) {
+      this.itemIdEdited = item.id
     },
-    editItem({ item }) {
+    editingItem({ item }) {
       this.itemIdEdited = item.id
     },
     updatedItem() {

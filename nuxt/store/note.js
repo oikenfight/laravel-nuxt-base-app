@@ -30,19 +30,14 @@ export const actions = {
     })
     commit('SET_NOTES_ALL', { notes: data.notes })
   },
-  createNote({ commit }) {
-    // TODO: crate item to DB
-    const newNoteId = Math.floor(Math.random() * 1000) + 1 // 乱数生成、本来は DB で id 振られるはず。
-    const newNote = {
-      id: newNoteId,
-      name: '',
-      itemIds: []
-    }
-    commit('ADD_NOTE', { newNote })
-    commit('SET_NOTE_ID', { newNoteId })
-  },
-  add({ commit }, { itemId }) {
-    commit('ADD_ITEM', { itemId })
+  async create({ commit }, { folder }) {
+    // crate note
+    const data = await this.$axios
+      .$post('/api/note', { folder_id: folder.id })
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('ADD', { note: data.note })
   },
   remove({ commit }, { itemId }) {
     // TODO: remove item from DB
@@ -52,6 +47,16 @@ export const actions = {
   updateTitle({ commit }, { note }) {
     // TODO: update note
     commit('UPDATE', { note })
+  },
+  async addItem({ commit }, { noteId }) {
+    // 新規 Item を作成
+    const data = await this.$axios
+      .$post('/api/item', { note_id: noteId })
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('ADD_ITEM', { noteId, item: data.item })
+    commit('UPDATE', { note: data.note })
   }
 }
 

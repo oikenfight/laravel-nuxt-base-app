@@ -41,7 +41,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async nuxtServerInit({ dispatch, commit }, { error }) {
+  async nuxtServerInit({ dispatch, commit, state }, { error }) {
     // cookie から token を取得
     const token = this.$cookies.get('token')
 
@@ -49,33 +49,32 @@ export const actions = {
       return Promise.resolve()
     }
 
-    // 初期データ取得
-    await dispatch('rack/fetchAll')
-    await dispatch('folder/fetchAll')
-    await dispatch('note/fetchAll')
-    await dispatch('item/fetchAll')
-
     // トークンからユーザを取得
-    return dispatch('fetchUserByAccessToken', { token }).catch((e) => {
-      return dispatch('logout').catch((e) => {
+    await dispatch('fetchUserByAccessToken', { token }).catch((e) => {
+      // 失敗した場合、ログアウト処理
+      dispatch('logout').catch((e) => {
         error({ message: e.message, statusCode: e.statusCode })
       })
+      return Promise.resolve()
     })
+
+    // 初期データを取得
+    await Promise.all([
+      dispatch('rack/fetchAll'),
+      dispatch('folder/fetchAll'),
+      dispatch('note/fetchAll'),
+      dispatch('item/fetchAll')
+    ])
   },
-  fetchUserByAccessToken({ commit, dispatch }, { token }) {
+  async fetchUserByAccessToken({ commit, dispatch }, { token }) {
     commit('setToken', { token })
-    return this.$axios.$get('/api/user').then((user) => {
+    await this.$axios.$get('/api/user').then((user) => {
       commit('setUser', { user })
     })
   },
-  logout({ commit }) {
-    this.$axios
-      .$delete('/api/user/access_token')
-      .then((response) => {
-        commit('setToken', null)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  async logout({ commit, error }) {
+    await this.$axios.$delete('/api/user/access_token').then((response) => {
+      commit('setToken', null)
+    })
   }
 }

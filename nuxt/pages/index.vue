@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <!-- noteId がセットされている（selectNote されている）場合 -->
-    <v-row v-if="noteId" align="start" justify="center">
+    <v-row align="start" justify="center">
       <v-col cols="11"></v-col>
     </v-row>
     <!-- noteId がセットされていない（ selectNoteされていない）場合 -->
-    <v-row v-else>
+    <v-row>
       open note !!
     </v-row>
   </v-container>
@@ -18,9 +18,6 @@ export default {
   components: {},
   data() {
     return {}
-  },
-  mounted() {
-    this.initItemEdited()
   },
   methods: {}
 }

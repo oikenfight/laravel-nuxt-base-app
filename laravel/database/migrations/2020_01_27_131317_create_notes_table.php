@@ -19,7 +19,7 @@ class CreateNotesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('folder_id')->unsigned();
             $table->foreign('folder_id')->references('id')->on('folders');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

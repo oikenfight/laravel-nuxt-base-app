@@ -10,7 +10,7 @@
           right
           absolute
           fab
-          @click="addNote"
+          @click="create"
         >
           <v-icon>mdi-note-plus</v-icon>
         </v-btn>
@@ -36,7 +36,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'NotesSelectable',
-  props: ['notes'],
+  props: ['notes', 'folder'],
   computed: {
     ...mapGetters({}),
     notesSelectable() {
@@ -48,9 +48,8 @@ export default {
     selectNote(noteId) {
       this.$router.push('/note/' + noteId)
     },
-    addNote() {
-      this.$store.dispatch('notes/createNote') // ノートを作成し、notes/NoteId をセットする
-      this.$store.dispatch('tree/addNoteId', this.noteId)
+    create() {
+      this.$store.dispatch('note/create', { folder: this.folder }) // ノートを作成
     }
   }
 }

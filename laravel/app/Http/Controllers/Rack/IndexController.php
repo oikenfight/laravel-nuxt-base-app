@@ -16,13 +16,14 @@ use Illuminate\Http\Request;
 final class IndexController extends Controller
 {
     /**
+     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        // TODO: 認証ユーザを取得。ログイン機能未実装のため、暫定機に user1 とする
         /** @var UserInterface $user */
-        $user = User::find(1);
+        $user = $request->user();
 
         // TODO: UseCase を作成する
         /** @var RackInterface[] $racks */
@@ -30,7 +31,6 @@ final class IndexController extends Controller
         foreach ($racks as $key => $rack) {
             $rack['folderIds'] = $rack->folders->pluck('id');
         }
-
         return response()->json(['racks' => $racks]);
     }
 }
