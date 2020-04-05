@@ -34,7 +34,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'middleware' => 'guest:
 });
 
 // Rack
-Route::group(['prefix' => 'rack', 'namespace' => 'Rack', 'middleware' => 'api'], function () {
+Route::group(['prefix' => 'rack', 'namespace' => 'Rack', 'middleware' => 'auth:api'], function () {
   Route::get('', 'IndexController');
   Route::post('', 'StoreController');
   Route::put('{Rack}', 'UpdateController');
@@ -42,7 +42,7 @@ Route::group(['prefix' => 'rack', 'namespace' => 'Rack', 'middleware' => 'api'],
 });
 
 // Folder
-Route::group(['prefix' => 'folder', 'namespace' => 'Folder', 'middleware' => 'api'], function () {
+Route::group(['prefix' => 'folder', 'namespace' => 'Folder', 'middleware' => 'auth:api'], function () {
   Route::get('', 'IndexController');
   Route::post('', 'StoreController');
   Route::put('{Folder}', 'UpdateController');
@@ -50,7 +50,7 @@ Route::group(['prefix' => 'folder', 'namespace' => 'Folder', 'middleware' => 'ap
 });
 
 // Note
-Route::group(['prefix' => 'note', 'namespace' => 'Note', 'middleware' => 'api'], function () {
+Route::group(['prefix' => 'note', 'namespace' => 'Note', 'middleware' => 'auth:api'], function () {
   Route::get('', 'IndexController');
   Route::post('', 'StoreController');
   Route::put('{Note}', 'UpdateController');
@@ -58,7 +58,7 @@ Route::group(['prefix' => 'note', 'namespace' => 'Note', 'middleware' => 'api'],
 });
 
 // Item
-Route::group(['prefix' => 'item', 'namespace' => 'Item', 'middleware' => 'api'], function () {
+Route::group(['prefix' => 'item', 'namespace' => 'Item', 'middleware' => 'auth:api'], function () {
   Route::get('', 'IndexController');
   Route::post('', 'StoreController');
   Route::put('{Item}', 'UpdateController');
