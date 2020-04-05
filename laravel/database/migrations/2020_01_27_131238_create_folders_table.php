@@ -19,7 +19,7 @@ class CreateFoldersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('rack_id')->unsigned();
             $table->foreign('rack_id')->references('id')->on('racks');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
