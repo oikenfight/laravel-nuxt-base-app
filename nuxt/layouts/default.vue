@@ -26,7 +26,6 @@
       mini-variant-width="50"
       :mini-variant.sync="mini"
       permanent
-      width="302"
     >
       <!-- Profile -->
       <v-list-item class="px-2">
@@ -49,18 +48,8 @@
       <v-divider vertical inset class="float-left"></v-divider>
 
       <!-- Racks/Folders -->
-      <v-flex width="125">
-        <Tree @select="selectFolder"></Tree>
-      </v-flex>
-
-      <v-divider vertical inset class="float-left"></v-divider>
-
-      <!-- Notes -->
       <v-flex>
-        <NotesSelectable
-          :notes="notesSelectable"
-          :folder="folderSelected"
-        ></NotesSelectable>
+        <Tree @select="selectFolder"></Tree>
       </v-flex>
     </v-navigation-drawer>
 
@@ -87,13 +76,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import AppBarMenu from '@/components/appbar/Menu.vue'
 // import AppBarTabs from '@/components/appbar/Tabs.vue'
-import NotesSelectable from '@/components/navigation/NotesSelectable.vue'
 import SideMenu from '@/components/navigation/SideMenu.vue'
 import Tree from '@/components/navigation/Tree.vue'
 
 export default {
   middleware: 'auth',
-  components: { AppBarMenu, Tree, SideMenu, NotesSelectable },
+  components: { AppBarMenu, Tree, SideMenu },
   data: () => ({
     drawer: null,
     permanent: true,

@@ -1,7 +1,11 @@
 <template>
-  <v-container>
-    <v-row align="start" justify="center">
-      <v-col cols="11">
+  <v-layout>
+    <div style="width: 140px">
+      <!-- Notes -->
+      <NotesSelectable :folder="folder"></NotesSelectable>
+    </div>
+    <div style="width: 100%">
+      <v-container>
         <!-- note title-->
         <NoteTitle></NoteTitle>
 
@@ -31,18 +35,19 @@
             ></ItemShow>
           </v-col>
         </v-row>
+      </v-container>
 
-        <v-divider></v-divider>
+      <v-divider></v-divider>
 
-        <!-- new item -->
-        <ButtonNewItem @add="addedItem"></ButtonNewItem>
-      </v-col>
-    </v-row>
-  </v-container>
+      <!-- new item -->
+      <ButtonNewItem @add="addedItem"></ButtonNewItem>
+    </div>
+  </v-layout>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import NotesSelectable from '@/components/navigation/NotesSelectable.vue'
 import NoteTitle from '@/components/note/Title.vue'
 import ItemEdit from '@/components/note/ItemEdit.vue'
 import ItemShow from '@/components/note/ItemShow.vue'
@@ -53,6 +58,7 @@ export default {
   layout: 'default',
   middleware: 'auth',
   components: {
+    NotesSelectable,
     NoteTitle,
     ItemEdit,
     ItemShow,
@@ -61,6 +67,7 @@ export default {
   data() {
     return {
       note: {},
+      folder: {},
       itemIdActive: null, // item の mouseover/mouseout でセット
       itemIdEdited: null // 編集中 Item
     }
@@ -68,11 +75,13 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user', // ログインユーザ
-      noteVuex: 'note/note'
+      noteVuex: 'note/note',
+      folderVuex: 'folder/folder'
     })
   },
   mounted() {
     this.note = this.noteVuex(this.$route.params.note)
+    this.folder = this.folderVuex(this.note.folder_id)
   },
   methods: {
     ...mapActions({}),
