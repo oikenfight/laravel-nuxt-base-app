@@ -3,7 +3,9 @@ const inBrowser = typeof window !== 'undefined'
 export const state = () => ({
   loggedIn: false,
   user: null,
-  token: null
+  token: null,
+  folderIdSelected: null,
+  rackIdSelected: null
 })
 
 export const getters = {
@@ -15,6 +17,12 @@ export const getters = {
   },
   token: (state) => {
     return state.token
+  },
+  folderIdSelected: (state) => {
+    return state.folderIdSelected
+  },
+  rackIdSelected: (state) => {
+    return state.rackIdSelected
   }
 }
 
@@ -37,6 +45,12 @@ export const mutations = {
         this.$cookies.remove('token')
       }
     }
+  },
+  setFolderId(state, { folderId }) {
+    state.folderIdSelected = folderId
+  },
+  setRackId(state, { rackId }) {
+    state.rackIdSelected = rackId
   }
 }
 
@@ -50,15 +64,34 @@ export const actions = {
     }
 
     // トークンからユーザを取得
-    await dispatch('fetchUserByAccessToken', { token }).catch((e) => {
-      // 失敗した場合、ログアウト処理
-      dispatch('logout').catch((e) => {
-        error({ message: e.message, statusCode: e.statusCode })
-      })
-      return Promise.resolve()
-    })
+    const user = await dispatch('fetchUserByAccessToken', { token }).catch(
+      (e) => {
+        // 失敗した場合、ログアウト処理
+        console.log('here is error fetchUserByAccessToken')
+        dispatch('logout').catch((e) => {
+          error({ message: e.message, statusCode: e.statusCode })
+        })
+      }
+    )
+    console.log(user)
 
     // 初期データを取得
+    if (user) {
+      await dispatch('dispatchAll')
+    }
+  },
+  async fetchUserByAccessToken({ commit, dispatch }, { token }) {
+    commit('setToken', { token })
+    const data = await this.$axios.$get('/api/user')
+    commit('setUser', { user: data.user })
+    return data.user
+  },
+  async logout({ commit, error }) {
+    await this.$axios.$delete('/api/user/access_token').then((response) => {
+      commit('setToken', { token: null })
+    })
+  },
+  async dispatchAll({ dispatch }) {
     await Promise.all([
       dispatch('rack/fetchAll'),
       dispatch('folder/fetchAll'),
@@ -66,15 +99,10 @@ export const actions = {
       dispatch('item/fetchAll')
     ])
   },
-  async fetchUserByAccessToken({ commit, dispatch }, { token }) {
-    commit('setToken', { token })
-    await this.$axios.$get('/api/user').then((user) => {
-      commit('setUser', { user })
-    })
+  setFolderId({ commit }, { folderId }) {
+    commit('setFolderId', { folderId })
   },
-  async logout({ commit, error }) {
-    await this.$axios.$delete('/api/user/access_token').then((response) => {
-      commit('setToken', null)
-    })
+  setRackId({ commit }, { rackId }) {
+    commit('setRackId', { rackId })
   }
 }
