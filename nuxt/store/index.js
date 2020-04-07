@@ -3,9 +3,7 @@ const inBrowser = typeof window !== 'undefined'
 export const state = () => ({
   loggedIn: false,
   user: null,
-  token: null,
-  folderIdSelected: null,
-  rackIdSelected: null
+  token: null
 })
 
 export const getters = {
@@ -17,12 +15,6 @@ export const getters = {
   },
   token: (state) => {
     return state.token
-  },
-  folderIdSelected: (state) => {
-    return state.folderIdSelected
-  },
-  rackIdSelected: (state) => {
-    return state.rackIdSelected
   }
 }
 
@@ -45,12 +37,6 @@ export const mutations = {
         this.$cookies.remove('token')
       }
     }
-  },
-  setFolderId(state, { folderId }) {
-    state.folderIdSelected = folderId
-  },
-  setRackId(state, { rackId }) {
-    state.rackIdSelected = rackId
   }
 }
 
@@ -67,13 +53,11 @@ export const actions = {
     const user = await dispatch('fetchUserByAccessToken', { token }).catch(
       (e) => {
         // 失敗した場合、ログアウト処理
-        console.log('here is error fetchUserByAccessToken')
         dispatch('logout').catch((e) => {
           error({ message: e.message, statusCode: e.statusCode })
         })
       }
     )
-    console.log(user)
 
     // 初期データを取得
     if (user) {
@@ -98,11 +82,5 @@ export const actions = {
       dispatch('note/fetchAll'),
       dispatch('item/fetchAll')
     ])
-  },
-  setFolderId({ commit }, { folderId }) {
-    commit('setFolderId', { folderId })
-  },
-  setRackId({ commit }, { rackId }) {
-    commit('setRackId', { rackId })
   }
 }

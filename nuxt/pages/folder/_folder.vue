@@ -24,31 +24,19 @@ export default {
   },
   data() {
     return {
-      note: {}
+      folder: {}
     }
   },
   computed: {
     ...mapGetters({
-      folderId: 'folderIdSelected',
-      rackId: 'rackIdSelected',
-      noteVuex: 'note/note',
       folderVuex: 'folder/folder'
-    }),
-    folder() {
-      return this.folderId ? this.folderVuex(this.folderId) : null
-    }
+    })
+  },
+  mounted() {
+    this.folder = this.folderVuex(this.$route.params.folder)
   },
   methods: {
-    ...mapActions({}),
-    addedItem({ item }) {
-      this.itemIdEdited = item.id
-    },
-    editingItem({ item }) {
-      this.itemIdEdited = item.id
-    },
-    updatedItem() {
-      this.itemIdEdited = null
-    }
+    ...mapActions({})
   }
 }
 </script>

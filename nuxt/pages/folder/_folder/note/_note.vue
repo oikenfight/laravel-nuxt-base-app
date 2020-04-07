@@ -16,15 +16,15 @@
         <!-- アイテム編集コンポーネント -->
         <ItemEdit
           v-if="itemIdEdited === itemId"
-          :itemId="itemIdEdited"
+          :item-id="itemIdEdited"
           @update="updatedItem"
         ></ItemEdit>
 
         <!-- アイテム表示コンポーネント -->
         <ItemShow
           v-else
-          :itemId="itemId"
-          :isActive="itemIdActive === itemId"
+          :item-id="itemId"
+          :is-active="itemIdActive === itemId"
           @edit="editingItem"
         ></ItemShow>
       </v-col>
@@ -56,8 +56,6 @@ export default {
   },
   data() {
     return {
-      note: {},
-      folder: {},
       itemIdActive: null, // item の mouseover/mouseout でセット
       itemIdEdited: null // 編集中 Item
     }
@@ -67,11 +65,14 @@ export default {
       user: 'user', // ログインユーザ
       noteVuex: 'note/note',
       folderVuex: 'folder/folder'
-    })
-  },
-  mounted() {
-    this.note = this.noteVuex(this.$route.params.note)
-    this.folder = this.folderVuex(this.note.folder_id)
+    }),
+    note() {
+      console.log(this.$route.params.note)
+      return this.noteVuex(this.$route.params.note)
+    },
+    folder() {
+      return this.folderVuex(this.$route.params.folder)
+    }
   },
   methods: {
     ...mapActions({}),

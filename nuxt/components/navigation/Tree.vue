@@ -15,7 +15,6 @@
       <v-list-item
         v-for="folder in folders(rack.folderIds)"
         :key="folder.id"
-        link
         @click="select(rack, folder)"
       >
         <v-list-item-title v-text="folder.name"></v-list-item-title>
@@ -41,8 +40,7 @@ export default {
   methods: {
     ...mapActions({}),
     select(rack, folder) {
-      this.$store.dispatch('setFolderId', { folderId: folder.id })
-      this.$store.dispatch('setRackId', { rackId: rack.id })
+      this.$router.push('/folder/' + folder.id)
     }
   }
 }

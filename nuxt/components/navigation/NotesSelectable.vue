@@ -42,13 +42,10 @@ export default {
       notes: 'note/notes'
     })
   },
-  mounted() {
-    console.log(this.folder)
-  },
   methods: {
     ...mapActions({}),
     selectNote(noteId) {
-      this.$router.push('/note/' + noteId)
+      this.$router.push('/folder/' + this.folder.id + '/note/' + noteId)
     },
     create() {
       this.$store.dispatch('note/create', { folder: this.folder }) // ノートを作成

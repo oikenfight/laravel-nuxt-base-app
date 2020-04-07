@@ -8,6 +8,7 @@ export const getters = {
     return state.folderId
   },
   folder: (state) => (folderId) => {
+    folderId = parseInt(folderId)
     return state.foldersAll.find((folder) => folder.id === folderId)
   },
   foldersAll: (state) => {
