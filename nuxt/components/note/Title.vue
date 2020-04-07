@@ -1,7 +1,7 @@
 <template>
   <!-- note name -->
-  <v-row>
-    <v-text-field v-model="note.name" outlined label="Note Title" type="text">
+  <div>
+    <v-text-field v-model="note.name" outlined label="Title" type="text">
       <template v-slot:append>
         <v-btn class="ma-1" large color="" icon @click="clearTitle">
           <v-icon>mdi-close</v-icon>
@@ -11,7 +11,7 @@
         </v-btn>
       </template>
     </v-text-field>
-  </v-row>
+  </div>
 </template>
 
 <script>
