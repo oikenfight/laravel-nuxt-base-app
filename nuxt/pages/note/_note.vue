@@ -1,53 +1,44 @@
 <template>
-  <v-layout>
-    <div style="width: 140px">
-      <!-- Notes -->
-      <NotesSelectable :folder="folder"></NotesSelectable>
-    </div>
-    <div style="width: 100%">
-      <v-container>
-        <!-- note title-->
-        <NoteTitle></NoteTitle>
+  <v-container>
+    <!-- note title-->
+    <NoteTitle></NoteTitle>
 
-        <v-divider></v-divider>
+    <v-divider></v-divider>
 
-        <!-- note body -->
-        <v-row v-for="itemId in note.itemIds" :key="itemId">
-          <v-col
-            cols="12"
-            :class="{ itemSelected: itemIdActive === itemId }"
-            @mouseenter="itemIdActive = itemId"
-            @mouseleave="itemIdActive = null"
-          >
-            <!-- アイテム編集コンポーネント -->
-            <ItemEdit
-              v-if="itemIdEdited === itemId"
-              :itemId="itemIdEdited"
-              @update="updatedItem"
-            ></ItemEdit>
+    <!-- note body -->
+    <v-row v-for="itemId in note.itemIds" :key="itemId">
+      <v-col
+        cols="12"
+        :class="{ itemSelected: itemIdActive === itemId }"
+        @mouseenter="itemIdActive = itemId"
+        @mouseleave="itemIdActive = null"
+      >
+        <!-- アイテム編集コンポーネント -->
+        <ItemEdit
+          v-if="itemIdEdited === itemId"
+          :itemId="itemIdEdited"
+          @update="updatedItem"
+        ></ItemEdit>
 
-            <!-- アイテム表示コンポーネント -->
-            <ItemShow
-              v-else
-              :itemId="itemId"
-              :isActive="itemIdActive === itemId"
-              @edit="editingItem"
-            ></ItemShow>
-          </v-col>
-        </v-row>
-      </v-container>
+        <!-- アイテム表示コンポーネント -->
+        <ItemShow
+          v-else
+          :itemId="itemId"
+          :isActive="itemIdActive === itemId"
+          @edit="editingItem"
+        ></ItemShow>
+      </v-col>
+    </v-row>
 
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
-      <!-- new item -->
-      <ButtonNewItem @add="addedItem"></ButtonNewItem>
-    </div>
-  </v-layout>
+    <!-- new item -->
+    <ButtonNewItem @add="addedItem"></ButtonNewItem>
+  </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NotesSelectable from '@/components/navigation/NotesSelectable.vue'
 import NoteTitle from '@/components/note/Title.vue'
 import ItemEdit from '@/components/note/ItemEdit.vue'
 import ItemShow from '@/components/note/ItemShow.vue'
@@ -58,7 +49,6 @@ export default {
   layout: 'default',
   middleware: 'auth',
   components: {
-    NotesSelectable,
     NoteTitle,
     ItemEdit,
     ItemShow,

@@ -1,13 +1,12 @@
 <template>
-  <!-- noteId がセットされていない（ selectNoteされていない）場合 -->
-  <v-row>
-    page not found.
-  </v-row>
+  <v-container>
+    page not found
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: 'Notes'
+  name: 'Index'
 }
 </script>
 
