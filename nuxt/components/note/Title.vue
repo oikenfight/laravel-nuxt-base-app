@@ -1,7 +1,7 @@
 <template>
   <!-- note name -->
   <div>
-    <v-text-field v-model="note.name" outlined label="Title" type="text">
+    <v-text-field v-model="noteLocal.name" outlined label="Title" type="text">
       <template v-slot:append>
         <v-btn class="ma-1" large color="" icon @click="clearTitle">
           <v-icon>mdi-close</v-icon>
@@ -19,18 +19,19 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Title',
+  props: ['note'],
   data() {
     return {
-      note: {}
+      noteLocal: {}
     }
   },
   computed: {
-    ...mapGetters({
-      noteVuex: 'note/note'
-    })
+    ...mapGetters({})
   },
-  mounted() {
-    this.note = Object.assign({}, this.noteVuex(this.$route.params.note))
+  watch: {
+    note(val, oldVal) {
+      this.noteLocal = Object.assign({}, this.note)
+    }
   },
   methods: {
     ...mapActions({}),
@@ -38,7 +39,7 @@ export default {
       this.note.name = ''
     },
     updateTitle() {
-      this.$store.dispatch('note/updateTitle', { note: this.note })
+      this.$store.dispatch('note/updateTitle', { note: this.noteLocal })
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- note title-->
-    <NoteTitle></NoteTitle>
+    <NoteTitle :note="note"></NoteTitle>
 
     <v-divider></v-divider>
 
@@ -67,7 +67,6 @@ export default {
       folderVuex: 'folder/folder'
     }),
     note() {
-      console.log(this.$route.params.note)
       return this.noteVuex(this.$route.params.note)
     },
     folder() {
