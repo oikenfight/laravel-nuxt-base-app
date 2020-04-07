@@ -32,12 +32,6 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Tree',
-  data: () => ({
-    selected: {
-      rack: null,
-      folder: null
-    }
-  }),
   computed: {
     ...mapGetters({
       racksAll: 'rack/racksAll', // 全 Racks
@@ -47,9 +41,8 @@ export default {
   methods: {
     ...mapActions({}),
     select(rack, folder) {
-      this.selected.rack = rack
-      this.selected.folder = folder
-      this.$emit('select', rack, folder)
+      this.$store.dispatch('setFolderId', { folderId: folder.id })
+      this.$store.dispatch('setRackId', { rackId: rack.id })
     }
   }
 }

@@ -49,7 +49,7 @@
 
       <!-- Racks/Folders -->
       <v-flex>
-        <Tree @select="selectFolder"></Tree>
+        <Tree></Tree>
       </v-flex>
     </v-navigation-drawer>
 
@@ -87,25 +87,15 @@ export default {
     permanent: true,
     open: ['public'],
     links: ['Home', 'Contacts', 'Settings'],
-    mini: true,
-    rackSelected: {},
-    folderSelected: {}
+    mini: true
   }),
   computed: {
     ...mapGetters({
       notes: 'note/notes' // ノートIDを配列で渡し、ノートを取得
-    }),
-    notesSelectable() {
-      return this.notes(this.folderSelected.noteIds)
-    }
+    })
   },
   methods: {
-    ...mapActions({}),
-    selectFolder(rack, folder) {
-      // Folder をセット（同時に NoteIds もセットされる）
-      this.rackSelected = rack
-      this.folderSelected = folder
-    }
+    ...mapActions({})
   }
 }
 </script>
