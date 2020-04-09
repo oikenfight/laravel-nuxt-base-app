@@ -13,7 +13,7 @@
           <v-menu open-on-hover bottom offset-x right>
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
+                <v-icon small>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
 
@@ -41,10 +41,32 @@
         dense
         @click="select(rack, folder)"
       >
-        <v-list-item-title v-text="folder.name"></v-list-item-title>
-        <v-list-item-icon class="ma-1">
-          <v-icon small v-text="folder.icon" />
+        <v-list-item-icon style="">
+          <v-icon small>mdi-folder</v-icon>
         </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title v-text="folder.name"></v-list-item-title>
+        </v-list-item-content>
+        <v-list-item-action style="margin: 0">
+          <v-menu open-on-hover bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon x-small>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item
+                v-for="(menu, index) in menusFolder"
+                :key="index"
+                dense
+                @click="menu.action"
+              >
+                <v-list-item-title>{{ menu.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item-action>
       </v-list-item>
     </v-list-group>
   </v-list>
