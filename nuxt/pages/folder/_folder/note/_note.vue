@@ -1,12 +1,23 @@
 <template>
-  <v-container>
+  <v-container
+    id="scroll-note"
+    style="max-height: 100%"
+    class="overflow-y-auto"
+  >
     <!-- note title-->
     <NoteTitle :note="note"></NoteTitle>
 
     <v-divider></v-divider>
 
     <!-- note body -->
-    <v-row v-for="itemId in note.itemIds" :key="itemId">
+    <v-row
+      v-for="itemId in note.itemIds"
+      :key="itemId"
+      v-scroll:#scroll-note="onScroll"
+      align="center"
+      justify="center"
+      style="height: 100%"
+    >
       <v-col
         cols="12"
         :class="{ itemSelected: itemIdActive === itemId }"

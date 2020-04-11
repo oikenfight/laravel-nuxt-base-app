@@ -42,7 +42,7 @@
         @click="select(rack, folder)"
       >
         <v-list-item-icon style="">
-          <v-icon small>mdi-folder</v-icon>
+          <v-icon small>folder_open</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title v-text="folder.name"></v-list-item-title>

@@ -1,34 +1,47 @@
 <template>
-  <v-list dense>
+  <v-card height="100%">
     <!-- New Note -->
-    <v-row justify="center">
+    <v-card-title>
       <v-fab-transition v-if="notes(folder.noteIds)">
-        <v-btn
-          color="grey lighten-1"
-          dark
-          small
-          right
-          absolute
-          fab
-          @click="create"
-        >
+        <v-btn color="grey lighten-1" small right absolute fab @click="create">
           <v-icon>mdi-note-plus</v-icon>
         </v-btn>
       </v-fab-transition>
-    </v-row>
+    </v-card-title>
+
+    <v-divider></v-divider>
 
     <!-- Note List -->
-    <v-col v-for="note in notes(folder.noteIds)" :key="note.id" class="">
-      <v-card class="ma-2" outlined light @click="selectNote(note.id)">
-        <v-card-subtitle class="py-0 my-0 mr-0 pr-0">
-          {{ note.name }}
-        </v-card-subtitle>
-        <v-card-text class="text--primary">
-          {{ note.name }}
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-list>
+    <v-layout
+      id="scroll-noteSelectable"
+      class="overflow-y-auto"
+      style="max-height: 100%"
+    >
+      <v-row
+        v-scroll:#scroll-noteSelectable="onScroll"
+        align="top"
+        justify="center"
+      >
+        <v-list>
+          <v-list-item v-for="note in notes(folder.noteIds)" :key="note.id">
+            <v-card
+              class="ma-3"
+              light
+              height="90px"
+              @click="selectNote(note.id)"
+            >
+              <v-card-text class="text-truncate" style="width: 95px">
+                <div class="text-truncate">{{ note.updated_at }}</div>
+                <p class="">
+                  {{ note.name }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-list-item>
+        </v-list>
+      </v-row>
+    </v-layout>
+  </v-card>
 </template>
 
 <script>

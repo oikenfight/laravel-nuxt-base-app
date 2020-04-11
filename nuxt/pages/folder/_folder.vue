@@ -1,13 +1,12 @@
 <template>
-  <v-layout>
-    <div v-if="folder" style="width: 140px">
-      <!-- Notes -->
+  <v-layout fill-height>
+    <v-flex style="width: 140px; height: 75vh;">
       <NotesSelectable :folder="folder"></NotesSelectable>
-    </div>
+    </v-flex>
 
-    <div style="width: 100%">
+    <v-flex style="width: 100%; height: 80vh;">
       <nuxt-child></nuxt-child>
-    </div>
+    </v-flex>
   </v-layout>
 </template>
 
