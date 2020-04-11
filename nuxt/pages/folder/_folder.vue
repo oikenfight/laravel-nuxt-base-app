@@ -4,7 +4,7 @@
       <NotesSelectable :folder="folder"></NotesSelectable>
     </v-flex>
 
-    <v-flex style="width: 100%; height: 80vh;">
+    <v-flex style="width: 100%; height: 75vh;">
       <nuxt-child></nuxt-child>
     </v-flex>
   </v-layout>

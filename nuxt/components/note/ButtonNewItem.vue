@@ -1,7 +1,7 @@
 <template>
-  <v-row justify="center" style="height: 20px; position: relative">
+  <v-row justify="center" style="position: relative">
     <v-fab-transition>
-      <v-btn color="" dark right absolute bottom fab @click="add">
+      <v-btn color="" dark right absolute top fab @click="add">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>

@@ -1,51 +1,52 @@
 <template>
-  <v-container
-    id="scroll-note"
-    style="max-height: 100%"
-    class="overflow-y-auto"
-  >
+  <v-card height="100%">
     <!-- note title-->
-    <NoteTitle :note="note"></NoteTitle>
+    <NoteTitle :note="note" style="height: 90px"></NoteTitle>
 
     <v-divider></v-divider>
 
-    <!-- note body -->
-    <v-row
-      v-for="itemId in note.itemIds"
-      :key="itemId"
-      v-scroll:#scroll-note="onScroll"
-      align="center"
-      justify="center"
-      style="height: 100%"
+    <v-layout
+      id="scroll-note"
+      class="overflow-y-auto"
+      style="max-height: calc(100% - 150px);"
     >
-      <v-col
-        cols="12"
-        :class="{ itemSelected: itemIdActive === itemId }"
-        @mouseenter="itemIdActive = itemId"
-        @mouseleave="itemIdActive = null"
+      <v-row
+        v-scroll:#scroll-note="onScroll"
+        align="top"
+        justify="center"
+        style="width: 100%"
       >
-        <!-- アイテム編集コンポーネント -->
-        <ItemEdit
-          v-if="itemIdEdited === itemId"
-          :item-id="itemIdEdited"
-          @update="updatedItem"
-        ></ItemEdit>
+        <v-col
+          v-for="itemId in note.itemIds"
+          :key="itemId"
+          cols="12"
+          :class="{ itemSelected: itemIdActive === itemId }"
+          @mouseenter="itemIdActive = itemId"
+          @mouseleave="itemIdActive = null"
+        >
+          <!-- アイテム編集コンポーネント -->
+          <ItemEdit
+            v-if="itemIdEdited === itemId"
+            :item-id="itemIdEdited"
+            @update="updatedItem"
+          ></ItemEdit>
 
-        <!-- アイテム表示コンポーネント -->
-        <ItemShow
-          v-else
-          :item-id="itemId"
-          :is-active="itemIdActive === itemId"
-          @edit="editingItem"
-        ></ItemShow>
-      </v-col>
-    </v-row>
+          <!-- アイテム表示コンポーネント -->
+          <ItemShow
+            v-else
+            :item-id="itemId"
+            :is-active="itemIdActive === itemId"
+            @edit="editingItem"
+          ></ItemShow>
+        </v-col>
+      </v-row>
+    </v-layout>
 
     <v-divider></v-divider>
 
     <!-- new item -->
-    <ButtonNewItem @add="addedItem"></ButtonNewItem>
-  </v-container>
+    <ButtonNewItem style="height: 60px;" @add="addedItem"></ButtonNewItem>
+  </v-card>
 </template>
 
 <script>
