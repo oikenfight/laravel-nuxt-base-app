@@ -26,7 +26,6 @@
       mini-variant-width="50"
       :mini-variant.sync="mini"
       permanent
-      width="302"
     >
       <!-- Profile -->
       <v-list-item class="px-2">
@@ -49,19 +48,7 @@
       <v-divider vertical inset class="float-left"></v-divider>
 
       <!-- Racks/Folders -->
-      <v-flex width="125">
-        <Tree @select="selectFolder"></Tree>
-      </v-flex>
-
-      <v-divider vertical inset class="float-left"></v-divider>
-
-      <!-- Notes -->
-      <v-flex>
-        <NotesSelectable
-          :notes="notesSelectable"
-          :folder="folderSelected"
-        ></NotesSelectable>
-      </v-flex>
+      <Tree></Tree>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -87,37 +74,26 @@
 import { mapGetters, mapActions } from 'vuex'
 import AppBarMenu from '@/components/appbar/Menu.vue'
 // import AppBarTabs from '@/components/appbar/Tabs.vue'
-import NotesSelectable from '@/components/navigation/NotesSelectable.vue'
 import SideMenu from '@/components/navigation/SideMenu.vue'
 import Tree from '@/components/navigation/Tree.vue'
 
 export default {
   middleware: 'auth',
-  components: { AppBarMenu, Tree, SideMenu, NotesSelectable },
+  components: { AppBarMenu, Tree, SideMenu },
   data: () => ({
     drawer: null,
     permanent: true,
     open: ['public'],
     links: ['Home', 'Contacts', 'Settings'],
-    mini: true,
-    rackSelected: {},
-    folderSelected: {}
+    mini: true
   }),
   computed: {
     ...mapGetters({
       notes: 'note/notes' // ノートIDを配列で渡し、ノートを取得
-    }),
-    notesSelectable() {
-      return this.notes(this.folderSelected.noteIds)
-    }
+    })
   },
   methods: {
-    ...mapActions({}),
-    selectFolder(rack, folder) {
-      // Folder をセット（同時に NoteIds もセットされる）
-      this.rackSelected = rack
-      this.folderSelected = folder
-    }
+    ...mapActions({})
   }
 }
 </script>

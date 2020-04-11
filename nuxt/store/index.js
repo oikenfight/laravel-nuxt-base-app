@@ -50,31 +50,37 @@ export const actions = {
     }
 
     // トークンからユーザを取得
-    await dispatch('fetchUserByAccessToken', { token }).catch((e) => {
-      // 失敗した場合、ログアウト処理
-      dispatch('logout').catch((e) => {
-        error({ message: e.message, statusCode: e.statusCode })
-      })
-      return Promise.resolve()
-    })
+    const user = await dispatch('fetchUserByAccessToken', { token }).catch(
+      (e) => {
+        // 失敗した場合、ログアウト処理
+        dispatch('logout').catch((e) => {
+          error({ message: e.message, statusCode: e.statusCode })
+        })
+      }
+    )
 
     // 初期データを取得
+    if (user) {
+      await dispatch('dispatchAll')
+    }
+  },
+  async fetchUserByAccessToken({ commit, dispatch }, { token }) {
+    commit('setToken', { token })
+    const data = await this.$axios.$get('/api/user')
+    commit('setUser', { user: data.user })
+    return data.user
+  },
+  async logout({ commit, error }) {
+    await this.$axios.$delete('/api/user/access_token').then((response) => {
+      commit('setToken', { token: null })
+    })
+  },
+  async dispatchAll({ dispatch }) {
     await Promise.all([
       dispatch('rack/fetchAll'),
       dispatch('folder/fetchAll'),
       dispatch('note/fetchAll'),
       dispatch('item/fetchAll')
     ])
-  },
-  async fetchUserByAccessToken({ commit, dispatch }, { token }) {
-    commit('setToken', { token })
-    await this.$axios.$get('/api/user').then((user) => {
-      commit('setUser', { user })
-    })
-  },
-  async logout({ commit, error }) {
-    await this.$axios.$delete('/api/user/access_token').then((response) => {
-      commit('setToken', null)
-    })
   }
 }

@@ -37,7 +37,6 @@ export default {
   },
   mounted() {
     this.item = this.itemVuex(this.itemId)
-    console.log(this.item.body)
   },
   methods: {
     ...mapActions({}),

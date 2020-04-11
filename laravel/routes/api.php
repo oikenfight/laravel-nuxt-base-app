@@ -15,7 +15,9 @@ use App\Http\Controllers\Rack\IndexController;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return response()->json([
+        'user' => $request->user()
+    ]);
 });
 Route::middleware('auth:api')->delete('/user/access_token', function (Request $request) {
     \Log::debug($request->user()->token());

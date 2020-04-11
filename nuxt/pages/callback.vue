@@ -37,6 +37,7 @@ export default {
       console.log(callbackData)
       this.setToken({ token: callbackData.token })
       this.setUser({ user: callbackData.user })
+      await this.$store.dispatch('dispatchAll')
 
       this.$router.push('/')
     } catch (error) {

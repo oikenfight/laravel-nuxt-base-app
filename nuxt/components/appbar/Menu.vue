@@ -27,8 +27,12 @@
 export default {
   name: 'Menu',
   methods: {
-    logout() {
-      this.$store.dispatch('logout')
+    async logout() {
+      try {
+        await this.$store.dispatch('logout')
+      } catch {
+        console.log('logout error !!')
+      }
       window.location.href = '/login'
     }
   }
