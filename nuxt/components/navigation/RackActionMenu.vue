@@ -69,7 +69,7 @@ export default {
       console.log('addRack')
     },
     renameRack() {
-      this.$store.dispatch('rack/rename')
+      this.$emit('rename')
       console.log('renameRack')
     },
     deleteRack() {

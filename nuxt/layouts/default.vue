@@ -48,7 +48,9 @@
       <v-divider vertical inset class="float-left"></v-divider>
 
       <!-- Racks/Folders -->
-      <Tree></Tree>
+      <v-row>
+        <Tree></Tree>
+      </v-row>
     </v-navigation-drawer>
 
     <!-- Application Bar -->

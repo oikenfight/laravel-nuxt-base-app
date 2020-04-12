@@ -2,18 +2,18 @@
   <!-- TODO: そのうちやる。選択中の rack or folder をハイライトする -->
   <!-- ツリーを描画するコンポーネント -->
   <v-list class="">
-    <!-- Tree -->
-    <v-list-group v-for="rack in racksAll" :key="rack.id" sub-group multiple>
-      <!-- Rack -->
-      <template v-slot:activator>
-        <v-list-item-content>
-          <v-list-item-title v-text="rack.name"></v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-action>
+    <v-row v-for="rack in racksAll" :key="rack.id">
+      <v-col cols="12 text-truncate" style="padding: 0 15px; margin-top: 15px;">
+        {{ rack.name }}
+        <span style="float: right">
           <!-- Rack アクションメニュー -->
-          <RackActionMenu :rack="rack"></RackActionMenu>
-        </v-list-item-action>
-      </template>
+          <RackActionMenu @rename="editRack(rack)"></RackActionMenu>
+        </span>
+      </v-col>
+
+      <v-col cols="12" style="margin: 0 20px; padding: 0">
+        <v-divider></v-divider>
+      </v-col>
 
       <!-- Folders（Rackの中身） -->
       <v-list-item
@@ -33,7 +33,7 @@
           <FolderActionMenu :folder="folder"></FolderActionMenu>
         </v-list-item-action>
       </v-list-item>
-    </v-list-group>
+    </v-row>
   </v-list>
 </template>
 
@@ -46,7 +46,9 @@ export default {
   name: 'Tree',
   components: { FolderActionMenu, RackActionMenu },
   data() {
-    return {}
+    return {
+      rackEdited: {}
+    }
   },
   computed: {
     ...mapGetters({
@@ -58,6 +60,15 @@ export default {
     ...mapActions({}),
     select(rack, folder) {
       this.$router.push('/folder/' + folder.id)
+    },
+    isEditing(rack) {
+      return this.rackEdited && this.rackEdited.id === rack.id
+    },
+    editRack(rack) {
+      this.rackEdited = Object.assign({}, rack)
+    },
+    renameRack() {
+      this.$store.dispatch('rack/update', { rack: this.rackEdited })
     }
   }
 }

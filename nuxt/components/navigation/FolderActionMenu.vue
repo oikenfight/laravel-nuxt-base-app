@@ -8,7 +8,7 @@
 
     <v-list>
       <v-list-item
-        v-for="(menu, index) in menusFolder"
+        v-for="(menu, index) in menus"
         :key="index"
         dense
         @click="menu.action"
