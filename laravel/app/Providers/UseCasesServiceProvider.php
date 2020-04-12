@@ -20,6 +20,10 @@ class UseCasesServiceProvider extends ServiceProvider
     public function register()
     {
         // Rack
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface::class,
+            \App\Http\UseCases\Rack\StoreUseCase::class
+        );
 
         // Folder
         $this->app->bind(
