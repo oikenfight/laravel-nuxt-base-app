@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Entities\Contracts\RackInterface;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
+use App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -45,10 +47,11 @@ final class OAuthController extends Controller
     /**
      * 各サイトからのコールバック
      *
-     * @param string $provider サービス名
-     * @return mixed
+     * @param StoreUseCaseInterface $useCase
+     * @param string $provider
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function handleProviderCallback(string $provider)
+    public function handleProviderCallback(StoreUseCaseInterface $useCase, string $provider)
     {
         /** @var User $socialUser */
         $socialUser = Socialite::driver($provider)->stateless()->user();
@@ -62,6 +65,13 @@ final class OAuthController extends Controller
             $user->provider_id = $socialUser->getId();
             $user->provider_name = $provider;
             $user->save();
+
+            // create default rack
+            /** @var RackInterface $rack */
+            $rack = $useCase($user, [
+                'name' => 'sample'
+            ]);
+            // TODO: create default folder
         }
 
         $token = $user->createToken('access_token')->accessToken;
