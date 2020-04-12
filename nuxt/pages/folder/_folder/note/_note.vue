@@ -11,8 +11,8 @@
       style="max-height: calc(100% - 150px);"
     >
       <v-row
-        v-scroll:#scroll-note="onScroll"
-        align="top"
+        v-scroll:#scroll-note=""
+        align="center"
         justify="center"
         style="width: 100%"
       >
