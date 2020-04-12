@@ -25,7 +25,6 @@ final class IndexController extends Controller
         /** @var UserInterface $user */
         $user = $request->user();
 
-        // TODO: UseCase を作成する
         /** @var RackInterface[] $racks */
         $racks = $user->racks;
         foreach ($racks as $key => $rack) {

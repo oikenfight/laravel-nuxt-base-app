@@ -27,16 +27,31 @@ final class UseCasesServiceProviderTest extends TestCase
         /** @var Mockery\Mock|\Illuminate\Contracts\Foundation\Application $app */
         $app = Mockery::mock(\Illuminate\Contracts\Foundation\Application::class);
 
+        // Rack
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Rack\DeleteUseCaseInterface::class,
+            \App\Http\UseCases\Rack\DeleteUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Rack\FindUseCaseInterface::class,
+            \App\Http\UseCases\Rack\FindUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Rack\UpdateUseCaseInterface::class,
+            \App\Http\UseCases\Rack\UpdateUseCase::class
+        );
         $app->shouldReceive('bind')->once()->with(
             \App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface::class,
             \App\Http\UseCases\Rack\StoreUseCase::class
         );
 
+        // Folder
         $app->shouldReceive('bind')->once()->with(
             \App\Http\UseCases\Contracts\Folder\FindUseCaseInterface::class,
             \App\Http\UseCases\Folder\FindUseCase::class
         );
 
+        // Note
         $app->shouldReceive('bind')->once()->with(
             \App\Http\UseCases\Contracts\Note\StoreUseCaseInterface::class,
             \App\Http\UseCases\Note\StoreUseCase::class
