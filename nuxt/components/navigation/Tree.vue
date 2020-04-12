@@ -22,12 +22,15 @@
                 v-for="(menu, index) in menusRack"
                 :key="index"
                 dense
-                @click="menu.action"
+                @click="triggerClick(menu.action)"
               >
-                <v-list-item-title v-if="menu.title">
-                  {{ menu.title }}
-                </v-list-item-title>
-                <v-subheader v-else pl-0 ml-0>{{ menu.target }}</v-subheader>
+                <v-list-item-content>
+                  <v-list-item-title
+                    v-if="menu.title"
+                    v-text="menu.title"
+                  ></v-list-item-title>
+                  <v-subheader v-else pl-0 ml-0>{{ menu.target }}</v-subheader>
+                </v-list-item-content>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -105,7 +108,30 @@ export default {
     select(rack, folder) {
       this.$router.push('/folder/' + folder.id)
     },
+    triggerClick(action) {
+      switch (action) {
+        case 'addRack':
+          this.addRack()
+          break
+        case 'renameRack':
+          this.renameRack()
+          break
+        case 'deleteRack':
+          this.deleteRack()
+          break
+        case 'addFolder':
+          this.addFolder()
+          break
+        case 'renameFolder':
+          this.renameFolder()
+          break
+        case 'deleteFolder':
+          this.deleteFolder()
+          break
+      }
+    },
     addRack() {
+      this.$store.dispatch('rack/create')
       console.log('addRack')
     },
     renameRack() {

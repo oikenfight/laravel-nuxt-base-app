@@ -22,9 +22,11 @@ export const actions = {
     })
     commit('SET_RACKS_ALL', { racks: data.racks })
   },
-  selectRack({ commit }, { rack }) {
-    commit('SET_RACK_ID', rack.id)
-    commit('SET_NOTEIDS_IN_RACK', rack)
+  async create({ commit }) {
+    const data = await this.$axios.$post('/api/rack').catch((error) => {
+      console.log(error)
+    })
+    commit('ADD', { rack: data.rack })
   }
 }
 
@@ -32,7 +34,7 @@ export const mutations = {
   SET_RACKS_ALL(state, { racks }) {
     state.racksAll = racks
   },
-  SET_RACK_ID(state, { rackId }) {
-    state.rackId = rackId
+  ADD(state, { rack }) {
+    state.racksAll.push(rack)
   }
 }
