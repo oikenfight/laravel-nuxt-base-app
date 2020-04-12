@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NotesSelectable from '@/components/navigation/NotesSelectable.vue'
+import NotesSelectable from '@/components/note/NotesSelectable.vue'
 
 export default {
   name: 'Note',
