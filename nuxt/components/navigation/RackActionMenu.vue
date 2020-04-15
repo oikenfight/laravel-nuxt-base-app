@@ -70,7 +70,6 @@ export default {
     },
     renameRack() {
       this.$emit('rename')
-      console.log('renameRack')
     },
     deleteRack() {
       this.$store.dispatch('rack/delete')

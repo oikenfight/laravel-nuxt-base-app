@@ -1,9 +1,23 @@
 <template>
   <!-- TODO: そのうちやる。選択中の rack or folder をハイライトする -->
   <!-- ツリーを描画するコンポーネント -->
-  <v-list class="">
-    <v-row v-for="rack in racksAll" :key="rack.id">
-      <v-col cols="12 text-truncate" style="padding: 0 15px; margin-top: 15px;">
+  <v-list class="" width="100%">
+    <v-row v-for="rack in racksAll" :key="rack.id" style="margin: 0">
+      <v-col v-if="isEditing(rack)">
+        <v-text-field v-model="rackEdited.name" outlined dense>
+          <template v-slot:append>
+            <v-btn class="ma-1" x-small color="" icon @click="renameRack">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
+      </v-col>
+      <v-col
+        v-else
+        cols="12"
+        class="text-truncate"
+        style="padding: 0 15px; margin-top: 15px;"
+      >
         {{ rack.name }}
         <span style="float: right">
           <!-- Rack アクションメニュー -->
@@ -67,8 +81,9 @@ export default {
     editRack(rack) {
       this.rackEdited = Object.assign({}, rack)
     },
-    renameRack() {
-      this.$store.dispatch('rack/update', { rack: this.rackEdited })
+    async renameRack() {
+      await this.$store.dispatch('rack/update', { rack: this.rackEdited })
+      this.rackEdited = {}
     }
   }
 }
