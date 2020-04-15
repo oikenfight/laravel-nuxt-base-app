@@ -65,22 +65,18 @@ final class UpdateUseCaseTest extends TestCase
         $expected = $rack;
 
         $rackId = 100;
-        $inputs = [
+        $rackData = [
             'name' => 'dummy-name'
         ];
 
         /** @var Mockery\Mock|RackRepositoryInterface $repository */
         $repository = Mockery::mock(RackRepositoryInterface::class);
-        $repository->shouldReceive('update')->once()->with($rackId, $inputs)->andReturn($rack);
-
-        /** @var Mockery\Mock|Request $request */
-        $request = Mockery::mock(Request::class);
-        $request->shouldReceive('only')->once()->with([
-            'rack.name',
-        ])->andReturn($inputs);
+        $repository->shouldReceive('update')->once()->with($rackId, [
+            'name' => $rackData['name']
+        ])->andReturn($rack);
 
         $useCase = new UpdateUseCase($repository);
 
-        $this->assertSame($expected, $useCase($rackId, $request));
+        $this->assertSame($expected, $useCase($rackId, $rackData));
     }
 }

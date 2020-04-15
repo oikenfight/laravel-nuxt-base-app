@@ -23,9 +23,9 @@ interface UpdateUseCaseInterface
 
     /**
      * @param int $rackId
-     * @param Request $request
+     * @param array $rackData
      *
      * @return RackInterface
      */
-    public function __invoke(int $rackId, Request $request): RackInterface;
+    public function __invoke(int $rackId, array $rackData): RackInterface;
 }

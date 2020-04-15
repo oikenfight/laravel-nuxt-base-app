@@ -31,17 +31,15 @@ final class UpdateUseCase implements UpdateUseCaseInterface
 
     /**
      * @param int $rackId
-     * @param Request $request
+     * @param array $rackData
      *
      * @return RackInterface
      * @throws \App\Repositories\Exceptions\RackNotFoundException
      */
-    public function __invoke(int $rackId, Request $request): RackInterface
+    public function __invoke(int $rackId, array $rackData): RackInterface
     {
-        $input = $request->only([
-            'rack.name'
+        return $this->repository->update($rackId, [
+            'name' => $rackData['name'],
         ]);
-
-        return $this->repository->update($rackId, $input);
     }
 }

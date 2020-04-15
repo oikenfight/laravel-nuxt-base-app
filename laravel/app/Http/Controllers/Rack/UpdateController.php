@@ -15,7 +15,7 @@ final class UpdateController extends Controller
 {
   public function __invoke(Request $request, UpdateUseCaseInterface $useCase)
   {
-      $rack = $useCase((int) $request->route('Rack'), $request);
+      $rack = $useCase((int) $request->route('Rack'), $request->get('rack'));
 
       return response()->json([
           'rack' => $rack,

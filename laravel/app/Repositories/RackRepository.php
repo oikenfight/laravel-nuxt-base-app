@@ -111,7 +111,6 @@ class RackRepository implements RackRepositoryInterface
         };
 
         $rack->update([
-            'user_id' => array_get($inputs, 'user_id'),
             'name' => array_get($inputs, 'name'),
         ]);
 
