@@ -21,7 +21,10 @@
         {{ rack.name }}
         <span style="float: right">
           <!-- Rack アクションメニュー -->
-          <RackActionMenu @rename="editRack(rack)"></RackActionMenu>
+          <RackActionMenu
+            @renameRack="editRack(rack)"
+            @deleteRack="deleteRack(rack)"
+          ></RackActionMenu>
         </span>
       </v-col>
 
@@ -84,6 +87,9 @@ export default {
     async renameRack() {
       await this.$store.dispatch('rack/update', { rack: this.rackEdited })
       this.rackEdited = {}
+    },
+    async deleteRack(rack) {
+      await this.$store.dispatch('rack/delete', { rack })
     }
   }
 }

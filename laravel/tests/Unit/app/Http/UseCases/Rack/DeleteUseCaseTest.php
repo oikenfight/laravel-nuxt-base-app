@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\app\Http\UseCases\Rack;
 
-use App\Entities\Contracts\RackInterface;
-use App\Entities\Contracts\UserInterface;
 use App\Http\UseCases\Contracts\Rack\DeleteUseCaseInterface;
 use App\Http\UseCases\Rack\DeleteUseCase;
 use App\Repositories\Contracts\RackRepositoryInterface;

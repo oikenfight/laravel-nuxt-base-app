@@ -66,14 +66,12 @@ export default {
     },
     addRack() {
       this.$store.dispatch('rack/create')
-      console.log('addRack')
     },
     renameRack() {
-      this.$emit('rename')
+      this.$emit('renameRack')
     },
     deleteRack() {
-      this.$store.dispatch('rack/delete')
-      console.log('deleteRack')
+      this.$emit('deleteRack')
     },
     addFolder() {
       console.log('addFolder')

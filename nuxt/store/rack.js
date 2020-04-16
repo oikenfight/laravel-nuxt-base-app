@@ -35,6 +35,13 @@ export const actions = {
         console.log(error)
       })
     commit('UPDATE', { rack: data.rack })
+  },
+  async delete({ commit }, { rack }) {
+    console.log(rack)
+    await this.$axios.$delete('/api/rack/' + rack.id).catch((error) => {
+      console.log(error)
+    })
+    commit('DELETE', { rack })
   }
 }
 
@@ -48,5 +55,9 @@ export const mutations = {
   UPDATE(state, { rack }) {
     const index = state.racksAll.findIndex((val) => val.id === rack.id)
     state.racksAll.splice(index, 1, rack) // state.racksAll[index] = rack だと vuex が変更を検知できない
+  },
+  DELETE(state, { rack }) {
+    const index = state.racksAll.findIndex((val) => val.id === rack.id)
+    state.racksAll.splice(index, 1)
   }
 }
