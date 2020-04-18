@@ -18,9 +18,10 @@
       style="max-height: 100%"
     >
       <v-row
-        v-scroll:#scroll-noteSelectable="onScroll"
-        align="top"
+        v-scroll:#scroll-noteSelectable=""
+        align="center"
         justify="center"
+        style="width: 100%"
       >
         <v-list>
           <v-list-item v-for="note in notes(folder.noteIds)" :key="note.id">

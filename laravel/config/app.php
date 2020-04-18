@@ -182,6 +182,7 @@ return [
         App\Providers\RUlesServiceProvider::class,
         App\Providers\UseCasesServiceProvider::class,
         App\Providers\ValidatorsServiceProvider::class,
+        App\Providers\Services\ResponseDataMakerServiceProvider::class,
     ],
 
     /*

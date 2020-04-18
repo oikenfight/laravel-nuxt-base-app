@@ -20,6 +20,22 @@ class UseCasesServiceProvider extends ServiceProvider
     public function register()
     {
         // Rack
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Rack\DeleteUseCaseInterface::class,
+            \App\Http\UseCases\Rack\DeleteUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Rack\FindUseCaseInterface::class,
+            \App\Http\UseCases\Rack\FindUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface::class,
+            \App\Http\UseCases\Rack\StoreUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Rack\UpdateUseCaseInterface::class,
+            \App\Http\UseCases\Rack\UpdateUseCase::class
+        );
 
         // Folder
         $this->app->bind(

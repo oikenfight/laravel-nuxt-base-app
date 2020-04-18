@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Rack;
 
 use App\Entities\Contracts\RackInterface;
 use App\Entities\Contracts\UserInterface;
-use App\Entities\User;
 use App\Http\Controllers\Controller;
+use App\Services\ResponseDataMakers\Contracts\ResponseRacksMakerInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class IndexController
@@ -18,19 +19,20 @@ final class IndexController extends Controller
     /**
      * @param Request $request
      *
+     * @param ResponseRacksMakerInterface $responseMaker
      * @return \Illuminate\Http\JsonResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, ResponseRacksMakerInterface $responseMaker)
     {
         /** @var UserInterface $user */
         $user = $request->user();
 
-        // TODO: UseCase を作成する
         /** @var RackInterface[] $racks */
-        $racks = $user->racks;
-        foreach ($racks as $key => $rack) {
-            $rack['folderIds'] = $rack->folders->pluck('id');
-        }
+        $racks = $user->racks()->get();
+
+        /** @var Collection $racks */
+        $racks = $responseMaker->make($racks);
+
         return response()->json(['racks' => $racks]);
     }
 }
