@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Rack;
 
+use App\Entities\Contracts\RackInterface;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
 use App\Services\ResponseDataMakers\Contracts\ResponseRacksMakerInterface;
@@ -26,9 +27,11 @@ final class IndexController extends Controller
         /** @var UserInterface $user */
         $user = $request->user();
 
-        /** @var Collection $racks */
-        $racks = $responseMaker->make($user->racks);
+        /** @var RackInterface[] $racks */
+        $racks = $user->racks()->get();
 
+        /** @var Collection $racks */
+        $racks = $responseMaker->make($racks);
 
         return response()->json(['racks' => $racks]);
     }
