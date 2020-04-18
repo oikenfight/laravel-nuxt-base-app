@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\app\Services\ResponseDataMakers;
 
-use App\Entities\Contracts\FolderInterface;
 use App\Entities\Contracts\RackInterface;
 use App\Services\ResponseDataMakers\Contracts\ResponseRacksMakerInterface;
 use App\Services\ResponseDataMakers\ResponseDataMaker;
 use App\Services\ResponseDataMakers\ResponseRacksMaker;
-use Faker\Provider\tr_TR\Internet;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Mockery;
 use Tests\Unit\TestCase;
@@ -49,15 +48,17 @@ final class ResponseRacksMakerTest extends TestCase
         $collection = Mockery::mock(Collection::class);
         $collection->shouldReceive('pluck')->with('id')->twice()->andReturn($folderIds);
 
+        /** @var Mockery\Mock|HasMany $hasMany */
+        $hasMany = Mockery::mock(HasMany::class);
+        $hasMany->shouldReceive('get')->with()->twice()->andReturn($collection);
+
         /** @var Mockery\Mock|RackInterface $rack1 */
         $rack1 = Mockery::mock(RackInterface::class);
-        // folders は property_read だけど、テストでは仕方なし
-        $rack1->folders = $collection;
+        $rack1->shouldReceive('folders')->with()->once()->andReturn($hasMany);
 
         /** @var Mockery\Mock|RackInterface $rack2 */
         $rack2 = Mockery::mock(RackInterface::class);
-        // folders は property_read だけど、テストでは仕方なし
-        $rack2->folders = $collection;
+        $rack2->shouldReceive('folders')->with()->once()->andReturn($hasMany);
 
         /** @var Collection|RackInterface[] $inputRacks */
         $inputRacks = collect([$rack1, $rack2]);

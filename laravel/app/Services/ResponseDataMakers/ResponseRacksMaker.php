@@ -20,7 +20,7 @@ final class ResponseRacksMaker extends ResponseDataMaker implements ResponseRack
     public function make(Collection $racks): Collection
     {
         foreach ($racks as $key => $rack) {
-            $rack->folderIds = $rack->folders->pluck('id');
+            $rack->folderIds = $rack->folders()->get()->pluck('id');
         }
         return $racks;
     }
