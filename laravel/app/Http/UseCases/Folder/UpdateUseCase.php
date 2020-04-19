@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace App\Http\UseCases\Folder;
 
 use App\Entities\Contracts\FolderInterface;
-use App\Entities\Contracts\UserInterface;
 use App\Http\UseCases\Contracts\Folder\UpdateUseCaseInterface;
 use App\Repositories\Contracts\FolderRepositoryInterface;
-use Illuminate\Http\Request;
 
 /**
  * Class UpdateUseCase
@@ -30,16 +28,16 @@ final class UpdateUseCase implements UpdateUseCaseInterface
     }
 
     /**
-     * @param int $FolderId
-     * @param array $FolderData
+     * @param int $folderId
+     * @param array $folderData
      *
      * @return FolderInterface
      * @throws \App\Repositories\Exceptions\FolderNotFoundException
      */
-    public function __invoke(int $FolderId, array $FolderData): FolderInterface
+    public function __invoke(int $folderId, array $folderData): FolderInterface
     {
-        return $this->repository->update($FolderId, [
-            'name' => $FolderData['name'],
+        return $this->repository->update($folderId, [
+            'name' => $folderData['name'],
         ]);
     }
 }

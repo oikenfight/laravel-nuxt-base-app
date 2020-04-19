@@ -29,14 +29,14 @@ final class DeleteUseCase implements DeleteUseCaseInterface
     }
 
     /**
-     * @param int $FolderId
+     * @param int $folderId
      * @param Request $request
      *
      * @return FolderInterface
      * @throws \App\Repositories\Exceptions\FolderNotFoundException
      */
-    public function __invoke(int $FolderId): bool
+    public function __invoke(int $folderId): bool
     {
-        return $this->repository->delete($FolderId);
+        return $this->repository->delete($folderId);
     }
 }

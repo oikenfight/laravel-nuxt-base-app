@@ -61,22 +61,22 @@ final class UpdateUseCaseTest extends TestCase
     public function testInvoke()
     {
         /** @var Mockery\Mock|FolderInterface $user */
-        $Folder = Mockery::mock(FolderInterface::class);
-        $expected = $Folder;
+        $folder = Mockery::mock(FolderInterface::class);
+        $expected = $folder;
 
-        $FolderId = 100;
-        $FolderData = [
+        $folderId = 100;
+        $folderData = [
             'name' => 'dummy-name'
         ];
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('update')->once()->with($FolderId, [
-            'name' => $FolderData['name']
-        ])->andReturn($Folder);
+        $repository->shouldReceive('update')->once()->with($folderId, [
+            'name' => $folderData['name']
+        ])->andReturn($folder);
 
         $useCase = new UpdateUseCase($repository);
 
-        $this->assertSame($expected, $useCase($FolderId, $FolderData));
+        $this->assertSame($expected, $useCase($folderId, $folderData));
     }
 }

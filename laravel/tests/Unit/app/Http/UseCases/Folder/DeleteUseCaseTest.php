@@ -59,14 +59,14 @@ final class DeleteUseCaseTest extends TestCase
     public function testInvoke()
     {
         $expected = true;
-        $FolderId = 100;
+        $folderId = 100;
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('delete')->once()->with($FolderId)->andReturn(true);
+        $repository->shouldReceive('delete')->once()->with($folderId)->andReturn(true);
 
         $useCase = new DeleteUseCase($repository);
 
-        $this->assertSame($expected, $useCase($FolderId));
+        $this->assertSame($expected, $useCase($folderId));
     }
 }

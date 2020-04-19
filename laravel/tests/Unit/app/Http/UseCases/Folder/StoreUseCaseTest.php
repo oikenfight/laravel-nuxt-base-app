@@ -60,8 +60,8 @@ final class StoreUseCaseTest extends TestCase
     public function testInvoke()
     {
         /** @var Mockery\Mock|FolderInterface $user */
-        $Folder = Mockery::mock(FolderInterface::class);
-        $expected = $Folder;
+        $folder = Mockery::mock(FolderInterface::class);
+        $expected = $folder;
 
         $userId = 100;
         $paramInput = [
@@ -78,7 +78,7 @@ final class StoreUseCaseTest extends TestCase
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('create')->once()->with($input)->andReturn($Folder);
+        $repository->shouldReceive('create')->once()->with($input)->andReturn($folder);
 
         $useCase = new StoreUseCase($repository);
 
@@ -93,8 +93,8 @@ final class StoreUseCaseTest extends TestCase
     public function testInvokeWithFolderDataIsNone()
     {
         /** @var Mockery\Mock|FolderInterface $user */
-        $Folder = Mockery::mock(FolderInterface::class);
-        $expected = $Folder;
+        $folder = Mockery::mock(FolderInterface::class);
+        $expected = $folder;
 
         $userId = 100;
         $folderData = [
@@ -108,7 +108,7 @@ final class StoreUseCaseTest extends TestCase
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('create')->once()->with($folderData)->andReturn($Folder);
+        $repository->shouldReceive('create')->once()->with($folderData)->andReturn($folder);
 
         $useCase = new StoreUseCase($repository);
 
