@@ -11,5 +11,8 @@ use Tests\Unit\TestCase;
  */
 final class ResponseDataMakerTest extends TestCase
 {
-    //
+    public function testExample()
+    {
+        $this->assertTrue(true);
+    }
 }

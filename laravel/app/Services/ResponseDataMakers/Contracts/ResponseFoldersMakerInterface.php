@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Services\ResponseDataMakers\Contracts;
 
-use App\Entities\Contracts\RackInterface;
+use App\Entities\Contracts\FolderInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Interface ResponseRackMakerInterface
+ * Interface ResponseFolderMakerInterface
  * @package App\Services\ResponseDataMaker\Contracts
  */
-interface ResponseRacksMakerInterface extends ResponseDataMakerInterface
+interface ResponseFoldersMakerInterface extends ResponseDataMakerInterface
 {
     /**
-     * @param Collection|RackInterface[] $racks
+     * @param Collection|FolderInterface[] $racks
      *
      * @return Collection
      */

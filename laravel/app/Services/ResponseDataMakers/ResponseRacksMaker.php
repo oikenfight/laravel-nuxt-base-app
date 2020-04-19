@@ -15,7 +15,7 @@ final class ResponseRacksMaker extends ResponseDataMaker implements ResponseRack
 {
     /**
      * @param Collection|RackInterface[[] $racks
-     * @return array
+     * @return Collection
      */
     public function make(Collection $racks): Collection
     {

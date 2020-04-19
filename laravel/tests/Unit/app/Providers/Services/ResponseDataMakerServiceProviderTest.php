@@ -31,7 +31,10 @@ class ResponseDataMakerServiceProviderTest extends TestCase
             \App\Services\ResponseDataMakers\Contracts\ResponseDataMakerInterface::class,
             \App\Services\ResponseDataMakers\ResponseDataMaker::class
         );
-
+        $app->shouldReceive('bind')->once()->with(
+            \App\Services\ResponseDataMakers\Contracts\ResponseFoldersMakerInterface::class,
+            \App\Services\ResponseDataMakers\ResponseFoldersMaker::class
+        );
         $app->shouldReceive('bind')->once()->with(
             \App\Services\ResponseDataMakers\Contracts\ResponseRacksMakerInterface::class,
             \App\Services\ResponseDataMakers\ResponseRacksMaker::class
