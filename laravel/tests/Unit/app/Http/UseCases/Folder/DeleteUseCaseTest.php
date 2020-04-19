@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace Tests\Unit\app\Http\UseCases\Folder;
 
-use App\Entities\Contracts\FolderInterface;
-use App\Entities\Contracts\UserInterface;
-use App\Http\UseCases\Contracts\Folder\FindUseCaseInterface;
-use App\Http\UseCases\Folder\FindUseCase;
+use App\Http\UseCases\Contracts\Folder\DeleteUseCaseInterface;
+use App\Http\UseCases\Folder\DeleteUseCase;
 use App\Repositories\Contracts\FolderRepositoryInterface;
 use Mockery;
 use Tests\Unit\TestCase;
 
 
 /**
- * Class FindUseCaseTest
+ * Class DeleteUseCaseTest
  *
  * @package Tests\Unit\app\Http\UseCases\Folder
  */
-final class FindUseCaseTest extends TestCase
+final class DeleteUseCaseTest extends TestCase
 {
     /**
      * test instance of
@@ -29,9 +27,9 @@ final class FindUseCaseTest extends TestCase
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new DeleteUseCase($repository);
 
-        $this->assertInstanceOf(FindUseCaseInterface::class, $useCase);
+        $this->assertInstanceOf(DeleteUseCaseInterface::class, $useCase);
     }
 
     /**
@@ -45,7 +43,7 @@ final class FindUseCaseTest extends TestCase
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new DeleteUseCase($repository);
 
         $repositoryRef = $this->getHiddenProperty($useCase, 'repository');
 
@@ -60,18 +58,15 @@ final class FindUseCaseTest extends TestCase
      */
     public function testInvoke()
     {
-        /** @var Mockery\Mock|FolderInterface $user */
-        $folder = Mockery::mock(FolderInterface::class);
-        $expected = $folder;
-
-        $folderId = 100;
+        $expected = true;
+        $FolderId = 100;
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('find')->once()->with($folderId)->andReturn($folder);
+        $repository->shouldReceive('delete')->once()->with($FolderId)->andReturn(true);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new DeleteUseCase($repository);
 
-        $this->assertSame($expected, $useCase($folderId));
+        $this->assertSame($expected, $useCase($FolderId));
     }
 }

@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace Tests\Unit\app\Http\UseCases\Folder;
 
 use App\Entities\Contracts\FolderInterface;
-use App\Entities\Contracts\UserInterface;
-use App\Http\UseCases\Contracts\Folder\FindUseCaseInterface;
-use App\Http\UseCases\Folder\FindUseCase;
+use App\Http\UseCases\Contracts\Folder\UpdateUseCaseInterface;
+use App\Http\UseCases\Folder\UpdateUseCase;
 use App\Repositories\Contracts\FolderRepositoryInterface;
+use Illuminate\Http\Request;
 use Mockery;
 use Tests\Unit\TestCase;
 
 
 /**
- * Class FindUseCaseTest
+ * Class UpdateUseCaseTest
  *
  * @package Tests\Unit\app\Http\UseCases\Folder
  */
-final class FindUseCaseTest extends TestCase
+final class UpdateUseCaseTest extends TestCase
 {
     /**
      * test instance of
@@ -29,9 +29,9 @@ final class FindUseCaseTest extends TestCase
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new UpdateUseCase($repository);
 
-        $this->assertInstanceOf(FindUseCaseInterface::class, $useCase);
+        $this->assertInstanceOf(UpdateUseCaseInterface::class, $useCase);
     }
 
     /**
@@ -45,7 +45,7 @@ final class FindUseCaseTest extends TestCase
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new UpdateUseCase($repository);
 
         $repositoryRef = $this->getHiddenProperty($useCase, 'repository');
 
@@ -61,17 +61,22 @@ final class FindUseCaseTest extends TestCase
     public function testInvoke()
     {
         /** @var Mockery\Mock|FolderInterface $user */
-        $folder = Mockery::mock(FolderInterface::class);
-        $expected = $folder;
+        $Folder = Mockery::mock(FolderInterface::class);
+        $expected = $Folder;
 
-        $folderId = 100;
+        $FolderId = 100;
+        $FolderData = [
+            'name' => 'dummy-name'
+        ];
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('find')->once()->with($folderId)->andReturn($folder);
+        $repository->shouldReceive('update')->once()->with($FolderId, [
+            'name' => $FolderData['name']
+        ])->andReturn($Folder);
 
-        $useCase = new FindUseCase($repository);
+        $useCase = new UpdateUseCase($repository);
 
-        $this->assertSame($expected, $useCase($folderId));
+        $this->assertSame($expected, $useCase($FolderId, $FolderData));
     }
 }
