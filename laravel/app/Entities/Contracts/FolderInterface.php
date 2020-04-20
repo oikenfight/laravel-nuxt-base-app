@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
- * @property-read int|null $notes_count
+ * @property-read array $notes_ids
  * @property-read \App\Entities\Rack $rack
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder newModelQuery()
@@ -34,18 +34,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 interface FolderInterface extends EntityInterface
 {
-  /**
-   * @return BelongsTo|UserInterface
-   */
-  public function user();
+    /**
+     * @return array
+     */
+    public function getNoteIdsAttribute(): array;
 
-  /**
-   * @return BelongsTo|RackInterface
-   */
-  public function rack();
+    /**
+    * @return BelongsTo|UserInterface
+    */
+    public function user();
 
-  /**
-   * @return hasMany|NoteInterface[]
-   */
-  public function notes();
+    /**
+    * @return BelongsTo|RackInterface
+    */
+    public function rack();
+
+    /**
+    * @return hasMany|NoteInterface[]
+    */
+    public function notes();
 }

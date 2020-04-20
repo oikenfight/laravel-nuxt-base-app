@@ -19,7 +19,7 @@ use App\Entities\Contracts\UserInterface;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
- * @property-read int|null $notes_count
+ * @property-read array $notes_ids
  * @property-read \App\Entities\Rack $rack
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder newModelQuery()
@@ -50,36 +50,48 @@ class Folder extends Entity implements FolderInterface
       'user_id',
       'rack_id',
       'name',
-  ];
+    ];
 
-  /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [];
+    /**
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
+    protected $hidden = [];
 
-  /**
-   * The attributes that should be cast to native types.
-   *
-   * @var array
-   */
-  protected $casts = [
-      'user_id' => 'int',
-      'rack_id' => 'int',
-      'name' => 'string',
-  ];
+    /**
+    * The attributes that should be cast to native types.
+    *
+    * @var array
+    */
+    protected $casts = [
+        'user_id' => 'int',
+        'rack_id' => 'int',
+        'name' => 'string',
+    ];
 
-  /**
-   * The attributes that should be mutated to dates.
-   *
-   * @var array
-   */
-  protected $dates = [
-    'created_at',
-    'updated_at',
-//    'deleted_at',
-  ];
+    /**
+    * The attributes that should be mutated to dates.
+    *
+    * @var array
+    */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        //    'deleted_at',
+    ];
+
+    protected $appends = [
+        'note_ids'
+    ];
+
+    /**
+     * @return array
+     */
+    public function getNoteIdsAttribute(): array
+    {
+        return $this->notes()->get()->pluck('id')->toArray();
+    }
 
     /**
      * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
