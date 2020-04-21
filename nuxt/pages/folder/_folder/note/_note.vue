@@ -17,7 +17,7 @@
         style="width: 100%"
       >
         <v-col
-          v-for="itemId in note.itemIds"
+          v-for="itemId in note.item_ids"
           :key="itemId"
           cols="12"
           :class="{ itemSelected: itemIdActive === itemId }"

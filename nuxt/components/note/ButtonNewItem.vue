@@ -24,7 +24,7 @@ export default {
       const noteId = this.$route.params.note
       await this.$store.dispatch('note/addItem', { noteId })
       // 新規追加された item の ID を取得
-      const itemId = this.note.itemIds.slice(-1)[0]
+      const itemId = this.note.item_ids.slice(-1)[0]
       this.$emit('addedItem', { itemId })
     }
   }

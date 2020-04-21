@@ -38,7 +38,7 @@ export default {
         { title: 'Add Folder', action: 'addFolder' },
         { target: 'Rack' },
         { title: 'Add Rack', action: 'addRack' },
-        { title: 'Rename Rack', action: 'renameRack' },
+        { title: 'Rename Rack', action: 'editRack' },
         { title: 'Delete Rack', action: 'deleteRack' }
       ]
     }
@@ -53,8 +53,8 @@ export default {
         case 'addRack':
           this.addRack()
           break
-        case 'renameRack':
-          this.renameRack()
+        case 'editRack':
+          this.editRack()
           break
         case 'deleteRack':
           this.deleteRack()
@@ -67,14 +67,20 @@ export default {
     addRack() {
       this.$store.dispatch('rack/create')
     },
-    renameRack() {
-      this.$emit('renameRack')
+    editRack() {
+      this.$emit('editRack', { rack: this.rack })
     },
-    deleteRack() {
-      this.$emit('deleteRack')
+    async deleteRack() {
+      await this.$store.dispatch('rack/delete', { rack: this.rack })
     },
-    addFolder() {
-      console.log('addFolder')
+    async addFolder() {
+      const folder = await this.$store.dispatch('folder/create', {
+        rack: this.rack
+      })
+      this.$store.dispatch('rack/addFolder', {
+        rack: this.rack,
+        folder
+      })
     }
   }
 }

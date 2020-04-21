@@ -1,24 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Racks;
+namespace Tests\Unit\app\Http\Controllers\Rack;
 
-use App\Entities\Contracts\RackInterface;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Rack\StoreController;
-use App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface;
+use App\Http\Controllers\Rack\DestroyController;
+use App\Http\UseCases\Contracts\Rack\DeleteUseCaseInterface;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Mockery;
 use Tests\Unit\TestCase;
 
 /**
- * Class StoreControllerTest
- *
+ * Class DestroyControllerTest
  * @package Tests\Unit\app\Http\Controllers\Racks
  */
-final class StoreControllerTest extends TestCase
+final class DestroyControllerTest extends TestCase
 {
     /**
      * test instance of.
@@ -27,7 +25,7 @@ final class StoreControllerTest extends TestCase
      */
     public function testInstanceOf()
     {
-        $controller = new StoreController();
+        $controller = new DestroyController();
 
         $this->assertInstanceOf(Controller::class, $controller);
     }
@@ -39,31 +37,27 @@ final class StoreControllerTest extends TestCase
      */
     public function testInvoke()
     {
-        /** @var Mockery\Mock|UserInterface $user */
-        $user = Mockery::mock(UserInterface::class);
-
-        /** @var Mockery\Mock|RackInterface $rack */
-        $rack = Mockery::mock(RackInterface::class);
+        $rackId = 100;
 
         /** @var Mockery\Mock|Request $request */
         $request = Mockery::mock(Request::class);
-        $request->shouldReceive('user')->once()->with()->andReturn($user);
+        $request->shouldReceive('route')->with('Rack')->once()->andReturn($rackId);
 
-        /** @var Mockery\Mock|StoreUseCaseInterface $useCase */
-        $useCase = Mockery::mock(StoreUseCaseInterface::class);
-        $useCase->shouldReceive('__invoke')->with($user)->once()->andReturn($rack);
+        /** @var Mockery\Mock|DeleteUseCaseInterface $useCase */
+        $useCase = Mockery::mock(DeleteUseCaseInterface::class);
+        $useCase->shouldReceive('__invoke')->with($rackId)->once();
 
         /** @var Mockery\Mock|ResponseFactory $responseFactory */
         $responseFactory = Mockery::mock(ResponseFactory::class);
         $responseFactory->shouldReceive('json')->with([
-            'rack' => $rack
+            'result' => 'success'
         ])->once();
 
         app()->bind(ResponseFactory::class, function () use ($responseFactory) {
             return $responseFactory;
         });
 
-        $controller = new StoreController();
+        $controller = new DestroyController();
 
         $controller($request, $useCase);
     }

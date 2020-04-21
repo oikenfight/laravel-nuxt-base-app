@@ -22,16 +22,13 @@ final class IndexController extends Controller
      * @param ResponseRacksMakerInterface $responseMaker
      * @return \Illuminate\Http\JsonResponse
      */
-    public function __invoke(Request $request, ResponseRacksMakerInterface $responseMaker)
+    public function __invoke(Request $request)
     {
         /** @var UserInterface $user */
         $user = $request->user();
 
         /** @var RackInterface[] $racks */
         $racks = $user->racks()->get();
-
-        /** @var Collection $racks */
-        $racks = $responseMaker->make($racks);
 
         return response()->json(['racks' => $racks]);
     }

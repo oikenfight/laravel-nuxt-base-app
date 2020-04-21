@@ -23,6 +23,11 @@ final class ResponseDataMakerServiceProvider extends ServiceProvider
             \App\Services\ResponseDataMakers\Contracts\ResponseDataMakerInterface::class,
             \App\Services\ResponseDataMakers\ResponseDataMaker::class
         );
+        // ResponseFoldersMaker
+        $this->app->bind(
+            \App\Services\ResponseDataMakers\Contracts\ResponseFoldersMakerInterface::class,
+            \App\Services\ResponseDataMakers\ResponseFoldersMaker::class
+        );
         // ResponseRacksMaker
         $this->app->bind(
             \App\Services\ResponseDataMakers\Contracts\ResponseRacksMakerInterface::class,

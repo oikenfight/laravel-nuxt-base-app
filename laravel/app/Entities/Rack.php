@@ -17,7 +17,7 @@ use App\Entities\Contracts\UserInterface;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Folder[] $folders
- * @property-read int|null $folders_count
+ * @property-read array $folder_ids
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Rack newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Rack newQuery()
@@ -45,35 +45,47 @@ class Rack extends Entity implements RackInterface
     protected $fillable = [
       'user_id',
       'name',
-  ];
+    ];
 
-  /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [];
+    /**
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
+    protected $hidden = [];
 
-  /**
-   * The attributes that should be cast to native types.
-   *
-   * @var array
-   */
-  protected $casts = [
-      'user_id' => 'int',
-      'name' => 'string',
-  ];
+    /**
+    * The attributes that should be cast to native types.
+    *
+    * @var array
+    */
+    protected $casts = [
+        'user_id' => 'int',
+        'name' => 'string',
+    ];
 
-  /**
-   * The attributes that should be mutated to dates.
-   *
-   * @var array
-   */
-  protected $dates = [
-    'created_at',
-    'updated_at',
-//    'deleted_at',
-  ];
+    /**
+    * The attributes that should be mutated to dates.
+    *
+    * @var array
+    */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        //    'deleted_at',
+    ];
+
+    protected $appends = [
+        'folder_ids'
+    ];
+
+    /**
+     * @return array
+     */
+    public function getFolderIdsAttribute(): array
+    {
+        return $this->folders()->get()->pluck('id')->toArray();
+    }
 
     /**
      * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo

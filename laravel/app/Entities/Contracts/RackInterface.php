@@ -14,7 +14,7 @@ namespace App\Entities\Contracts;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Folder[] $folders
- * @property-read int|null $folders_count
+ * @property-read array $folder_ids
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Rack newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Rack newQuery()
@@ -28,13 +28,18 @@ namespace App\Entities\Contracts;
  */
 interface RackInterface extends EntityInterface
 {
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface
-   */
-  public function user();
+    /**
+     * @return array
+     */
+    public function getFolderIdsAttribute(): array;
 
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\hasMany|FolderInterface
-   */
-  public function folders();
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface
+    */
+    public function user();
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\hasMany|FolderInterface
+    */
+    public function folders();
 }

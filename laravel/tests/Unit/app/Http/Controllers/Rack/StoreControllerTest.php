@@ -1,18 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Racks;
+namespace Tests\Unit\app\Http\Controllers\Rack;
 
 use App\Entities\Contracts\RackInterface;
+use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Rack\UpdateController;
-use App\Http\UseCases\Contracts\Rack\UpdateUseCaseInterface;
+use App\Http\Controllers\Rack\StoreController;
+use App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Mockery;
 use Tests\Unit\TestCase;
 
-final class UpdateControllerTest extends TestCase
+/**
+ * Class StoreControllerTest
+ *
+ * @package Tests\Unit\app\Http\Controllers\Racks
+ */
+final class StoreControllerTest extends TestCase
 {
     /**
      * test instance of.
@@ -21,7 +27,7 @@ final class UpdateControllerTest extends TestCase
      */
     public function testInstanceOf()
     {
-        $controller = new UpdateController();
+        $controller = new StoreController();
 
         $this->assertInstanceOf(Controller::class, $controller);
     }
@@ -33,20 +39,19 @@ final class UpdateControllerTest extends TestCase
      */
     public function testInvoke()
     {
-        $rackId = 100;
-        $inputData = ['Dummy Rack Data'];
+        /** @var Mockery\Mock|UserInterface $user */
+        $user = Mockery::mock(UserInterface::class);
 
         /** @var Mockery\Mock|RackInterface $rack */
         $rack = Mockery::mock(RackInterface::class);
 
         /** @var Mockery\Mock|Request $request */
         $request = Mockery::mock(Request::class);
-        $request->shouldReceive('route')->with('Rack')->once()->andReturn($rackId);
-        $request->shouldReceive('get')->with('rack')->once()->andReturn($inputData);
+        $request->shouldReceive('user')->once()->with()->andReturn($user);
 
-        /** @var Mockery\Mock|UpdateUseCaseInterface $useCase */
-        $useCase = Mockery::mock(UpdateUseCaseInterface::class);
-        $useCase->shouldReceive('__invoke')->with($rackId, $inputData)->once()->andReturn($rack);
+        /** @var Mockery\Mock|StoreUseCaseInterface $useCase */
+        $useCase = Mockery::mock(StoreUseCaseInterface::class);
+        $useCase->shouldReceive('__invoke')->with($user)->once()->andReturn($rack);
 
         /** @var Mockery\Mock|ResponseFactory $responseFactory */
         $responseFactory = Mockery::mock(ResponseFactory::class);
@@ -58,7 +63,7 @@ final class UpdateControllerTest extends TestCase
             return $responseFactory;
         });
 
-        $controller = new UpdateController();
+        $controller = new StoreController();
 
         $controller($request, $useCase);
     }

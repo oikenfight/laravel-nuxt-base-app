@@ -68,19 +68,18 @@ export const mutations = {
     state.notesAll.push(note)
   },
   UPDATE(state, { note }) {
-    console.log(note)
     const index = state.notesAll.findIndex((val) => val.id === note.id)
     state.notesAll[index] = note
   },
   ADD_ITEM(state, { itemId }) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
-    state.notesAll[index].itemIds.push(itemId)
+    state.notesAll[index].item_ids.push(itemId)
   },
   REMOVE_ITEM(state, { itemId }) {
     const noteIndex = state.notesAll.findIndex(
       (note) => note.id === state.noteId
     )
-    const itemIndex = state.notesAll[noteIndex].itemIds.indexOf(itemId)
-    delete state.notesAll[noteIndex].itemIds[itemIndex]
+    const itemIndex = state.notesAll[noteIndex].item_ids.indexOf(itemId)
+    delete state.notesAll[noteIndex].item_ids[itemIndex]
   }
 }
