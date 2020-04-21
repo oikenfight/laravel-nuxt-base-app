@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Racks;
+namespace Tests\Unit\app\Http\Controllers\Rack;
 
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
@@ -55,10 +55,6 @@ final class IndexControllerTest extends TestCase
         $request = Mockery::mock(Request::class);
         $request->shouldReceive('user')->once()->with()->andReturn($user);
 
-        /** @var Mockery\Mock|ResponseRacksMakerInterface $makerUseCase */
-        $responseMaker = Mockery::mock(ResponseRacksMakerInterface::class);
-        $responseMaker->shouldReceive('make')->with($collection)->once()->andReturn($collection);
-
         /** @var Mockery\Mock|ResponseFactory $responseFactory */
         $responseFactory = Mockery::mock(ResponseFactory::class);
         $responseFactory->shouldReceive('json')->with([
@@ -71,6 +67,6 @@ final class IndexControllerTest extends TestCase
 
         $controller = new IndexController();
 
-        $controller($request, $responseMaker);
+        $controller($request);
     }
 }
