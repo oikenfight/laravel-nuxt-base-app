@@ -2,7 +2,7 @@
   <v-card height="100%">
     <!-- New Note -->
     <v-card-title>
-      <v-fab-transition v-if="notes(folder.noteIds)">
+      <v-fab-transition v-if="notes(folder.note_ids)">
         <v-btn color="grey lighten-1" small right absolute fab @click="create">
           <v-icon>mdi-note-plus</v-icon>
         </v-btn>
@@ -24,7 +24,7 @@
         style="width: 100%"
       >
         <v-list>
-          <v-list-item v-for="note in notes(folder.noteIds)" :key="note.id">
+          <v-list-item v-for="note in notes(folder.note_ids)" :key="note.id">
             <v-card
               class="ma-3"
               light
