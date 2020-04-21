@@ -5,11 +5,11 @@ namespace Tests\Unit\app\Entities;
 
 use App\Entities\Contracts\RackInterface;
 use App\Entities\Folder;
-use App\Entities\Note;
 use App\Entities\Rack;
 use App\Entities\Entity;
 use App\Entities\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mockery;
 use Tests\Unit\TestCase;
 
@@ -140,9 +140,62 @@ final class RackTest extends TestCase
 
         $appendsRef = $this->getHiddenProperty($rack, 'appends');
         $this->assertSame(
-            [],
+            [
+                'folder_ids',
+            ],
             $appendsRef->getValue($rack)
         );
+    }
+
+    /**
+     * test getFolderIdAttribute method
+     *
+     * @return void
+     */
+    public function testGetFolderIdsAttribute()
+    {
+        $arrayFolderIds = ['dummy folder ids'];
+
+        /** @var Mockery\Mock|Collection $collection */
+        $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
+        $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayFolderIds);
+
+        /** @var Mockery\Mock|HasMany $hasMany */
+        $hasMany = Mockery::mock(HasMany::class);
+        $hasMany->shouldReceive('get')->with()->once()->andReturn($collection);
+
+        /** @var Mockery\Mock|Rack $rack */
+        $rack = Mockery::mock(Rack::class)->makePartial();
+        $rack->shouldReceive('folders')->with()->once()->andReturn($hasMany);
+
+        $rack->getFolderIdsAttribute();
+    }
+
+    /**
+     * test folder_ids property
+     *
+     * @return void
+     */
+    public function testFolderIdsProperty()
+    {
+        $arrayFolderIds = ['dummy folder ids'];
+        $expected = $arrayFolderIds;
+
+        /** @var Mockery\Mock|Collection $collection */
+        $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
+        $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayFolderIds);
+
+        /** @var Mockery\Mock|HasMany $hasMany */
+        $hasMany = Mockery::mock(HasMany::class);
+        $hasMany->shouldReceive('get')->with()->once()->andReturn($collection);
+
+        /** @var Mockery\Mock|Rack $rack */
+        $rack = Mockery::mock(Rack::class)->makePartial();
+        $rack->shouldReceive('folders')->with()->once()->andReturn($hasMany);
+
+        $this->assertSame($expected, $rack->folder_ids);
     }
 
     /**

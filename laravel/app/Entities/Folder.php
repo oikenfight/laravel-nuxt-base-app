@@ -19,7 +19,7 @@ use App\Entities\Contracts\UserInterface;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
- * @property-read array $notes_ids
+ * @property-read array $note_ids
  * @property-read \App\Entities\Rack $rack
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Folder newModelQuery()

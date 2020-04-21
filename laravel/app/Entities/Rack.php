@@ -84,7 +84,7 @@ class Rack extends Entity implements RackInterface
      */
     public function getFolderIdsAttribute(): array
     {
-        return $this->folders->pluck('id')->toArray();
+        return $this->folders()->get()->pluck('id')->toArray();
     }
 
     /**
