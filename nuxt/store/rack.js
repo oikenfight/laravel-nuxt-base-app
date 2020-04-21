@@ -37,11 +37,13 @@ export const actions = {
     commit('UPDATE', { rack: data.rack })
   },
   async delete({ commit }, { rack }) {
-    console.log(rack)
     await this.$axios.$delete('/api/rack/' + rack.id).catch((error) => {
       console.log(error)
     })
     commit('DELETE', { rack })
+  },
+  addFolder({ commit }, { rack, folder }) {
+    commit('ADD_FOLDER_ID', { rack, folder })
   }
 }
 
@@ -59,5 +61,8 @@ export const mutations = {
   DELETE(state, { rack }) {
     const index = state.racksAll.findIndex((val) => val.id === rack.id)
     state.racksAll.splice(index, 1)
+  },
+  ADD_FOLDER_ID(state, { rack, folder }) {
+    rack.folder_ids.push(folder.id)
   }
 }

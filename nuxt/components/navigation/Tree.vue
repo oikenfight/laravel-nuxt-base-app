@@ -3,8 +3,8 @@
   <!-- ツリーを描画するコンポーネント -->
   <v-list class="" width="100%">
     <v-row v-for="rack in racksAll" :key="rack.id" style="margin: 0">
-      <v-col v-if="isEditing(rack)">
-        <v-text-field v-model="rackEdited.name" outlined dense>
+      <v-col v-if="isEditingTheRack(rack)">
+        <v-text-field v-model="rackEdited.name" outlined dense hide-details>
           <template v-slot:append>
             <v-btn class="ma-1" x-small color="" icon @click="renameRack">
               <v-icon>mdi-pencil</v-icon>
@@ -16,39 +16,58 @@
         v-else
         cols="12"
         class="text-truncate"
-        style="padding: 0 15px; margin-top: 15px;"
+        style="padding: 0; margin-top: 15px;"
       >
+        <span style="padding: 0 10px;"></span>
         {{ rack.name }}
-        <span style="float: right">
+        <span style="float: right;">
           <!-- Rack アクションメニュー -->
-          <RackActionMenu
-            @renameRack="editRack(rack)"
-            @deleteRack="deleteRack(rack)"
-          ></RackActionMenu>
+          <RackActionMenu :rack="rack" @editRack="editRack"></RackActionMenu>
         </span>
       </v-col>
 
-      <v-col cols="12" style="margin: 0 20px; padding: 0">
+      <v-col cols="12" style="margin: 0 15px; padding: 0">
         <v-divider></v-divider>
       </v-col>
 
       <!-- Folders（Rackの中身） -->
       <v-list-item
-        v-for="folder in folders(rack.folderIds)"
+        v-for="folder in folders(rack.folder_ids)"
         :key="folder.id"
         dense
+        style="padding: 0"
         @click="select(rack, folder)"
       >
-        <v-list-item-icon style="">
-          <v-icon small>folder_open</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title v-text="folder.name"></v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-action style="margin: 0">
-          <!-- Folder アクションメニュー -->
-          <FolderActionMenu :folder="folder"></FolderActionMenu>
-        </v-list-item-action>
+        <!-- if:Edit Text-Field -->
+        <v-col v-if="isEditingTheFolder(folder)">
+          <v-text-field v-model="folderEdited.name" outlined dense hide-details>
+            <template v-slot:append>
+              <v-btn class="ma-1" x-small color="" icon @click="renameFolder">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+          </v-text-field>
+        </v-col>
+        <!-- else:Show Title -->
+        <v-col
+          v-else
+          cols="12"
+          class="text-truncate"
+          style="padding: 0; margin: 0;"
+        >
+          <span style="padding: 0 15px">
+            <v-icon small>folder_open</v-icon>
+          </span>
+          {{ folder.name }}
+          <span style="float: right;">
+            <!-- Rack アクションメニュー -->
+            <FolderActionMenu
+              :rack="rack"
+              :folder="folder"
+              @editFolder="editFolder"
+            ></FolderActionMenu>
+          </span>
+        </v-col>
       </v-list-item>
     </v-row>
   </v-list>
@@ -64,7 +83,8 @@ export default {
   components: { FolderActionMenu, RackActionMenu },
   data() {
     return {
-      rackEdited: {}
+      rackEdited: {},
+      folderEdited: {}
     }
   },
   computed: {
@@ -78,18 +98,25 @@ export default {
     select(rack, folder) {
       this.$router.push('/folder/' + folder.id)
     },
-    isEditing(rack) {
+    isEditingTheRack(rack) {
       return this.rackEdited && this.rackEdited.id === rack.id
     },
-    editRack(rack) {
+    isEditingTheFolder(folder) {
+      return this.folderEdited && this.folderEdited.id === folder.id
+    },
+    editRack({ rack }) {
       this.rackEdited = Object.assign({}, rack)
+    },
+    editFolder({ folder }) {
+      this.folderEdited = Object.assign({}, folder)
     },
     async renameRack() {
       await this.$store.dispatch('rack/update', { rack: this.rackEdited })
       this.rackEdited = {}
     },
-    async deleteRack(rack) {
-      await this.$store.dispatch('rack/delete', { rack })
+    async renameFolder() {
+      await this.$store.dispatch('folder/update', { folder: this.folderEdited })
+      this.folderEdited = {}
     }
   }
 }
