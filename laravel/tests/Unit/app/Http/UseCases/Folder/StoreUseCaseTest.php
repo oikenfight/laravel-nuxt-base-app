@@ -64,25 +64,24 @@ final class StoreUseCaseTest extends TestCase
         $expected = $folder;
 
         $userId = 100;
-        $paramInput = [
-            'name' => 'dummy folder name'
+        $rackId = 100;
+        $name = 'dummy folder name';
+        $folderData = [
+            'name' => $name
         ];
-        $input = [
+        $createData = [
             'user_id' => $userId,
-            'name' => 'dummy folder name'
+            'rack_id' => $rackId,
+            'name' => $name,
         ];
-
-        /** @var Mockery\Mock|UserInterface $user */
-        $user = Mockery::mock(UserInterface::class);
-        $user->id = $userId;
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('create')->once()->with($input)->andReturn($folder);
+        $repository->shouldReceive('create')->once()->with($createData)->andReturn($folder);
 
         $useCase = new StoreUseCase($repository);
 
-        $this->assertSame($expected, $useCase($user, $paramInput));
+        $this->assertSame($expected, $useCase($userId, $rackId, $folderData));
     }
 
     /**
@@ -97,8 +96,10 @@ final class StoreUseCaseTest extends TestCase
         $expected = $folder;
 
         $userId = 100;
-        $folderData = [
+        $rackId = 100;
+        $createData = [
             'user_id' => $userId,
+            'rack_id' => $rackId,
             'name' => null,
         ];
 
@@ -108,10 +109,10 @@ final class StoreUseCaseTest extends TestCase
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('create')->once()->with($folderData)->andReturn($folder);
+        $repository->shouldReceive('create')->once()->with($createData)->andReturn($folder);
 
         $useCase = new StoreUseCase($repository);
 
-        $this->assertSame($expected, $useCase($user));
+        $this->assertSame($expected, $useCase($userId, $rackId));
     }
 }

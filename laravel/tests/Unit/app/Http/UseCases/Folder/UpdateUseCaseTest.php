@@ -7,7 +7,6 @@ use App\Entities\Contracts\FolderInterface;
 use App\Http\UseCases\Contracts\Folder\UpdateUseCaseInterface;
 use App\Http\UseCases\Folder\UpdateUseCase;
 use App\Repositories\Contracts\FolderRepositoryInterface;
-use Illuminate\Http\Request;
 use Mockery;
 use Tests\Unit\TestCase;
 
@@ -65,15 +64,20 @@ final class UpdateUseCaseTest extends TestCase
         $expected = $folder;
 
         $folderId = 100;
+        $rackId = 100;
+        $name = 'dummy folder name';
         $folderData = [
-            'name' => 'dummy-name'
+            'rack_id' => $rackId,
+            'name' => $name,
+        ];
+        $updateData = [
+            'rack_id' => $rackId,
+            'name' => $name,
         ];
 
         /** @var Mockery\Mock|FolderRepositoryInterface $repository */
         $repository = Mockery::mock(FolderRepositoryInterface::class);
-        $repository->shouldReceive('update')->once()->with($folderId, [
-            'name' => $folderData['name']
-        ])->andReturn($folder);
+        $repository->shouldReceive('update')->once()->with($folderId, $updateData)->andReturn($folder);
 
         $useCase = new UpdateUseCase($repository);
 

@@ -37,7 +37,8 @@ final class UpdateUseCase implements UpdateUseCaseInterface
     public function __invoke(int $folderId, array $folderData): FolderInterface
     {
         return $this->repository->update($folderId, [
-            'name' => $folderData['name'],
+            'rack_id' => array_get($folderData, 'rack_id'),
+            'name' => array_get($folderData, 'name'),
         ]);
     }
 }

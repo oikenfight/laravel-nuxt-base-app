@@ -232,12 +232,10 @@ final class FolderRepositoryTest extends TestCase
         // conditions
         $folderId = 999;
         $inputs = [
-            'user_id' => 'dummy user_id',
             'rack_id' => 'dummy rack_id',
             'name' => 'dummy name',
         ];
         $eloquentInputs = [
-            'user_id' => 'dummy user_id',
             'rack_id' => 'dummy rack_id',
             'name' => 'dummy name',
         ];

@@ -230,11 +230,9 @@ final class RackRepositoryTest extends TestCase
         // conditions
         $rackId = 999;
         $inputs = [
-            'user_id' => 'dummy user_id',
             'name' => 'dummy name',
         ];
         $eloquentInputs = [
-            'user_id' => 'dummy user_id',
             'name' => 'dummy name',
         ];
 

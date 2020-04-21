@@ -112,7 +112,6 @@ class FolderRepository implements FolderRepositoryInterface
         };
 
         $folder->update([
-            'user_id' => array_get($inputs, 'user_id'),
             'rack_id' => array_get($inputs, 'rack_id'),
             'name' => array_get($inputs, 'name'),
         ]);

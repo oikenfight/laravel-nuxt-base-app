@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Http\UseCases\Folder;
 
 use App\Entities\Contracts\FolderInterface;
-use App\Entities\Contracts\UserInterface;
 use App\Http\UseCases\Contracts\Folder\StoreUseCaseInterface;
 use App\Repositories\Contracts\FolderRepositoryInterface;
 
@@ -29,15 +28,17 @@ final class StoreUseCase implements StoreUseCaseInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @param int $userId
+     * @param int $rackId
      * @param array $folderData
      *
      * @return FolderInterface
      */
-    public function __invoke(UserInterface $user, array $folderData=[]): FolderInterface
+    public function __invoke(int $userId, int $rackId, array $folderData=[]): FolderInterface
     {
         return $this->repository->create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
+            'rack_id' => $rackId,
             'name' => array_get($folderData, 'name'),
         ]);
     }
