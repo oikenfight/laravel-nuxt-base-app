@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Items;
+namespace Tests\Unit\app\Http\Controllers\Note;
 
 use PHPUnit\Framework\TestCase;
 
-class DestroyControllerTest extends TestCase
+class StoreControllerTest extends TestCase
 {
     /**
      * A basic unit test example.

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Racks;
+namespace Tests\Unit\app\Http\Controllers\Rack;
 
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;

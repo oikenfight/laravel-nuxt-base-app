@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\app\Http\Controllers\Notes;
+namespace Tests\Unit\app\Http\Controllers\Item;
 
 use PHPUnit\Framework\TestCase;
 
