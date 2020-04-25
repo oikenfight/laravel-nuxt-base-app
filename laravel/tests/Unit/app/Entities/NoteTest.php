@@ -7,15 +7,12 @@ use App\Entities\Contracts\NoteInterface;
 use App\Entities\Folder;
 use App\Entities\Item;
 use App\Entities\Note;
-use App\Entities\Rack;
 use App\Entities\Entity;
 use App\Entities\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mockery;
 use Tests\Unit\TestCase;
-
-// use Illuminate\Foundation\Testing\WithFaker;
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Class NoteTest
@@ -143,9 +140,62 @@ final class NoteTest extends TestCase
 
         $appendsRef = $this->getHiddenProperty($note, 'appends');
         $this->assertSame(
-            [],
+            [
+                'item_ids',
+            ],
             $appendsRef->getValue($note)
         );
+    }
+
+    /**
+     * test getItemIdAttribute method
+     *
+     * @return void
+     */
+    public function testGetItemIdsAttribute()
+    {
+        $arrayItemIds = ['dummy item ids'];
+
+        /** @var Mockery\Mock|Collection $collection */
+        $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
+        $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayItemIds);
+
+        /** @var Mockery\Mock|HasMany $hasMany */
+        $hasMany = Mockery::mock(HasMany::class);
+        $hasMany->shouldReceive('get')->with()->once()->andReturn($collection);
+
+        /** @var Mockery\Mock|Note $note */
+        $note = Mockery::mock(Note::class)->makePartial();
+        $note->shouldReceive('items')->with()->once()->andReturn($hasMany);
+
+        $note->getItemIdsAttribute();
+    }
+
+    /**
+     * test item_ids property
+     *
+     * @return void
+     */
+    public function testItemIdsProperty()
+    {
+        $arrayItemIds = ['dummy item ids'];
+        $expected = $arrayItemIds;
+
+        /** @var Mockery\Mock|Collection $collection */
+        $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
+        $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayItemIds);
+
+        /** @var Mockery\Mock|HasMany $hasMany */
+        $hasMany = Mockery::mock(HasMany::class);
+        $hasMany->shouldReceive('get')->with()->once()->andReturn($collection);
+
+        /** @var Mockery\Mock|Note $note */
+        $note = Mockery::mock(Note::class)->makePartial();
+        $note->shouldReceive('items')->with()->once()->andReturn($hasMany);
+
+        $this->assertSame($expected, $note->item_ids);
     }
 
     /**

@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Entities\Folder $folder
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
- * @property-read int|null $items_count
+ * @property-read array $item_ids
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newQuery()
@@ -33,18 +33,23 @@ use Illuminate\Support\Collection;
  */
 interface NoteInterface extends EntityInterface
 {
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface
-   */
-  public function user();
+    /**
+     * @return array
+     */
+    public function getItemIdsAttribute(): array;
 
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|FolderInterface
-   */
-  public function folder();
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|UserInterface
+    */
+    public function user();
 
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\hasMany|Collection|ItemInterface[]
-   */
-  public function items();
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|FolderInterface
+    */
+    public function folder();
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\hasMany|Collection|ItemInterface[]
+    */
+    public function items();
 }

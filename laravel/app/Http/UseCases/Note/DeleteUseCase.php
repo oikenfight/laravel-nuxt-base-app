@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace App\Http\UseCases\Note;
 
 use App\Entities\Contracts\NoteInterface;
-use App\Http\UseCases\Contracts\Note\StoreUseCaseInterface;
+use App\Http\UseCases\Contracts\Note\DeleteUseCaseInterface;
 use App\Repositories\Contracts\NoteRepositoryInterface;
+use Illuminate\Http\Request;
 
 /**
- * Class StoreUseCase
+ * Class DeleteUseCase
  * @package App\Http\UseCases\Note
  */
-final class StoreUseCase implements StoreUseCaseInterface
+final class DeleteUseCase implements DeleteUseCaseInterface
 {
     /**
      * @var NoteRepositoryInterface
@@ -19,7 +20,7 @@ final class StoreUseCase implements StoreUseCaseInterface
     private $repository;
 
     /**
-     * StoreUseCase constructor.
+     * DeleteUseCase constructor.
      * @param NoteRepositoryInterface $repository
      */
     public function __construct(NoteRepositoryInterface $repository)
@@ -28,18 +29,14 @@ final class StoreUseCase implements StoreUseCaseInterface
     }
 
     /**
-     * @param int $userId
-     * @param int $folderId
-     * @param array $noteData
+     * @param int $noteId
+     * @param Request $request
      *
      * @return NoteInterface
+     * @throws \App\Repositories\Exceptions\NoteNotFoundException
      */
-    public function __invoke(int $userId, int $folderId, array $noteData=[]): NoteInterface
+    public function __invoke(int $noteId): bool
     {
-        return $this->repository->create([
-            'user_id' => $userId,
-            'folder_id' => $folderId,
-            'name' => array_get($noteData, 'name'),
-        ]);
+        return $this->repository->delete($noteId);
     }
 }

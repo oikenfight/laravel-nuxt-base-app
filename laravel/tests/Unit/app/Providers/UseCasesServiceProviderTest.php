@@ -65,6 +65,18 @@ final class UseCasesServiceProviderTest extends TestCase
 
         // Note
         $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Note\DeleteUseCaseInterface::class,
+            \App\Http\UseCases\Note\DeleteUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Note\FindUseCaseInterface::class,
+            \App\Http\UseCases\Note\FindUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Note\UpdateUseCaseInterface::class,
+            \App\Http\UseCases\Note\UpdateUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
             \App\Http\UseCases\Contracts\Note\StoreUseCaseInterface::class,
             \App\Http\UseCases\Note\StoreUseCase::class
         );

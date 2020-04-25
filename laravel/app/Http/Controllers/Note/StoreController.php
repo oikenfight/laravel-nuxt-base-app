@@ -3,34 +3,38 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Note;
 
+use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\FolderInterface;
+use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
-use App\Http\UseCases\Folder\FindUseCase;
-use App\Http\UseCases\Note\StoreUseCase;
+use App\Http\UseCases\Contracts\Note\StoreUseCaseInterface;
+use App\Http\UseCases\Contracts\Folder\FindUseCaseInterface;
 use Illuminate\Http\Request;
 
 /**
  * Class StoreController
+ *
  * @package App\Http\Controllers\Note
  */
 final class StoreController extends Controller
 {
     /**
      * @param Request $request
-     * @param StoreUseCase $useCase
-     * @param FindUseCase $findUseCase
+     * @param StoreUseCaseInterface $useCase
+     * @param FindUseCaseInterface $findUseCase
+     *
      * @return \Illuminate\Http\JsonResponse
-     * @throws \App\Repositories\Exceptions\FolderNotFoundException
      */
-    public function __invoke(Request $request, StoreUseCase $useCase, FindUseCase $findUseCase)
+    public function __invoke(Request $request, StoreUseCaseInterface $useCase, FindUseCaseInterface $findUseCase)
     {
-        /** UserInterface $user */
+        /** @var UserInterface $user */
         $user = $request->user();
 
-        /** FolderInterface $folder */
-        $folder = $findUseCase($request->input('folder_id'));
+        /** @var FolderInterface $folder */
+        $folder = $findUseCase((int) $request->get('folderId'));
 
-        /** NoteInterface $note */
-        $note = $useCase($user, $folder);
+        /** @var NoteInterface $note */
+        $note = $useCase($user->id, $folder->id);
 
         return response()->json([
             'note' => $note
