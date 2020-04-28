@@ -5,19 +5,20 @@ namespace App\Http\Controllers\Item;
 
 use App\Entities\Contracts\ItemInterface;
 use App\Entities\Contracts\UserInterface;
-use App\Entities\User;
 use App\Http\Controllers\Controller;
+use App\Services\ResponseDataMakers\Contracts\ResponseItemsMakerInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 /**
  * Class IndexController
+ *
  * @package App\Http\Controllers\Item
  */
 final class IndexController extends Controller
 {
     /**
      * @param Request $request
+     * @param ResponseItemsMakerInterface $responseMaker
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -26,10 +27,8 @@ final class IndexController extends Controller
         /** @var UserInterface $user */
         $user = $request->user();
 
-        // TODO: UseCase 作る
-        /** @var Collection|ItemInterface[] $items */
-        $items = $user->items;
-        $items = $items->keyBy('id')->all();
+        /** @var ItemInterface[] $items */
+        $items = $user->items()->get();
 
         return response()->json(['items' => $items]);
     }
