@@ -1,5 +1,10 @@
 <template>
   <v-card height="100%">
+    <!-- note action buttons -->
+    <v-col cols="12">
+      <ButtonsNoteAction :note="note"></ButtonsNoteAction>
+    </v-col>
+
     <!-- note title-->
     <NoteTitle :note="note" style="height: 90px"></NoteTitle>
 
@@ -55,6 +60,7 @@ import NoteTitle from '@/components/note/Title.vue'
 import ItemEdit from '@/components/note/ItemEdit.vue'
 import ItemShow from '@/components/note/ItemShow.vue'
 import ButtonNewItem from '@/components/note/ButtonNewItem'
+import ButtonsNoteAction from '@/components/note/ButtonsNoteAction'
 
 export default {
   name: 'Note',
@@ -64,7 +70,8 @@ export default {
     NoteTitle,
     ItemEdit,
     ItemShow,
-    ButtonNewItem
+    ButtonNewItem,
+    ButtonsNoteAction
   },
   data() {
     return {
@@ -87,6 +94,9 @@ export default {
   },
   methods: {
     ...mapActions({}),
+    deleteNote() {
+      this.$store.dispatch('note/delete', { note: this.note })
+    },
     addedItem({ item }) {
       this.itemIdEdited = item.id
     },

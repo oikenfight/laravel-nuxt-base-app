@@ -6,7 +6,7 @@
         <v-btn class="ma-1" large color="" icon @click="clearTitle">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-btn class="ma-1" large color="" icon @click="updateTitle">
+        <v-btn class="ma-1" large color="" icon @click="update">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
@@ -38,8 +38,8 @@ export default {
     clearTitle() {
       this.note.name = ''
     },
-    updateTitle() {
-      this.$store.dispatch('note/updateTitle', { note: this.noteLocal })
+    update() {
+      this.$store.dispatch('note/update', { note: this.noteLocal })
     }
   }
 }

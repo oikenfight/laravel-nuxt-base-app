@@ -31,22 +31,29 @@ export const actions = {
     commit('SET_NOTES_ALL', { notes: data.notes })
   },
   async create({ commit }, { folder }) {
-    // crate note
     const data = await this.$axios
-      .$post('/api/note', { folder_id: folder.id })
-      .catch((err) => {
-        console.log(err)
+      .$post('/api/note', { folderId: folder.id })
+      .catch((error) => {
+        console.log(error)
       })
     commit('ADD', { note: data.note })
+    return data.note
   },
-  remove({ commit }, { itemId }) {
-    // TODO: remove item from DB
-    commit('DELETE_ITEM', { itemId })
-    commit('DELETE_ITEM_FROM_NOTE', { itemId })
+  async update({ commit }, { note }) {
+    console.log(note)
+    const data = await this.$axios
+      .$put('/api/note/' + note.id, { note })
+      .catch((error) => {
+        console.log(error)
+      })
+    commit('UPDATE', { note: data.note })
   },
-  updateTitle({ commit }, { note }) {
-    // TODO: update note
-    commit('UPDATE', { note })
+  async delete({ commit }, { note }) {
+    console.log(note)
+    await this.$axios.$delete('/api/note/' + note.id).catch((error) => {
+      console.log(error)
+    })
+    commit('DELETE', { note })
   },
   async addItem({ commit }, { noteId }) {
     // 新規 Item を作成
@@ -69,7 +76,11 @@ export const mutations = {
   },
   UPDATE(state, { note }) {
     const index = state.notesAll.findIndex((val) => val.id === note.id)
-    state.notesAll[index] = note
+    state.notesAll.splice(index, 1, note) // state.racksAll[index] = rack だと vuex が変更を検知できない
+  },
+  DELETE(state, { note }) {
+    const index = state.notesAll.findIndex((val) => val.id === note.id)
+    state.notesAll.splice(index, 1)
   },
   ADD_ITEM(state, { itemId }) {
     const index = state.notesAll.findIndex((note) => note.id === state.noteId)
