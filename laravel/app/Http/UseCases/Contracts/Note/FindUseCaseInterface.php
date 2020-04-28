@@ -4,29 +4,24 @@ declare(strict_types=1);
 namespace App\Http\UseCases\Contracts\Note;
 
 use App\Entities\Contracts\NoteInterface;
-use App\Entities\Contracts\UserInterface;
 use App\Repositories\Contracts\NoteRepositoryInterface;
-use Illuminate\Http\Request;
 
 /**
- * Interface StoreUseCaseInterface
+ * Interface FindUseCaseInterface
  *
  * @package App\Http\UseCases\Contracts\Note
  */
-interface StoreUseCaseInterface
+interface FindUseCaseInterface
 {
     /**
-     * StoreUseCaseInterface constructor.
+     * FindUseCaseInterface constructor.
      * @param NoteRepositoryInterface $repository
      */
     public function __construct(NoteRepositoryInterface $repository);
 
     /**
-     * @param int $userId
-     * @param int $folderId
-     * @param array $noteData
-     *
+     * @param int $noteId
      * @return NoteInterface
      */
-    public function __invoke(int $userId, int $folderId, array $noteData=[]): NoteInterface;
+    public function __invoke(int $noteId): NoteInterface;
 }

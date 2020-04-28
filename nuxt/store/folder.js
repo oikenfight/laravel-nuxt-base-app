@@ -48,6 +48,9 @@ export const actions = {
       console.log(error)
     })
     commit('DELETE', { folder })
+  },
+  addNote({ commit }, { folder, note }) {
+    commit('ADD_NOTE_ID', { folder, note })
   }
 }
 
@@ -65,5 +68,8 @@ export const mutations = {
   DELETE(state, { folder }) {
     const index = state.foldersAll.findIndex((val) => val.id === folder.id)
     state.foldersAll.splice(index, 1)
+  },
+  ADD_NOTE_ID(state, { folder, note }) {
+    folder.note_ids.push(note.id)
   }
 }

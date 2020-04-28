@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Http\UseCases\Note;
 
 use App\Entities\Contracts\NoteInterface;
-use App\Http\UseCases\Contracts\Note\StoreUseCaseInterface;
+use App\Http\UseCases\Contracts\Note\UpdateUseCaseInterface;
 use App\Repositories\Contracts\NoteRepositoryInterface;
 
 /**
- * Class StoreUseCase
+ * Class UpdateUseCase
  * @package App\Http\UseCases\Note
  */
-final class StoreUseCase implements StoreUseCaseInterface
+final class UpdateUseCase implements UpdateUseCaseInterface
 {
     /**
      * @var NoteRepositoryInterface
@@ -19,7 +19,7 @@ final class StoreUseCase implements StoreUseCaseInterface
     private $repository;
 
     /**
-     * StoreUseCase constructor.
+     * UpdateUseCase constructor.
      * @param NoteRepositoryInterface $repository
      */
     public function __construct(NoteRepositoryInterface $repository)
@@ -28,17 +28,16 @@ final class StoreUseCase implements StoreUseCaseInterface
     }
 
     /**
-     * @param int $userId
-     * @param int $folderId
+     * @param int $noteId
      * @param array $noteData
      *
      * @return NoteInterface
+     * @throws \App\Repositories\Exceptions\NoteNotFoundException
      */
-    public function __invoke(int $userId, int $folderId, array $noteData=[]): NoteInterface
+    public function __invoke(int $noteId, array $noteData): NoteInterface
     {
-        return $this->repository->create([
-            'user_id' => $userId,
-            'folder_id' => $folderId,
+        return $this->repository->update($noteId, [
+            'folder_id' => array_get($noteData, 'folder_id'),
             'name' => array_get($noteData, 'name'),
         ]);
     }

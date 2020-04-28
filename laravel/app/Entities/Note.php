@@ -21,7 +21,7 @@ use Illuminate\Support\Collection;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Entities\Folder $folder
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
- * @property-read int|null $items_count
+ * @property-read array $item_ids
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newQuery()
@@ -48,39 +48,51 @@ class Note extends Entity implements NoteInterface
      * @var array
      */
     protected $fillable = [
-      'user_id',
-      'folder_id',
-      'name',
-  ];
+        'user_id',
+        'folder_id',
+        'name',
+    ];
 
-  /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
-  protected $hidden = [];
+    /**
+    * The attributes that should be hidden for arrays.
+    *
+    * @var array
+    */
+    protected $hidden = [];
 
-  /**
-   * The attributes that should be cast to native types.
-   *
-   * @var array
-   */
-  protected $casts = [
-      'user_id' => 'int',
-      'folder_id' => 'int',
-      'name' => 'string',
-  ];
+    /**
+    * The attributes that should be cast to native types.
+    *
+    * @var array
+    */
+    protected $casts = [
+        'user_id' => 'int',
+        'folder_id' => 'int',
+        'name' => 'string',
+    ];
 
-  /**
-   * The attributes that should be mutated to dates.
-   *
-   * @var array
-   */
-  protected $dates = [
-    'created_at',
-    'updated_at',
-//    'deleted_at',
-  ];
+    /**
+    * The attributes that should be mutated to dates.
+    *
+    * @var array
+    */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        // 'deleted_at',
+    ];
+
+    protected $appends = [
+        'item_ids'
+    ];
+
+    /**
+     * @return array
+     */
+    public function getItemIdsAttribute(): array
+    {
+        return $this->items()->get()->pluck('id')->toArray();
+    }
 
     /**
      * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
