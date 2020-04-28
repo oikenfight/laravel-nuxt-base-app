@@ -112,7 +112,6 @@ class NoteRepository implements NoteRepositoryInterface
         };
 
         $note->update([
-            'user_id' => array_get($inputs, 'user_id'),
             'folder_id' => array_get($inputs, 'folder_id'),
             'name' => array_get($inputs, 'name'),
         ]);

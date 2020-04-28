@@ -232,12 +232,10 @@ final class NoteRepositoryTest extends TestCase
         // conditions
         $noteId = 999;
         $inputs = [
-            'user_id' => 'dummy user_id',
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
         ];
         $eloquentInputs = [
-            'user_id' => 'dummy user_id',
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
         ];
