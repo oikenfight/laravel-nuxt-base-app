@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
             $table->bigInteger('note_id')->unsigned();
             $table->foreign('note_id')->references('id')->on('notes');
             $table->string('body')->nullable();
-            $table->integer('order_index')->unsigned();
+            $table->integer('order_index')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
