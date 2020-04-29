@@ -3,10 +3,10 @@
   <div>
     <!-- action buttons -->
     <v-btn-toggle v-if="isActive" class="float-right">
-      <v-btn small @click="edit(item)">
+      <v-btn small @click="editItem(item)">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn small @click="remove(item)">
+      <v-btn small @click="deleteItem(item)">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <v-btn small>
@@ -24,7 +24,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'ItemShow',
-  props: ['itemId', 'isActive'],
+  props: ['note', 'itemId', 'isActive'],
   data() {
     return {
       item: null
@@ -40,12 +40,12 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    edit(item) {
+    editItem(item) {
       this.$emit('edit', { item })
     },
-    remove(item) {
+    deleteItem(item) {
       this.$store.dispatch('item/delete', { item })
-      this.$store.dispatch('note/deleteItem', { item })
+      this.$store.dispatch('note/deleteItem', { note: this.note, item })
     }
   }
 }

@@ -81,6 +81,24 @@ final class UseCasesServiceProviderTest extends TestCase
             \App\Http\UseCases\Note\StoreUseCase::class
         );
 
+        // Item
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Item\DeleteUseCaseInterface::class,
+            \App\Http\UseCases\Item\DeleteUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Item\FindUseCaseInterface::class,
+            \App\Http\UseCases\Item\FindUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Item\UpdateUseCaseInterface::class,
+            \App\Http\UseCases\Item\UpdateUseCase::class
+        );
+        $app->shouldReceive('bind')->once()->with(
+            \App\Http\UseCases\Contracts\Item\StoreUseCaseInterface::class,
+            \App\Http\UseCases\Item\StoreUseCase::class
+        );
+
         $provider = new UseCasesServiceProvider($app);
 
         $provider->register();

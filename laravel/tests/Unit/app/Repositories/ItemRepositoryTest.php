@@ -234,13 +234,11 @@ final class ItemRepositoryTest extends TestCase
         // conditions
         $itemId = 999;
         $inputs = [
-            'user_id' => 'dummy user_id',
             'note_id' => 'dummy note_id',
             'body' => 'dummy body',
             'order_index' => 'dummy order_index',
         ];
         $eloquentInputs = [
-            'user_id' => 'dummy user_id',
             'note_id' => 'dummy note_id',
             'body' => 'dummy body',
             'order_index' => 'dummy order_index',
@@ -276,7 +274,6 @@ final class ItemRepositoryTest extends TestCase
         $itemId = 999;
         $this->expectException(ItemNotFoundException::class);
         $inputs = [
-            'user_id' => 'dummy user_id',
             'note_id' => 'dummy note_id',
             'body' => 'dummy body',
             'order_index' => 'dummy order_index',

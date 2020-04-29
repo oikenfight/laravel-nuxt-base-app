@@ -113,7 +113,6 @@ class ItemRepository implements ItemRepositoryInterface
         };
 
         $item->update([
-            'user_id' => array_get($inputs, 'user_id'),
             'note_id' => array_get($inputs, 'note_id'),
             'body' => array_get($inputs, 'body'),
             'order_index' => array_get($inputs, 'order_index'),

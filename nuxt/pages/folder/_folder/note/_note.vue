@@ -33,12 +33,13 @@
           <ItemEdit
             v-if="itemIdEdited === itemId"
             :item-id="itemIdEdited"
-            @update="updatedItem"
+            @updatedItem="updatedItem"
           ></ItemEdit>
 
           <!-- アイテム表示コンポーネント -->
           <ItemShow
             v-else
+            :note="note"
             :item-id="itemId"
             :is-active="itemIdActive === itemId"
             @edit="editingItem"
@@ -50,7 +51,7 @@
     <v-divider></v-divider>
 
     <!-- new item -->
-    <ButtonNewItem style="height: 60px;" @add="addedItem"></ButtonNewItem>
+    <ButtonNewItem :note="note" style="height: 60px;"></ButtonNewItem>
   </v-card>
 </template>
 
@@ -82,14 +83,17 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user', // ログインユーザ
-      noteVuex: 'note/note',
-      folderVuex: 'folder/folder'
+      folderVuex: 'folder/folder',
+      noteVuex: 'note/note'
     }),
+    folder() {
+      return this.folderVuex(this.$route.params.folder)
+    },
     note() {
       return this.noteVuex(this.$route.params.note)
     },
-    folder() {
-      return this.folderVuex(this.$route.params.folder)
+    item(itemId) {
+      return this.itemVuex(itemId)
     }
   },
   methods: {
