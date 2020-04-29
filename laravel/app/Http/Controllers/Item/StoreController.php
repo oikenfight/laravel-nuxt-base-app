@@ -34,7 +34,7 @@ final class StoreController extends Controller
         $note = $findUseCase((int) $request->get('noteId'));
 
         /** @var ItemInterface $item */
-        $item = $useCase($user->id, $note->id);
+        $item = $useCase($user->id, $note->id, ['body' => '']);
 
         return response()->json([
             'item' => $item

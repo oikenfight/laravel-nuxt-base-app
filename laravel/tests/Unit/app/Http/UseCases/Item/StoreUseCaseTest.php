@@ -65,14 +65,14 @@ final class StoreUseCaseTest extends TestCase
 
         $userId = 100;
         $noteId = 100;
-        $name = 'dummy item name';
+        $body = 'dummy item body';
         $itemData = [
-            'name' => $name
+            'body' => $body
         ];
         $createData = [
             'user_id' => $userId,
             'note_id' => $noteId,
-            'name' => $name,
+            'body' => $body,
         ];
 
         /** @var Mockery\Mock|ItemRepositoryInterface $repository */
@@ -100,7 +100,7 @@ final class StoreUseCaseTest extends TestCase
         $createData = [
             'user_id' => $userId,
             'note_id' => $noteId,
-            'name' => null,
+            'body' => null,
         ];
 
         /** @var Mockery\Mock|UserInterface $user */

@@ -43,6 +43,9 @@ final class StoreControllerTest extends TestCase
     {
         $noteId = 100;
         $userId = 100;
+        $itemData = [
+          'body' => 'dummy body data'
+        ];
 
         /** @var Mockery\Mock|NoteInterface $note */
         $note = Mockery::mock(NoteInterface::class);
@@ -64,7 +67,7 @@ final class StoreControllerTest extends TestCase
 
         /** @var Mockery\Mock|StoreUseCaseInterface $useCase */
         $useCase = Mockery::mock(StoreUseCaseInterface::class);
-        $useCase->shouldReceive('__invoke')->with($userId, $noteId)->once()->andReturn($item);
+        $useCase->shouldReceive('__invoke')->with($userId, $noteId, $itemData)->once()->andReturn($item);
 
         /** @var Mockery\Mock|ResponseFactory $responseFactory */
         $responseFactory = Mockery::mock(ResponseFactory::class);

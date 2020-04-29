@@ -39,7 +39,7 @@ final class StoreUseCase implements StoreUseCaseInterface
         return $this->repository->create([
             'user_id' => $userId,
             'note_id' => $noteId,
-            'name' => array_get($itemData, 'name'),
+            'body' => array_get($itemData, 'body'),
         ]);
     }
 }

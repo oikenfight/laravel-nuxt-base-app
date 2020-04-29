@@ -38,7 +38,7 @@ final class UpdateUseCase implements UpdateUseCaseInterface
     {
         return $this->repository->update($itemId, [
             'note_id' => array_get($itemData, 'note_id'),
-            'name' => array_get($itemData, 'name'),
+            'body' => array_get($itemData, 'body'),
         ]);
     }
 }

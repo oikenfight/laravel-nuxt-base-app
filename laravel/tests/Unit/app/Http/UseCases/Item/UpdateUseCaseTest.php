@@ -65,14 +65,14 @@ final class UpdateUseCaseTest extends TestCase
 
         $itemId = 100;
         $noteId = 100;
-        $name = 'dummy item name';
+        $body = 'dummy item body';
         $itemData = [
             'note_id' => $noteId,
-            'name' => $name,
+            'body' => $body,
         ];
         $updateData = [
             'note_id' => $noteId,
-            'name' => $name,
+            'body' => $body,
         ];
 
         /** @var Mockery\Mock|ItemRepositoryInterface $repository */
