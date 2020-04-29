@@ -1,14 +1,9 @@
 export const state = () => ({
-  // 選択された NoteId
-  noteId: null,
   // 全データ
   notesAll: []
 })
 
 export const getters = {
-  noteId: (state) => {
-    return state.noteId
-  },
   note: (state) => (noteId) => {
     noteId = parseInt(noteId)
     return state.notesAll.find((note) => note.id === noteId)
@@ -55,15 +50,11 @@ export const actions = {
     })
     commit('DELETE', { note })
   },
-  async addItem({ commit }, { noteId }) {
-    // 新規 Item を作成
-    const data = await this.$axios
-      .$post('/api/item', { note_id: noteId })
-      .catch((err) => {
-        console.log(err)
-      })
-    commit('ADD_ITEM', { noteId, item: data.item })
-    commit('UPDATE', { note: data.note })
+  addItem({ commit }, { note, item }) {
+    commit('ADD_ITEM', { note, item })
+  },
+  deleteItem({ commit }, { note, item }) {
+    commit('DELETE_ITEM', { note, item })
   }
 }
 
@@ -82,9 +73,13 @@ export const mutations = {
     const index = state.notesAll.findIndex((val) => val.id === note.id)
     state.notesAll.splice(index, 1)
   },
-  ADD_ITEM(state, { itemId }) {
-    const index = state.notesAll.findIndex((note) => note.id === state.noteId)
-    state.notesAll[index].item_ids.push(itemId)
+  ADD_ITEM(state, { note, item }) {
+    note.item_ids.push(item.id)
+  },
+  DELETE_ITEM(state, { note, item }) {
+    console.log(note)
+    console.log(item)
+    note.item_ids = note.item_ids.filter((id) => id !== item.id)
   },
   REMOVE_ITEM(state, { itemId }) {
     const noteIndex = state.notesAll.findIndex(

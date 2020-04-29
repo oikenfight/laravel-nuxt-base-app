@@ -2,7 +2,7 @@
   <!-- edit -->
   <div>
     <v-textarea
-      v-model="itemEdited.body"
+      v-model="item.body"
       label="item body"
       auto-grow
       outlined
@@ -23,25 +23,25 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'ItemEdit',
-  props: ['itemId'],
+  props: ['note', 'itemId'],
   data() {
     return {
-      itemEdited: {}
+      item: {}
     }
   },
   computed: {
     ...mapGetters({
-      item: 'item/item' // itemId を引数に、Item オブジェクトを取得
+      itemGetter: 'item/item' // itemId を引数に、Item オブジェクトを取得
     })
   },
   mounted() {
-    this.itemEdited = Object.assign({}, this.item(this.itemId))
+    this.item = Object.assign({}, this.itemGetter(this.itemId))
   },
   methods: {
     update() {
-      this.$store.dispatch('item/update', this.itemEdited)
-      this.$emit('update')
-      this.itemEdited = {}
+      this.$store.dispatch('item/update', { item: this.item })
+      this.$emit('updatedItem')
+      this.item = {}
     }
   }
 }

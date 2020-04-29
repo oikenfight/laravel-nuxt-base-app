@@ -8,7 +8,7 @@ export const getters = {
     return state.itemId
   },
   item: (state) => (itemId) => {
-    return state.itemsAll[itemId]
+    return state.itemsAll.find((item) => item.id === itemId)
   }
 }
 
@@ -19,18 +19,28 @@ export const actions = {
     })
     commit('SET_ITEMS_ALL', { items: data.items })
   },
-  create({ commit }) {
-    // TODO 新規アイテム作成
-    // TODO Noteにアイテムを追加
+  async create({ commit }, { note }) {
+    const data = await this.$axios
+      .$post('/api/item', { noteId: note.id })
+      .catch((error) => {
+        console.log(error)
+      })
+    commit('ADD', { item: data.item })
+    return data.item
   },
-  delete({ commit }, { itemId }) {
-    // TODO: delete item from DB
-    commit('DELETE', { itemId })
-    commit('note/REMOVE_ITEM', { itemId })
+  async update({ commit }, { item }) {
+    const data = await this.$axios
+      .$put('/api/item/' + item.id, { item })
+      .catch((error) => {
+        console.log(error)
+      })
+    commit('UPDATE', { item: data.item })
   },
-  update({ commit }, { item }) {
-    // TODO: update item body
-    commit('UPDATE', { item })
+  async delete({ commit }, { item }) {
+    await this.$axios.$delete('/api/item/' + item.id).catch((error) => {
+      console.log(error)
+    })
+    commit('DELETE', { item })
   }
 }
 
@@ -39,12 +49,14 @@ export const mutations = {
     state.itemsAll = items
   },
   ADD(state, { item }) {
-    state.itemsAll[item.id] = ''
+    state.itemsAll.push(item)
   },
   UPDATE(state, { item }) {
-    // TODO 対象item の body を更新
+    const index = state.itemsAll.findIndex((val) => val.id === item.id)
+    state.itemsAll.splice(index, 1, item) // state.racksAll[index] = rack だと vuex が変更を検知できない
   },
-  DELETE(state, { itemId }) {
-    delete state.itemsAll[itemId]
+  DELETE(state, { item }) {
+    const index = state.itemsAll.findIndex((val) => val.id === item.id)
+    state.itemsAll.splice(index, 1)
   }
 }
