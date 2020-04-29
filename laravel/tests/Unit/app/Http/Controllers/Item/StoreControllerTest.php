@@ -44,7 +44,7 @@ final class StoreControllerTest extends TestCase
         $noteId = 100;
         $userId = 100;
         $itemData = [
-          'body' => 'dummy body data'
+          'body' => ''
         ];
 
         /** @var Mockery\Mock|NoteInterface $note */
