@@ -83,4 +83,36 @@ final class UpdateUseCaseTest extends TestCase
 
         $this->assertSame($expected, $useCase($itemId, $itemData));
     }
+
+    /**
+     * test __invoke method
+     *
+     * @return void
+     * @throws \App\Repositories\Exceptions\ItemNotFoundException
+     */
+    public function testInvokeWithNullItemBody()
+    {
+        /** @var Mockery\Mock|ItemInterface $user */
+        $item = Mockery::mock(ItemInterface::class);
+        $expected = $item;
+
+        $itemId = 100;
+        $noteId = 100;
+        $itemData = [
+            'note_id' => $noteId,
+            'body' => null,
+        ];
+        $updateData = [
+            'note_id' => $noteId,
+            'body' => '',
+        ];
+
+        /** @var Mockery\Mock|ItemRepositoryInterface $repository */
+        $repository = Mockery::mock(ItemRepositoryInterface::class);
+        $repository->shouldReceive('update')->once()->with($itemId, $updateData)->andReturn($item);
+
+        $useCase = new UpdateUseCase($repository);
+
+        $this->assertSame($expected, $useCase($itemId, $itemData));
+    }
 }
