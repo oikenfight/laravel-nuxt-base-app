@@ -19,14 +19,15 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    async addItem() {
-      const item = await this.$store.dispatch('item/create', {
-        note: this.note
-      })
-      this.$store.dispatch('note/addItem', {
-        note: this.note,
-        item
-      })
+    addItem() {
+      this.$emit('addItem')
+      // const item = await this.$store.dispatch('item/create', {
+      //   note: this.note
+      // })
+      // this.$store.dispatch('note/addItem', {
+      //   note: this.note,
+      //   item
+      // })
     }
   }
 }

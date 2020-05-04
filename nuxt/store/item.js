@@ -1,12 +1,8 @@
 export const state = () => ({
-  itemId: null,
   itemsAll: []
 })
 
 export const getters = {
-  itemId: (state) => {
-    return state.itemId
-  },
   item: (state) => (itemId) => {
     return state.itemsAll.find((item) => item.id === itemId)
   },

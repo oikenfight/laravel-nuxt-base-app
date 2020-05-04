@@ -30,7 +30,7 @@
         <!--          @mouseleave="itemIdActive = null"-->
         <!--        >-->
         <v-col
-          v-for="item in items(note.item_ids)"
+          v-for="(item, index) in items(note.item_ids)"
           :key="item.id"
           cols="12"
           @click="select(item)"
@@ -53,7 +53,7 @@
               <ItemEdit
                 :item-edited="itemEdited"
                 @updatedItem="updatedItem"
-                @moveNextItem="moveNextItem"
+                @moveNextItem="moveNextItem(index)"
               ></ItemEdit>
             </v-col>
             <!-- item show if this is not selected-->
@@ -92,7 +92,11 @@
     <v-divider></v-divider>
 
     <!-- new item -->
-    <ButtonNewItem :note="note" style="height: 60px;"></ButtonNewItem>
+    <ButtonNewItem
+      :note="note"
+      style="height: 60px;"
+      @addItem="addedItem"
+    ></ButtonNewItem>
   </v-card>
 </template>
 
@@ -126,6 +130,7 @@ export default {
       user: 'user', // ログインユーザ
       folderVuex: 'folder/folder',
       noteVuex: 'note/note',
+      itemVuex: 'item/item',
       items: 'item/items'
     }),
     folder() {
@@ -134,9 +139,6 @@ export default {
     note() {
       return this.noteVuex(this.$route.params.note)
     }
-    // item(itemId) {
-    //   return this.itemVuex(itemId)
-    // }
   },
   mounted() {
     console.log(this.items(this.note.item_ids))
@@ -146,8 +148,15 @@ export default {
     deleteNote() {
       this.$store.dispatch('note/delete', { note: this.note })
     },
-    addedItem({ item }) {
-      this.itemIdEdited = item.id
+    async addedItem() {
+      const item = await this.$store.dispatch('item/create', {
+        note: this.note
+      })
+      this.$store.dispatch('note/addItem', {
+        note: this.note,
+        item
+      })
+      this.itemEdited = item
     },
     editingItem({ item }) {
       this.itemIdEdited = item.id
@@ -155,9 +164,15 @@ export default {
     updatedItem() {
       this.itemEdited = null
     },
-    moveNextItem() {
-      // TODO: 次はここから
-      console.log('here is moveNextItem method')
+    moveNextItem(index) {
+      if (index < this.note.item_ids.length - 1) {
+        // 次の item がある場合、その item の編集に移行
+        const nextItemId = this.note.item_ids[index + 1]
+        this.itemEdited = this.itemVuex(nextItemId)
+      } else {
+        // 一番最後の item の場合、次の item を作成する
+        this.addedItem()
+      }
     },
     select(item) {
       this.itemEdited = item
