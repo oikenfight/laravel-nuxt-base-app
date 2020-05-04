@@ -9,6 +9,11 @@ export const getters = {
   },
   item: (state) => (itemId) => {
     return state.itemsAll.find((item) => item.id === itemId)
+  },
+  items: (state) => (itemIds) => {
+    return itemIds
+      ? state.itemsAll.filter((item) => itemIds.includes(item.id))
+      : {}
   }
 }
 

@@ -104,4 +104,14 @@ export default {
 #keep .v-navigation-drawer__border {
   display: none;
 }
+/* コンポーネントに記載したスタイルが、リロードしたときに反映されないことがある。 */
+/* layout に記述したものは必ず反映されるっぽいので、こっちに記述しとく（詳細わかってない） */
+.v-md-auto-resize .CodeMirror-scroll {
+  overflow: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  outline: none;
+  min-height: 30px !important;
+}
 </style>
