@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/axios.js'],
+  plugins: [
+    'plugins/axios.js',
+    { src: '~/plugins/v-markdown-editor.js', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
