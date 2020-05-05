@@ -5,17 +5,10 @@
       <ButtonsNoteAction :note="note"></ButtonsNoteAction>
     </v-col>
 
-    <!-- note title-->
-    <v-col cols="12">
-      <NoteTitle :noteEdited="note"></NoteTitle>
-    </v-col>
-
-    <v-divider></v-divider>
-
     <v-layout
       id="scroll-note"
       class="overflow-y-auto"
-      style="max-height: calc(100% - 150px); width: 100%"
+      style="max-height: calc(100% - 50px); width: 100%"
     >
       <v-row
         v-scroll:#scroll-note=""
@@ -31,6 +24,15 @@
         <!--          @mouseenter="itemIdActive = itemId"-->
         <!--          @mouseleave="itemIdActive = null"-->
         <!--        >-->
+        <!-- note title-->
+        <v-col cols="12">
+          <NoteTitle :noteEdited="note"></NoteTitle>
+        </v-col>
+
+        <v-col cols="12">
+          <v-divider></v-divider>
+        </v-col>
+
         <v-col
           v-for="(item, index) in items(note.item_ids)"
           :key="item.id"

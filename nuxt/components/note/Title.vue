@@ -74,12 +74,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .textfield-title {
-  margin: 0;
+  margin: -5px 0 0 0;
   padding: 0;
 }
 .v-input input {
-  max-height: 60px;
+  max-height: 60px !important;
+  padding: 0;
 }
 </style>
