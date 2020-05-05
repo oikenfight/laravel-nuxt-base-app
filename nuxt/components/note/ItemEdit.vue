@@ -3,7 +3,7 @@
   <v-row>
     <v-col
       cols="12"
-      class="pa-0"
+      class="px-3"
       @keydown.enter.exact.prevent
       @keyup.enter.exact="update"
       @keydown.enter.shift.exact="newLine($event)"

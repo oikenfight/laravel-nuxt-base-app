@@ -1,10 +1,11 @@
 <template>
   <v-card height="100%">
-    <!-- note action buttons -->
+    <!-- ButtonNoteAction -->
     <v-col cols="12">
       <ButtonsNoteAction :note="note"></ButtonsNoteAction>
     </v-col>
 
+    <!-- Note Body -->
     <v-layout
       id="scroll-note"
       class="overflow-y-auto"
@@ -17,42 +18,33 @@
         style="width: 100%"
         class="ma-0"
       >
-        <!--        <v-col-->
-        <!--          v-for="item in items(note.item_ids)"-->
-        <!--          :key="item.id"-->
-        <!--          cols="12"-->
-        <!--          @mouseenter="itemIdActive = itemId"-->
-        <!--          @mouseleave="itemIdActive = null"-->
-        <!--        >-->
         <!-- note title-->
         <v-col cols="12">
-          <NoteTitle :noteEdited="note"></NoteTitle>
+          <NoteTitle :note-edited="note"></NoteTitle>
         </v-col>
 
+        <!-- divider -->
         <v-col cols="12">
           <v-divider></v-divider>
         </v-col>
 
+        <!-- Display Note Contents -->
         <v-col
           v-for="(item, index) in items(note.item_ids)"
           :key="item.id"
           cols="12"
+          class="pa-0"
           @click="select(item)"
         >
           <v-row>
-            <!-- item menu -->
+            <!-- ButtonItemMenu -->
             <v-col cols="1" class="pa-0">
-              <v-row
-                v-if="shouldShowItemMenu(item)"
-                justify="center"
-                align="end"
-              >
-                <v-btn color="grey lighten-1" x-small fab>
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-row>
+              <ButtonItemMenu
+                :item="item"
+                :shouldShowItemMenu="shouldShowItemMenu"
+              ></ButtonItemMenu>
             </v-col>
-            <!-- item edit if this is selected -->
+            <!-- ItemEdit if this is selected -->
             <v-col v-if="isEditing(item)" cols="10" class="pa-0">
               <ItemEdit
                 :item-edited="itemEdited"
@@ -60,42 +52,21 @@
                 @moveNextItem="moveNextItem(index)"
               ></ItemEdit>
             </v-col>
-            <!-- item show if this is not selected-->
+            <!-- ItemShow if this is not selected-->
             <v-col v-else cols="10" class="pa-0">
-              <ItemShow :item="item"></ItemShow>
+              <ItemShow :item="item" style="min-height: 48px"></ItemShow>
             </v-col>
           </v-row>
         </v-col>
-        <!--        <v-col-->
-        <!--          v-for="itemId in note.item_ids"-->
-        <!--          :key="itemId"-->
-        <!--          cols="12"-->
-        <!--          :class="{ itemSelected: itemIdActive === itemId }"-->
-        <!--          @mouseenter="itemIdActive = itemId"-->
-        <!--          @mouseleave="itemIdActive = null"-->
-        <!--        >-->
-        <!--          &lt;!&ndash; アイテム編集コンポーネント &ndash;&gt;-->
-        <!--          <ItemEdit-->
-        <!--            v-if="itemIdEdited === itemId"-->
-        <!--            :item-id="itemIdEdited"-->
-        <!--            @updatedItem="updatedItem"-->
-        <!--          ></ItemEdit>-->
-
-        <!--          &lt;!&ndash; アイテム表示コンポーネント &ndash;&gt;-->
-        <!--          <ItemShow-->
-        <!--            v-else-->
-        <!--            :note="note"-->
-        <!--            :item-id="itemId"-->
-        <!--            :is-active="itemIdActive === itemId"-->
-        <!--            @edit="editingItem"-->
-        <!--          ></ItemShow>-->
-        <!--        </v-col>-->
       </v-row>
     </v-layout>
 
-    <v-divider></v-divider>
+    <!-- divider -->
+    <v-col cols="12">
+      <v-divider></v-divider>
+    </v-col>
 
-    <!-- new item -->
+    <!-- ButtonNewItem -->
     <ButtonNewItem
       :note="note"
       style="height: 60px;"
@@ -109,6 +80,7 @@ import { mapGetters, mapActions } from 'vuex'
 import NoteTitle from '@/components/note/Title.vue'
 import ItemEdit from '@/components/note/ItemEdit.vue'
 import ItemShow from '@/components/note/ItemShow.vue'
+import ButtonItemMenu from '@/components/note/ButtonItemMenu'
 import ButtonNewItem from '@/components/note/ButtonNewItem'
 import ButtonsNoteAction from '@/components/note/ButtonsNoteAction'
 
@@ -120,6 +92,7 @@ export default {
     ItemEdit,
     ItemShow,
     NoteTitle,
+    ButtonItemMenu,
     ButtonNewItem,
     ButtonsNoteAction
   },
