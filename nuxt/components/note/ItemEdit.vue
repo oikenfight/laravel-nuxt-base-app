@@ -6,7 +6,7 @@
       class="pa-0"
       @keydown.enter.exact.prevent
       @keyup.enter.exact="update"
-      @keydown.enter.shift.exact="newLine"
+      @keydown.enter.shift.exact="newLine($event)"
     >
       <client-only>
         <markdown-editor
@@ -54,9 +54,9 @@ export default {
       this.$emit('moveNextItem')
       this.item = {}
     },
-    newLine() {
-      // 改行処理の例
-      this.item.body = `${this.item.body}\n`
+    newLine(event) {
+      // もともと enter で発生していたイベント
+      event.returnValue = true
     }
   }
 }
