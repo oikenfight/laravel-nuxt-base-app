@@ -6,7 +6,9 @@
     </v-col>
 
     <!-- note title-->
-    <NoteTitle :note="note" style="height: 90px"></NoteTitle>
+    <v-col cols="12">
+      <NoteTitle :noteEdited="note"></NoteTitle>
+    </v-col>
 
     <v-divider></v-divider>
 
