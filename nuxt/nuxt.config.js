@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/axios.js'],
+  plugins: [
+    'plugins/axios.js',
+    { src: '~/plugins/v-markdown-editor.js', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -64,9 +67,20 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
+          default: colors.teal.lighten1,
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        light: {
+          default: colors.teal.lighten1,
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,

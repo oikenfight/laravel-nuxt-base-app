@@ -1,15 +1,13 @@
 <template>
   <v-card height="100%" width="100%">
     <!-- New Note -->
-    <v-card-title>
-      <v-fab-transition v-if="notes(folder.note_ids)">
-        <v-btn color="grey lighten-1" small right absolute fab @click="add">
-          <v-icon>mdi-note-plus</v-icon>
+    <v-row justify="end" align="center" style="height: 50px;">
+      <div style="margin-right: 25px;">
+        <v-btn color="grey" dark small fab class="" @click="add">
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
-      </v-fab-transition>
-    </v-card-title>
-
-    <v-divider></v-divider>
+      </div>
+    </v-row>
 
     <!-- Note List -->
     <v-layout

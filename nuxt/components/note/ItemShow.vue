@@ -1,22 +1,16 @@
 <template>
   <!-- display -->
-  <div>
-    <!-- action buttons -->
-    <v-btn-toggle v-if="isActive" class="float-right">
-      <v-btn small @click="editItem(item)">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn small @click="deleteItem(item)">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-      <v-btn small>
-        <v-icon>mdi-dots-horizontal</v-icon>
-      </v-btn>
-    </v-btn-toggle>
-
-    <!--  markdown show  -->
-    <div v-if="item" class="ma-1" v-html="$md.render(item.body)"></div>
-  </div>
+  <v-row
+    align="center"
+    :class="{ 'grey lighten-5': isActive }"
+    @mouseenter="toggleActive"
+    @mouseleave="toggleActive"
+  >
+    <v-col cols="12" class="pa-3">
+      <!--  markdown show  -->
+      <div v-if="item" style="margin: 0" v-html="$md.render(item.body)"></div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -24,31 +18,32 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'ItemShow',
-  props: ['note', 'itemId', 'isActive'],
+  props: ['item'],
   data() {
     return {
-      item: null
+      isActive: false
     }
   },
   computed: {
-    ...mapGetters({
-      itemVuex: 'item/item'
-    })
-  },
-  mounted() {
-    this.item = this.itemVuex(this.itemId)
+    ...mapGetters({})
   },
   methods: {
     ...mapActions({}),
-    editItem(item) {
-      this.$emit('edit', { item })
-    },
-    deleteItem(item) {
-      this.$store.dispatch('item/delete', { item })
-      this.$store.dispatch('note/deleteItem', { note: this.note, item })
+    toggleActive() {
+      this.isActive = !this.isActive
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.item-active {
+  background-color: #808080;
+}
+</style>
+
+<style>
+.v-application p {
+  margin-bottom: 0 !important;
+}
+</style>

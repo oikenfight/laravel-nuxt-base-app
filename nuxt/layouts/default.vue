@@ -1,28 +1,29 @@
 <template>
   <v-app id="">
-    <v-app-bar color="" dark app>
-      <v-row>
-        <v-col cols class="col-9">
-          <v-toolbar-title>Web Markdown Editor</v-toolbar-title>
-        </v-col>
-        <v-col cols class="col-3">
-          <AppBarMenu></AppBarMenu>
-        </v-col>
-      </v-row>
+    <!--    <v-app-bar app>-->
+    <!--      <v-row>-->
+    <!--        <v-col cols class="col-9">-->
+    <!--          <v-toolbar-title>Web Markdown Editor</v-toolbar-title>-->
+    <!--        </v-col>-->
+    <!--        <v-col cols class="col-3">-->
+    <!--          <AppBarMenu></AppBarMenu>-->
+    <!--        </v-col>-->
+    <!--      </v-row>-->
 
-      <template v-slot:extension>
-        <v-tabs align-with-title>
-          <v-tab>Tab 1</v-tab>
-          <v-tab>Tab 2</v-tab>
-          <v-tab>Tab 3</v-tab>
-        </v-tabs>
-      </template>
-    </v-app-bar>
+    <!--      &lt;!&ndash; タブ機能はそのうち付けたい &ndash;&gt;-->
+    <!--      &lt;!&ndash;      <template v-slot:extension>&ndash;&gt;-->
+    <!--      &lt;!&ndash;        <v-tabs align-with-title>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 1</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 2</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 3</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;        </v-tabs>&ndash;&gt;-->
+    <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+    <!--    </v-app-bar>-->
 
     <!-- Navigation -->
     <v-navigation-drawer
-      dark
       app
+      dark
       mini-variant-width="50"
       :mini-variant.sync="mini"
       permanent
@@ -74,14 +75,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import AppBarMenu from '@/components/appbar/Menu.vue'
+// import AppBarMenu from '@/components/appbar/Menu.vue'
 // import AppBarTabs from '@/components/appbar/Tabs.vue'
 import SideMenu from '@/components/navigation/SideMenu.vue'
 import Tree from '@/components/navigation/Tree.vue'
 
 export default {
   middleware: 'auth',
-  components: { AppBarMenu, Tree, SideMenu },
+  components: { Tree, SideMenu },
   data: () => ({
     drawer: null,
     permanent: true,
@@ -103,5 +104,15 @@ export default {
 <style>
 #keep .v-navigation-drawer__border {
   display: none;
+}
+/* コンポーネントに記載したスタイルが、リロードしたときに反映されないことがある。 */
+/* layout に記述したものは必ず反映されるっぽいので、こっちに記述しとく（詳細わかってない） */
+.v-md-auto-resize .CodeMirror-scroll {
+  overflow: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  outline: none;
+  min-height: 30px !important;
 }
 </style>
