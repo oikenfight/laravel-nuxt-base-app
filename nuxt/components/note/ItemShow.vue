@@ -2,7 +2,7 @@
   <!-- display -->
   <v-row
     align="center"
-    :class="{ 'item-active': isActive }"
+    :class="{ 'grey lighten-5': isActive }"
     @mouseenter="toggleActive"
     @mouseleave="toggleActive"
   >

@@ -1,8 +1,8 @@
 <template>
-  <v-row justify="end">
+  <v-row justify="end" style="margin-right: 30px;">
     <!-- action buttons -->
     <v-item-group>
-      <v-btn small @click="deleteNote" color="red">
+      <v-btn small color="red" dark @click="deleteNote">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <!-- TODO: HTML にエクスポートできるようにする -->

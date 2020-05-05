@@ -2,15 +2,19 @@
   <!-- note name -->
   <v-row align="center" justify="center">
     <!-- タイトル表示 -->
-    <v-col v-if="!isEditing" cols="11" @click="toggleEdit">
-      <div class="display-2">
+    <v-col v-if="!isEditing" cols="12" class="pa-0" @click="toggleEdit">
+      <div v-if="note.name" class="display-1">
         {{ note.name }}
+      </div>
+      <div v-else class="display-1 grey--text">
+        Title
       </div>
     </v-col>
     <!-- タイトル編集中 -->
     <v-col
       v-else
-      cols="11"
+      cols="12"
+      class="pa-0"
       @keydown.enter.exact.prevent
       @keyup.enter.exact="update"
     >
@@ -20,7 +24,7 @@
         single-line
         hide-details
         height="60px"
-        class="display-2 textfield-title"
+        class="display-1 textfield-title"
       >
         <template v-slot:append>
           <v-btn class="ma-1" large color="" icon @click="clearTitle">

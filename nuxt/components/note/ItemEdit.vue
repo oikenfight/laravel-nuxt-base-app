@@ -13,6 +13,7 @@
           v-model="item.body"
           height="auto"
           toolbar=""
+          theme="primary"
           class="v-md-auto-resize"
         ></markdown-editor>
       </client-only>
@@ -62,7 +63,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .v-md-auto-resize .CodeMirror-scroll {
   overflow: auto;
   height: auto;
@@ -70,5 +71,8 @@ export default {
   position: relative;
   outline: none;
   min-height: 30px !important;
+}
+.v-md-container {
+  border: 0;
 }
 </style>

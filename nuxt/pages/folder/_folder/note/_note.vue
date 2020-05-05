@@ -1,30 +1,44 @@
 <template>
   <v-card height="100%">
-    <!-- ButtonNoteAction -->
+    <!-- NoteHeader -->
     <v-col cols="12">
-      <ButtonsNoteAction :note="note"></ButtonsNoteAction>
+      <NoteBar></NoteBar>
+    </v-col>
+
+    <!-- divider -->
+    <v-col cols="12">
+      <v-divider></v-divider>
     </v-col>
 
     <!-- Note Body -->
     <v-layout
       id="scroll-note"
       class="overflow-y-auto"
-      style="max-height: calc(100% - 50px); width: 100%"
+      style="max-height: calc(100% - 89px); width: 100%;"
     >
       <v-row
         v-scroll:#scroll-note=""
         align="center"
         justify="center"
         style="width: 100%"
-        class="ma-0"
+        class="ma-4"
       >
-        <!-- note title-->
-        <v-col cols="12">
-          <NoteTitle :note-edited="note"></NoteTitle>
+        <!-- ButtonNoteAction -->
+        <v-col cols="12" class="pa-0">
+          <ButtonsNoteAction :note="note"></ButtonsNoteAction>
+        </v-col>
+
+        <!-- NoteTitle -->
+        <v-col cols="12" class="pa-0">
+          <v-row justify="center">
+            <v-col cols="10" class="pa-0">
+              <NoteTitle :note-edited="note"></NoteTitle>
+            </v-col>
+          </v-row>
         </v-col>
 
         <!-- divider -->
-        <v-col cols="12">
+        <v-col cols="11" class="px-5">
           <v-divider></v-divider>
         </v-col>
 
@@ -41,7 +55,7 @@
             <v-col cols="1" class="pa-0">
               <ButtonItemMenu
                 :item="item"
-                :shouldShowItemMenu="shouldShowItemMenu"
+                :should-show-item-menu="shouldShowItemMenu"
               ></ButtonItemMenu>
             </v-col>
             <!-- ItemEdit if this is selected -->
@@ -58,25 +72,28 @@
             </v-col>
           </v-row>
         </v-col>
+
+        <!-- divider -->
+        <v-col cols="12">
+          <v-divider></v-divider>
+        </v-col>
+
+        <!-- ButtonNewItem -->
+        <v-col cols="12" class="pa-0">
+          <ButtonNewItem
+            :note="note"
+            style="height: 60px;"
+            @addItem="addedItem"
+          ></ButtonNewItem>
+        </v-col>
       </v-row>
     </v-layout>
-
-    <!-- divider -->
-    <v-col cols="12">
-      <v-divider></v-divider>
-    </v-col>
-
-    <!-- ButtonNewItem -->
-    <ButtonNewItem
-      :note="note"
-      style="height: 60px;"
-      @addItem="addedItem"
-    ></ButtonNewItem>
   </v-card>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import NoteBar from '@/components/note/NoteBar'
 import NoteTitle from '@/components/note/Title.vue'
 import ItemEdit from '@/components/note/ItemEdit.vue'
 import ItemShow from '@/components/note/ItemShow.vue'
@@ -89,6 +106,7 @@ export default {
   layout: 'default',
   middleware: 'auth',
   components: {
+    NoteBar,
     ItemEdit,
     ItemShow,
     NoteTitle,

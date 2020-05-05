@@ -1,10 +1,12 @@
 <template>
   <v-layout fill-height>
-    <v-flex style="width: 140px; height: 75vh;">
+    <!-- scrollable height: ウィンドウの高さ - フッターの高さ -->
+    <v-flex style="width: 140px; height: calc(100vh - 36px);">
       <NotesSelectable :folder="folder"></NotesSelectable>
     </v-flex>
 
-    <v-flex style="width: 100%; height: 75vh;">
+    <!-- scrollable height: ウィンドウの高さ - フッターの高さ -->
+    <v-flex style="width: 100%; height: calc(100vh - 36px);">
       <nuxt-child></nuxt-child>
     </v-flex>
   </v-layout>
