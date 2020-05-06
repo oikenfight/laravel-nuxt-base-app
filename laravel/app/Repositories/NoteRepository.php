@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Entities\Contracts\NoteInterface;
+use App\Entities\Note;
 use App\Repositories\Contracts\NoteRepositoryInterface;
 use App\Repositories\Exceptions\NoteNotFoundException;
 use App\Repositories\Filters\Contracts\FilterInterface;
@@ -75,6 +76,7 @@ class NoteRepository implements NoteRepositoryInterface
             'user_id' => array_get($inputs, 'user_id'),
             'folder_id' => array_get($inputs, 'folder_id'),
             'name' => array_get($inputs, 'name'),
+            'status' => Note::STATUS_DRAFT,
         ]);
         $note->save();
 
@@ -114,6 +116,7 @@ class NoteRepository implements NoteRepositoryInterface
         $note->update([
             'folder_id' => array_get($inputs, 'folder_id'),
             'name' => array_get($inputs, 'name'),
+            'status' => array_get($inputs, 'status'),
         ]);
 
         return $note;

@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  * @property int $user_id
  * @property int $folder_id
  * @property string $name
+ * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at

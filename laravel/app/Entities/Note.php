@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property int $user_id
  * @property int $folder_id
  * @property string $name
+ * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -51,6 +52,7 @@ class Note extends Entity implements NoteInterface
         'user_id',
         'folder_id',
         'name',
+        'status',
     ];
 
     /**
@@ -69,6 +71,7 @@ class Note extends Entity implements NoteInterface
         'user_id' => 'int',
         'folder_id' => 'int',
         'name' => 'string',
+        'status' => 'int'
     ];
 
     /**
@@ -93,6 +96,26 @@ class Note extends Entity implements NoteInterface
     {
         return $this->items()->get()->pluck('id')->toArray();
     }
+
+    /* ------------------------------- status ------------------------------- */
+
+    /**
+     * status draft
+     */
+    const STATUS_DRAFT = 0;
+
+    /**
+     * status release
+     */
+    const STATUS_RELEASE = 1;
+
+    /**
+     * @var array status list
+     */
+    public static $statusList = [
+        self::STATUS_DRAFT,
+        self::STATUS_RELEASE,
+    ];
 
     /**
      * @return UserInterface|\Illuminate\Database\Eloquent\Relations\BelongsTo
