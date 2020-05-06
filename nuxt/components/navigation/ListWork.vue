@@ -86,7 +86,7 @@ import RackActionMenu from '@/components/navigation/RackActionMenu.vue'
 import FolderActionMenu from '@/components/navigation/FolderActionMenu.vue'
 
 export default {
-  name: 'Tree',
+  name: 'ListWork',
   components: { FolderActionMenu, RackActionMenu },
   data() {
     return {

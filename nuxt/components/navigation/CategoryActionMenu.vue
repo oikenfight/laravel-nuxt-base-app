@@ -23,14 +23,16 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'FolderActionMenu',
-  props: ['rack', 'folder'],
+  name: 'CategoryActionMenu',
+  props: {
+    category: Object
+  },
   data() {
     return {
       menus: [
-        { title: 'Add Folder', action: 'addFolder' },
-        { title: 'Rename Folder', action: 'editFolder' },
-        { title: 'Delete Folder', action: 'deleteFolder' }
+        { title: 'Add', action: 'add' },
+        { title: 'Rename', action: 'edit' },
+        { title: 'Delete', action: 'delete' }
       ]
     }
   },
@@ -41,31 +43,25 @@ export default {
     ...mapActions({}),
     triggerClick(action) {
       switch (action) {
-        case 'addFolder':
-          this.addFolder()
+        case 'add':
+          this.add()
           break
-        case 'editFolder':
-          this.editFolder()
+        case 'edit':
+          this.edit()
           break
-        case 'deleteFolder':
-          this.deleteFolder()
+        case 'delete':
+          this.delete()
           break
       }
     },
-    async addFolder() {
-      const folder = await this.$store.dispatch('folder/create', {
-        rack: this.rack
-      })
-      this.$store.dispatch('rack/addFolder', {
-        rack: this.rack,
-        folder
-      })
+    add() {
+      this.$store.dispatch('category/create')
     },
-    editFolder() {
-      this.$emit('editFolder', { folder: this.folder })
+    edit() {
+      this.$emit('edit', { category: this.category })
     },
-    async deleteFolder() {
-      await this.$store.dispatch('folder/delete', { folder: this.folder })
+    delete() {
+      this.$store.dispatch('category/delete', { category: this.category })
     }
   }
 }
