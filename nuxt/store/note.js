@@ -35,7 +35,6 @@ export const actions = {
     return data.note
   },
   async update({ commit }, { note }) {
-    console.log(note)
     const data = await this.$axios
       .$put('/api/note/' + note.id, { note })
       .catch((error) => {
@@ -44,7 +43,6 @@ export const actions = {
     commit('UPDATE', { note: data.note })
   },
   async delete({ commit }, { note }) {
-    console.log(note)
     await this.$axios.$delete('/api/note/' + note.id).catch((error) => {
       console.log(error)
     })
@@ -77,8 +75,6 @@ export const mutations = {
     note.item_ids.push(item.id)
   },
   DELETE_ITEM(state, { note, item }) {
-    console.log(note)
-    console.log(item)
     note.item_ids = note.item_ids.filter((id) => id !== item.id)
   },
   REMOVE_ITEM(state, { itemId }) {

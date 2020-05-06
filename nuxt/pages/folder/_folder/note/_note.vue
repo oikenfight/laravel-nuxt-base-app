@@ -25,7 +25,7 @@
       >
         <!-- ButtonNoteAction -->
         <v-col cols="12" class="pa-0">
-          <ButtonsNoteAction :note="note"></ButtonsNoteAction>
+          <ButtonsNoteAction :note-edited="note"></ButtonsNoteAction>
         </v-col>
 
         <!-- NoteTitle -->
@@ -134,9 +134,6 @@ export default {
     note() {
       return this.noteVuex(this.$route.params.note)
     }
-  },
-  mounted() {
-    console.log(this.items(this.note.item_ids))
   },
   methods: {
     ...mapActions({}),
