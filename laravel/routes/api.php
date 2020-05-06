@@ -66,3 +66,11 @@ Route::group(['prefix' => 'item', 'namespace' => 'Item', 'middleware' => 'auth:a
   Route::put('{Item}', 'UpdateController');
   Route::delete('{Item}', 'DestroyController');
 });
+
+// Category
+Route::group(['prefix' => 'category', 'namespace' => 'Category', 'middleware' => 'auth:api'], function () {
+    Route::get('', 'IndexController');
+    Route::post('', 'StoreController');
+    Route::put('{Category}', 'UpdateController');
+    Route::delete('{Category}', 'DestroyController');
+});
