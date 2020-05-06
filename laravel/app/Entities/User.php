@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
+use App\Entities\Contracts\CategoryInterface;
 use App\Entities\Contracts\FolderInterface;
 use App\Entities\Contracts\ItemInterface;
 use App\Entities\Contracts\NoteInterface;
@@ -28,16 +29,11 @@ use Laravel\Passport\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Folder[] $folders
- * @property-read int|null $folders_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
- * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
- * @property-read int|null $notes_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Rack[] $racks
- * @property-read int|null $racks_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User query()
@@ -129,5 +125,13 @@ class User extends Authenticatable implements UserInterface
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+
+    /**
+     * @return CategoryInterface[]|\Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 }

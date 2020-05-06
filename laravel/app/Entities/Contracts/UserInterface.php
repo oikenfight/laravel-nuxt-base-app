@@ -18,16 +18,11 @@ namespace App\Entities\Contracts;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Folder[] $folders
- * @property-read int|null $folders_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
- * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Note[] $notes
- * @property-read int|null $notes_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Rack[] $racks
- * @property-read int|null $racks_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\User query()
@@ -65,4 +60,9 @@ interface UserInterface extends EntityInterface
    * @return \Illuminate\Database\Eloquent\Relations\hasMany|ItemInterface[]
    */
   public function items();
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany|CategoryInterface[]
+     */
+    public function categories();
 }

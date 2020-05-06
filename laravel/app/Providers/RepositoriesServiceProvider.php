@@ -20,6 +20,10 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
+            \App\Repositories\Contracts\CategoryRepositoryInterface::class,
+            \App\Repositories\CategoryRepository::class
+        );
+        $this->app->bind(
             \App\Repositories\Contracts\FolderRepositoryInterface::class,
             \App\Repositories\FolderRepository::class
         );
