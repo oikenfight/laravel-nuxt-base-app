@@ -44,14 +44,13 @@
       <v-divider></v-divider>
 
       <!-- 一番左のサイドメニュー -->
-      <SideMenu></SideMenu>
+      <SideMenu @toggleMenu="toggleMenu"></SideMenu>
 
       <v-divider vertical inset class="float-left"></v-divider>
 
-      <!-- Racks/Folders -->
-      <v-row>
-        <Tree></Tree>
-      </v-row>
+      <ListSearch v-if="shouldShow('ListSearch')"></ListSearch>
+      <ListWork v-else-if="shouldShow('ListWork')"></ListWork>
+      <ListRelease v-else-if="shouldShow('ListRelease')"></ListRelease>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -78,25 +77,34 @@ import { mapGetters, mapActions } from 'vuex'
 // import AppBarMenu from '@/components/appbar/Menu.vue'
 // import AppBarTabs from '@/components/appbar/Tabs.vue'
 import SideMenu from '@/components/navigation/SideMenu.vue'
-import Tree from '@/components/navigation/Tree.vue'
+import ListSearch from '@/components/navigation/ListSearch.vue'
+import ListWork from '@/components/navigation/ListWork.vue'
+import ListRelease from '@/components/navigation/ListRelease.vue'
 
 export default {
   middleware: 'auth',
-  components: { Tree, SideMenu },
+  components: { SideMenu, ListSearch, ListWork, ListRelease },
   data: () => ({
-    drawer: null,
-    permanent: true,
-    open: ['public'],
-    links: ['Home', 'Contacts', 'Settings'],
-    mini: true
+    mini: true,
+    menuTogglable: {
+      ListSearch: false,
+      ListWork: true,
+      ListRelease: false
+    }
   }),
   computed: {
-    ...mapGetters({
-      notes: 'note/notes' // ノートIDを配列で渡し、ノートを取得
-    })
+    ...mapGetters({})
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    toggleMenu({ menuName }) {
+      Object.keys(this.menuTogglable).forEach((key) => {
+        this.menuTogglable[key] = key === menuName
+      })
+    },
+    shouldShow(menuName) {
+      return this.menuTogglable[menuName]
+    }
   }
 }
 </script>
