@@ -40,6 +40,7 @@ final class UpdateUseCase implements UpdateUseCaseInterface
             'folder_id' => array_get($noteData, 'folder_id'),
             'name' => array_get($noteData, 'name'),
             'status' => array_get($noteData, 'status'),
+            'category_id' => array_get($noteData, 'category_id'),
         ]);
     }
 }

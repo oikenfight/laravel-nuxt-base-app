@@ -65,6 +65,7 @@ final class NoteTest extends TestCase
                 'folder_id',
                 'name',
                 'status',
+                'category_id'
             ],
             $fillableRef->getValue($note)
         );

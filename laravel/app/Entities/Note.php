@@ -53,6 +53,7 @@ class Note extends Entity implements NoteInterface
         'folder_id',
         'name',
         'status',
+        'category_id'
     ];
 
     /**

@@ -65,17 +65,20 @@ final class UpdateUseCaseTest extends TestCase
 
         $noteId = 100;
         $folderId = 100;
+        $categoryId = 100;
         $name = 'dummy note name';
         $status = 'dummy note status';
         $noteData = [
             'folder_id' => $folderId,
             'name' => $name,
-            'status' => $status
+            'status' => $status,
+            'category_id' => $categoryId,
         ];
         $updateData = [
             'folder_id' => $folderId,
             'name' => $name,
-            'status' => $status
+            'status' => $status,
+            'category_id' => $categoryId,
         ];
 
         /** @var Mockery\Mock|NoteRepositoryInterface $repository */

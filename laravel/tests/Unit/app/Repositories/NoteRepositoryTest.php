@@ -142,12 +142,14 @@ final class NoteRepositoryTest extends TestCase
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
             'status' => 'dummy status',
+            'category_id' => 'dummy category_id',
         ];
         $eloquentInputs = [
             'user_id' => 'dummy user_id',
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
             'status' => 'dummy status',
+            'category_id' => 'dummy category_id',
         ];
 
         /** @var Mockery\Mock|NoteInterface $createdNote */
@@ -237,11 +239,13 @@ final class NoteRepositoryTest extends TestCase
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
             'status' => 'dummy status',
+            'category_id' => 'dummy category_id',
         ];
         $eloquentInputs = [
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
             'status' => 'dummy status',
+            'category_id' => 'dummy category_id',
         ];
 
         /** @var Mockery\Mock|NoteInterface $updatedNote */
@@ -278,6 +282,7 @@ final class NoteRepositoryTest extends TestCase
             'folder_id' => 'dummy folder_id',
             'name' => 'dummy name',
             'status' => 'dummy status',
+            'category_id' => 'dummy category_id',
         ];
 
         /** @var Mockery\Mock|NoteInterface $updatedNote */

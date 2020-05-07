@@ -77,6 +77,7 @@ class NoteRepository implements NoteRepositoryInterface
             'folder_id' => array_get($inputs, 'folder_id'),
             'name' => array_get($inputs, 'name'),
             'status' => Note::STATUS_DRAFT,
+            'category_id' => array_get($inputs, 'category_id'),
         ]);
         $note->save();
 
@@ -113,10 +114,13 @@ class NoteRepository implements NoteRepositoryInterface
             throw new NoteNotFoundException('Note '.$noteId.' not found.');
         };
 
+        \Log::debug($inputs);
+
         $note->update([
             'folder_id' => array_get($inputs, 'folder_id'),
             'name' => array_get($inputs, 'name'),
             'status' => array_get($inputs, 'status'),
+            'category_id' => array_get($inputs, 'category_id'),
         ]);
 
         return $note;
