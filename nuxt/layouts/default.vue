@@ -1,13 +1,32 @@
 <template>
   <v-app id="">
+    <!--    <v-app-bar app>-->
+    <!--      <v-row>-->
+    <!--        <v-col cols class="col-9">-->
+    <!--          <v-toolbar-title>Web Markdown Editor</v-toolbar-title>-->
+    <!--        </v-col>-->
+    <!--        <v-col cols class="col-3">-->
+    <!--          <AppBarMenu></AppBarMenu>-->
+    <!--        </v-col>-->
+    <!--      </v-row>-->
+
+    <!--      &lt;!&ndash; タブ機能はそのうち付けたい &ndash;&gt;-->
+    <!--      &lt;!&ndash;      <template v-slot:extension>&ndash;&gt;-->
+    <!--      &lt;!&ndash;        <v-tabs align-with-title>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 1</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 2</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;          <v-tab>Tab 3</v-tab>&ndash;&gt;-->
+    <!--      &lt;!&ndash;        </v-tabs>&ndash;&gt;-->
+    <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
+    <!--    </v-app-bar>-->
+
     <!-- Navigation -->
     <v-navigation-drawer
-      dark
       app
+      dark
       mini-variant-width="50"
       :mini-variant.sync="mini"
       permanent
-      width="302"
     >
       <!-- Profile -->
       <v-list-item class="px-2">
@@ -15,6 +34,8 @@
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
         <v-list-item-title>Yuta Oikawa</v-list-item-title>
+
+        <!-- ナビゲーションバー閉じるボタン -->
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -22,83 +43,14 @@
 
       <v-divider></v-divider>
 
-      <!-- Side Menu（固定） -->
-      <v-list dense width="50" class="fill-height float-left">
-        <v-list-item-group>
-          <v-list-item v-for="menu in menues" :key="menu.title">
-            <v-list-item-icon>
-              <v-icon v-text="menu.icon"></v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+      <!-- 一番左のサイドメニュー -->
+      <SideMenu @toggleMenu="toggleMenu"></SideMenu>
 
       <v-divider vertical inset class="float-left"></v-divider>
 
-      <!-- Racks/Folders -->
-      <v-list dense class="float-left pt-2" width="125" no-gutters>
-        <v-list-item-group v-model="tree">
-          <v-col v-for="rack in racksAll" :key="rack.id" class="ma-0 pa-0">
-            <v-list-item class="mt-1 pt-1 mx-0 px-0" @click="selectRack(rack)">
-              <v-subheader>
-                {{ rack.name }}
-              </v-subheader>
-              <v-spacer></v-spacer>
-              <v-btn text fab x-small>
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </v-list-item>
-            <v-col class="my-0 py-0">
-              <v-divider></v-divider>
-            </v-col>
-            <v-list-item
-              v-for="folder in folders(rack.folderIds)"
-              :key="folder.id"
-              class="ma-1 pa-1"
-              @click="selectFolder(rack, folder)"
-            >
-              <v-list-item-icon class="ma-1">
-                <v-icon small v-text="folder.icon" />
-              </v-list-item-icon>
-              <v-list-item-title v-text="folder.name" />
-            </v-list-item>
-          </v-col>
-        </v-list-item-group>
-      </v-list>
-
-      <v-divider vertical inset class="float-left"></v-divider>
-
-      <!-- Notes -->
-      <v-list dense class="float-left" width="125">
-        <!-- New Note -->
-        <v-row justify="center" style="height: 45px;">
-          <v-fab-transition v-if="folderId">
-            <v-btn
-              color="grey lighten-1"
-              dark
-              small
-              right
-              absolute
-              fab
-              @click="addNote"
-            >
-              <v-icon>mdi-note-plus</v-icon>
-            </v-btn>
-          </v-fab-transition>
-        </v-row>
-
-        <!-- Note List -->
-        <v-col v-for="note in notes(noteIds)" :key="note.id" class="ma-0 pa-0">
-          <v-card class="ma-2" outlined light @click="selectNote(note)">
-            <v-card-subtitle class="py-0 my-0 mr-0 pr-0">
-              2019/12/31
-            </v-card-subtitle>
-            <v-card-text class="text--primary">
-              <div>{{ note.title }}</div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-list>
+      <ListSearch v-if="shouldShow('ListSearch')"></ListSearch>
+      <ListWork v-else-if="shouldShow('ListWork')"></ListWork>
+      <ListHome v-else-if="shouldShow('ListHome')"></ListHome>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -107,17 +59,14 @@
     </v-app-bar> -->
 
     <!-- Content -->
-    <v-content class="grey lighten-5" app>
+    <v-content class="" app>
       <nuxt />
     </v-content>
 
     <!-- Footer -->
-    <v-footer class="grey lighten-5" app inset>
+    <v-footer class="" app inset>
       <span class="">md-editor @oikawa</span>
     </v-footer>
-    <!-- <v-footer class="grey lighten-5" app>
-      Vuetify
-    </v-footer> -->
 
     <!-- Content -->
   </v-app>
@@ -125,48 +74,36 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+// import AppBarMenu from '@/components/appbar/Menu.vue'
+// import AppBarTabs from '@/components/appbar/Tabs.vue'
+import SideMenu from '@/components/navigation/SideMenu.vue'
+import ListSearch from '@/components/navigation/ListSearch.vue'
+import ListWork from '@/components/navigation/ListWork.vue'
+import ListHome from '@/components/navigation/ListHome.vue'
 
 export default {
+  middleware: 'auth',
+  components: { SideMenu, ListSearch, ListWork, ListHome },
   data: () => ({
-    drawer: null,
-    permanent: true,
-    open: ['public'],
-    tree: [],
-    menues: [
-      { title: 'Search', icon: 'search' },
-      { title: 'Notes', icon: 'mdi-note-multiple' },
-      { title: 'Releases', icon: 'mdi-folder-lock-open' }
-    ],
-    links: ['Home', 'Contacts', 'Settings'],
-    mini: true
+    mini: true,
+    menuTogglable: {
+      ListSearch: false,
+      ListWork: true,
+      ListHome: false
+    }
   }),
   computed: {
-    ...mapGetters({
-      racksAll: 'tree/racksAll', // 全 Racks
-      folders: 'tree/folders', // rackId を引数に取得
-      rackId: 'tree/rackId', // 選択された rack
-      folderId: 'tree/folderId', // 選択された folder
-      noteIds: 'tree/noteIds', // selectRack or selectFolder でセットされる
-      notes: 'notes/notes', // noteIds を引数に取得
-      noteId: 'notes/noteId' // 選択中の NoteId
-    })
+    ...mapGetters({})
   },
   methods: {
     ...mapActions({}),
-    selectRack(rack) {
-      // Rack をセット（同時に NoteIds もセットされる）
-      this.$store.dispatch('tree/selectRack', rack)
+    toggleMenu({ menuName }) {
+      Object.keys(this.menuTogglable).forEach((key) => {
+        this.menuTogglable[key] = key === menuName
+      })
     },
-    selectFolder(rack, folder) {
-      // Folder をセット（同時に NoteIds もセットされる）
-      this.$store.dispatch('tree/selectFolder', { rack, folder })
-    },
-    selectNote(note) {
-      this.$store.dispatch('notes/setNoteId', note.id)
-    },
-    addNote() {
-      this.$store.dispatch('notes/createNote') // ノートを作成し、notes/NoteId をセットする
-      this.$store.dispatch('tree/addNoteId', this.noteId)
+    shouldShow(menuName) {
+      return this.menuTogglable[menuName]
     }
   }
 }
@@ -175,5 +112,15 @@ export default {
 <style>
 #keep .v-navigation-drawer__border {
   display: none;
+}
+/* コンポーネントに記載したスタイルが、リロードしたときに反映されないことがある。 */
+/* layout に記述したものは必ず反映されるっぽいので、こっちに記述しとく（詳細わかってない） */
+.v-md-auto-resize .CodeMirror-scroll {
+  overflow: auto;
+  height: auto;
+  overflow: visible;
+  position: relative;
+  outline: none;
+  min-height: 30px !important;
 }
 </style>

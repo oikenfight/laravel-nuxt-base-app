@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    'plugins/axios.js',
+    { src: '~/plugins/v-markdown-editor.js', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -47,13 +50,16 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/markdownit',
     'nuxt-material-design-icons',
-    'nuxtjs-mdi-font'
+    'nuxtjs-mdi-font',
+    ['cookie-universal-nuxt', { parseJSON: false }]
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    credentials: false // CORS のワイルドカード指定を許可する（TODO true に修正する）
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -64,6 +70,17 @@ export default {
       dark: false,
       themes: {
         dark: {
+          default: colors.teal.lighten1,
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        light: {
+          default: colors.teal.lighten1,
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,

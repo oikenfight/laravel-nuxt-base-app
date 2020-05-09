@@ -1,0 +1,40 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Http\UseCases\Folder;
+
+use App\Entities\Contracts\FolderInterface;
+use App\Http\UseCases\Contracts\Folder\FindUseCaseInterface;
+use App\Repositories\Contracts\FolderRepositoryInterface;
+
+/**
+ * Class FindUseCase
+ *
+ * @package App\Http\UseCases\Note
+ */
+class FindUseCase implements FindUseCaseInterface
+{
+    /**
+     * @var FolderRepositoryInterface
+     */
+    private $repository;
+
+    /**
+     * FindUseCase constructor.
+     * @param FolderRepositoryInterface $repository
+     */
+    public function __construct(FolderRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * @param int $folderId
+     * @return FolderInterface
+     * @throws \App\Repositories\Exceptions\FolderNotFoundException
+     */
+    public function __invoke(int $folderId): FolderInterface
+    {
+        return $this->repository->find($folderId);
+    }
+}

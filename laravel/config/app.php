@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -173,8 +174,15 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\EntitiesServiceProvider::class,
+        App\Providers\ObserversServiceProvider::class,
+        App\Providers\RepositoriesServiceProvider::class,
+        App\Providers\RequestsServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\RUlesServiceProvider::class,
+        App\Providers\UseCasesServiceProvider::class,
+        App\Providers\ValidatorsServiceProvider::class,
+        App\Providers\Services\ResponseDataMakerServiceProvider::class,
     ],
 
     /*
@@ -225,7 +233,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
