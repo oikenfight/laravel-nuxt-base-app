@@ -80,7 +80,8 @@ export const actions = {
       dispatch('rack/fetchAll'),
       dispatch('folder/fetchAll'),
       dispatch('note/fetchAll'),
-      dispatch('item/fetchAll')
+      dispatch('item/fetchAll'),
+      dispatch('category/fetchAll')
     ])
   }
 }

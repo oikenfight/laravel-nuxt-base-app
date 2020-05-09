@@ -90,6 +90,24 @@ class UseCasesServiceProvider extends ServiceProvider
             \App\Http\UseCases\Contracts\Item\UpdateUseCaseInterface::class,
             \App\Http\UseCases\Item\UpdateUseCase::class
         );
+
+        // Category
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Category\DeleteUseCaseInterface::class,
+            \App\Http\UseCases\Category\DeleteUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Category\FindUseCaseInterface::class,
+            \App\Http\UseCases\Category\FindUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Category\StoreUseCaseInterface::class,
+            \App\Http\UseCases\Category\StoreUseCase::class
+        );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Category\UpdateUseCaseInterface::class,
+            \App\Http\UseCases\Category\UpdateUseCase::class
+        );
     }
 
     /**

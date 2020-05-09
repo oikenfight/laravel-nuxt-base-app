@@ -1,5 +1,5 @@
 <template>
-  <v-menu open-on-hover bottom>
+  <v-menu open-on-hover bottom offset-x right>
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-icon x-small>mdi-dots-vertical</v-icon>

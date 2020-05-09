@@ -64,6 +64,8 @@ final class NoteTest extends TestCase
                 'user_id',
                 'folder_id',
                 'name',
+                'status',
+                'category_id'
             ],
             $fillableRef->getValue($note)
         );
@@ -102,6 +104,7 @@ final class NoteTest extends TestCase
                 'user_id' => 'int',
                 'folder_id' => 'int',
                 'name' => 'string',
+                'status' => 'int',
             ],
             $castsRef->getValue($note)
         );

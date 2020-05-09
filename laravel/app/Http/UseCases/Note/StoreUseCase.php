@@ -40,6 +40,7 @@ final class StoreUseCase implements StoreUseCaseInterface
             'user_id' => $userId,
             'folder_id' => $folderId,
             'name' => array_get($noteData, 'name'),
+            'category_id' => array_get($noteData, 'category_id'),
         ]);
     }
 }

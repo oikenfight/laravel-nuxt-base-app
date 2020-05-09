@@ -1,3 +1,8 @@
+const noteStatus = {
+  nonReleased: 0,
+  released: 1
+}
+
 export const state = () => ({
   // 全データ
   notesAll: []
@@ -15,6 +20,15 @@ export const getters = {
   },
   notesAll: (state) => {
     return state.notesAll
+  },
+  notesReleased: (state) => {
+    return state.notesAll.filter((note) => note.status === noteStatus.released)
+  },
+  notesReleasedOfCategory: (state) => (categoryId) => {
+    categoryId = parseInt(categoryId)
+    return state.notesAll
+      .filter((note) => note.status === noteStatus.released)
+      .filter((note) => note.category_id === categoryId)
   }
 }
 
@@ -35,7 +49,6 @@ export const actions = {
     return data.note
   },
   async update({ commit }, { note }) {
-    console.log(note)
     const data = await this.$axios
       .$put('/api/note/' + note.id, { note })
       .catch((error) => {
@@ -44,7 +57,6 @@ export const actions = {
     commit('UPDATE', { note: data.note })
   },
   async delete({ commit }, { note }) {
-    console.log(note)
     await this.$axios.$delete('/api/note/' + note.id).catch((error) => {
       console.log(error)
     })
@@ -77,8 +89,6 @@ export const mutations = {
     note.item_ids.push(item.id)
   },
   DELETE_ITEM(state, { note, item }) {
-    console.log(note)
-    console.log(item)
     note.item_ids = note.item_ids.filter((id) => id !== item.id)
   },
   REMOVE_ITEM(state, { itemId }) {

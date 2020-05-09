@@ -24,8 +24,12 @@ class EntitiesServiceProvider extends ServiceProvider
             \App\Entities\Entity::class
         );
         $this->app->bind(
-            \App\Entities\Contracts\EntityInterface::class,
-            \App\Entities\Entity::class
+            \App\Entities\Contracts\AuthenticatableEntityInterface::class,
+            \App\Entities\AuthenticatableEntity::class
+        );
+        $this->app->bind(
+            \App\Entities\Contracts\CategoryInterface::class,
+            \App\Entities\Category::class
         );
         $this->app->bind(
             \App\Entities\Contracts\FolderInterface::class,

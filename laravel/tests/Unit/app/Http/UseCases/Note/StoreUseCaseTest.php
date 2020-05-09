@@ -65,14 +65,18 @@ final class StoreUseCaseTest extends TestCase
 
         $userId = 100;
         $folderId = 100;
+        $categoryId = 100;
         $name = 'dummy note name';
         $noteData = [
-            'name' => $name
+            'name' => $name,
+            'category_id' => $categoryId,
         ];
         $createData = [
             'user_id' => $userId,
             'folder_id' => $folderId,
             'name' => $name,
+            'category_id' => $categoryId,
+
         ];
 
         /** @var Mockery\Mock|NoteRepositoryInterface $repository */
@@ -101,6 +105,7 @@ final class StoreUseCaseTest extends TestCase
             'user_id' => $userId,
             'folder_id' => $folderId,
             'name' => null,
+            'category_id' => null,
         ];
 
         /** @var Mockery\Mock|UserInterface $user */

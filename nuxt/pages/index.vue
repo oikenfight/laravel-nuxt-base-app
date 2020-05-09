@@ -1,25 +1,43 @@
 <template>
   <v-container>
-    <!-- noteId がセットされている（selectNote されている）場合 -->
-    <v-row align="start" justify="center">
-      <v-col cols="11"></v-col>
-    </v-row>
-    <!-- noteId がセットされていない（ selectNoteされていない）場合 -->
-    <v-row>
-      open note !!
+    <v-row justify="center">
+      <v-col cols="10">
+        <v-row justify="center">
+          <v-col cols="auto" class="display-2 pa-0">
+            note
+          </v-col>
+        </v-row>
+      </v-col>
+
+      <v-col cols="10">
+        <v-divider></v-divider>
+      </v-col>
+
+      <v-col cols="10">
+        <NoteList :notes="notesReleased"></NoteList>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import NoteList from '@/components/home/NoteList.vue'
+
 export default {
-  layout: 'default',
-  middleware: 'auth',
-  components: {},
+  name: 'Index',
+  components: { NoteList },
   data() {
     return {}
   },
-  methods: {}
+  computed: {
+    ...mapGetters({
+      notesReleased: 'note/notesReleased'
+    })
+  },
+  methods: {
+    ...mapActions({})
+  }
 }
 </script>
 
