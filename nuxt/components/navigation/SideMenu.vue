@@ -35,7 +35,6 @@ export default {
         case 'ListWork':
           break
         case 'ListHome':
-          this.$router.push('/')
           break
       }
     }
