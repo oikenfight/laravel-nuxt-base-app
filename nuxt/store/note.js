@@ -1,3 +1,8 @@
+const noteStatus = {
+  nonReleased: 0,
+  released: 1
+}
+
 export const state = () => ({
   // 全データ
   notesAll: []
@@ -15,6 +20,15 @@ export const getters = {
   },
   notesAll: (state) => {
     return state.notesAll
+  },
+  notesReleased: (state) => {
+    return state.notesAll.filter((note) => note.status === noteStatus.released)
+  },
+  notesReleasedOfCategory: (state) => (categoryId) => {
+    categoryId = parseInt(categoryId)
+    return state.notesAll
+      .filter((note) => note.status === noteStatus.released)
+      .filter((note) => note.category_id === categoryId)
   }
 }
 

@@ -14,7 +14,7 @@
       </v-col>
 
       <v-col cols="10">
-        <NoteList :notes="notesReleased"></NoteList>
+        <NoteList :notes="notes"></NoteList>
       </v-col>
     </v-row>
   </v-container>
@@ -32,8 +32,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleased: 'note/notesReleased'
-    })
+      notesReleasedOfCategory: 'note/notesReleasedOfCategory'
+    }),
+    notes() {
+      console.log(this.notesReleasedOfCategory(this.$route.params.category))
+      return this.notesReleasedOfCategory(this.$route.params.category)
+    }
   },
   methods: {
     ...mapActions({})

@@ -50,7 +50,7 @@
 
       <ListSearch v-if="shouldShow('ListSearch')"></ListSearch>
       <ListWork v-else-if="shouldShow('ListWork')"></ListWork>
-      <ListRelease v-else-if="shouldShow('ListRelease')"></ListRelease>
+      <ListHome v-else-if="shouldShow('ListHome')"></ListHome>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -79,17 +79,17 @@ import { mapGetters, mapActions } from 'vuex'
 import SideMenu from '@/components/navigation/SideMenu.vue'
 import ListSearch from '@/components/navigation/ListSearch.vue'
 import ListWork from '@/components/navigation/ListWork.vue'
-import ListRelease from '@/components/navigation/ListRelease.vue'
+import ListHome from '@/components/navigation/ListHome.vue'
 
 export default {
   middleware: 'auth',
-  components: { SideMenu, ListSearch, ListWork, ListRelease },
+  components: { SideMenu, ListSearch, ListWork, ListHome },
   data: () => ({
     mini: true,
     menuTogglable: {
       ListSearch: false,
       ListWork: true,
-      ListRelease: false
+      ListHome: false
     }
   }),
   computed: {

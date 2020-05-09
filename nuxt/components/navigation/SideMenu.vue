@@ -23,12 +23,21 @@ export default {
     menusSide: [
       { name: 'ListSearch', icon: 'search' },
       { name: 'ListWork', icon: 'mdi-note-multiple' },
-      { name: 'ListRelease', icon: 'mdi-folder-lock-open' }
+      { name: 'ListHome', icon: 'mdi-home' }
     ]
   }),
   methods: {
     toggleMenu(menuName) {
       this.$emit('toggleMenu', { menuName })
+      switch (menuName) {
+        case 'ListSearch':
+          break
+        case 'ListWork':
+          break
+        case 'ListHome':
+          this.$router.push('/')
+          break
+      }
     }
   }
 }
