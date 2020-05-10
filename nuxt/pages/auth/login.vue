@@ -41,7 +41,7 @@
           <v-layout wrap justify-center>
             <v-flex xs12 sm8 md6>
               <v-btn color="info" block>
-                <nuxt-link to="/redirect">Google</nuxt-link>
+                <nuxt-link to="/auth/redirect">Google</nuxt-link>
               </v-btn>
             </v-flex>
           </v-layout>

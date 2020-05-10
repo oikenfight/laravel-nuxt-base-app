@@ -38,8 +38,7 @@ export default {
       this.setToken({ token: callbackData.token })
       this.setUser({ user: callbackData.user })
       await this.$store.dispatch('dispatchAll')
-
-      this.$router.push('/')
+      this.$router.push('/mypage')
     } catch (error) {
       this.failedMessage = error.message
     }
