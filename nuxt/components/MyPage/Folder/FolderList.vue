@@ -1,12 +1,12 @@
 <template>
   <v-row justify="center">
-    <v-col v-for="note in notes" :key="note.id" cols="auto" class="pa-5">
-      <v-card height="300" width="200" @click="select(note)">
+    <v-col v-for="folder in folders" :key="folder.id" cols="auto" class="pa-5">
+      <v-card height="300" width="350" @click="select(folder)">
         <v-img src="" class="white--text align-end" height="125px"></v-img>
         <v-card-title
           class="pa-2 card-text-truncate"
           style="max-height: 90px; text-align: left;"
-          v-text="note.name"
+          v-text="folder.name"
         ></v-card-title>
         <v-card-text
           class="pa-2 text--primary card-text-truncate"
@@ -29,9 +29,9 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'NoteList',
+  name: 'FolderList',
   props: {
-    notes: Array
+    folders: Array
   },
   data() {
     return {}
@@ -41,8 +41,8 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    select(note) {
-      this.$router.push('/' + note.id)
+    select(folder) {
+      this.$router.push('/mypage/folder/' + folder.id)
     }
   }
 }

@@ -103,7 +103,7 @@ export default {
   methods: {
     ...mapActions({}),
     select(rack, folder) {
-      this.$router.push('/folder/' + folder.id)
+      this.$router.push('/mypage/folder/' + folder.id)
     },
     isEditingTheRack(rack) {
       return this.rackEdited && this.rackEdited.id === rack.id

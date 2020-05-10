@@ -24,7 +24,7 @@
       </v-col>
 
       <v-col cols="10">
-        <NoteList :notes="notes"></NoteList>
+        <NoteList :notes="notes" :select="select"></NoteList>
       </v-col>
     </v-row>
   </v-container>
@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NoteList from '@/components/home/NoteList.vue'
+import NoteList from '@/components/MyPage/Common/NoteList.vue'
 
 export default {
   name: 'Index',
@@ -67,7 +67,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      this.$router.push('/mypage/' + note.id)
+    }
   }
 }
 </script>

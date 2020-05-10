@@ -29,10 +29,9 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'NoteListPublic',
+  name: 'NoteList',
   props: {
-    notes: Array,
-    select: Function
+    notes: Array
   },
   data() {
     return {}
@@ -41,7 +40,10 @@ export default {
     ...mapGetters({})
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      this.$router.push('/mypage/folder/' + this.folder.id + '/note/' + note.id)
+    }
   }
 }
 </script>
