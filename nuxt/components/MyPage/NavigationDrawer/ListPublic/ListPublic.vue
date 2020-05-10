@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="ma-0">
     <v-col cols="12" class="py-0">
       <v-row>
         <v-col cols="9" class="pr-0">
@@ -36,10 +36,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ListItem from '@/components/navigation/ListHome/ListItem.vue'
+import ListItem from '@/components/MyPage/NavigationDrawer/ListPublic/ListItem.vue'
 
 export default {
-  name: 'ListHome',
+  name: 'ListPublic',
   components: { ListItem },
   data() {
     return {
@@ -52,10 +52,13 @@ export default {
       notesReleasedOfCategory: 'note/notesReleasedOfCategory'
     })
   },
+  mounted() {
+    console.log('here is ListPublic')
+  },
   methods: {
     ...mapActions({}),
     select(category) {
-      this.$router.push('/category/' + category.id)
+      this.$router.push('/mypage/category/' + category.id)
     },
     add() {
       this.$store.dispatch('category/create')

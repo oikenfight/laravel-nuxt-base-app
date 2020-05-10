@@ -54,14 +54,14 @@ export default {
     breadcrumbsItems() {
       return [
         {
-          text: 'home',
+          text: 'My Page',
           disabled: false,
-          href: '/'
+          href: '/mypage'
         },
         {
           text: this.category ? this.category.name : '',
           disabled: true,
-          href: '/category/' + this.$route.params.category
+          href: '/mypage/category/' + this.$route.params.category
         }
       ]
     }

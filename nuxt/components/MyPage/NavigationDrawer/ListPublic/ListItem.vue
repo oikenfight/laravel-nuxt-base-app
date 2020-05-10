@@ -31,7 +31,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CategoryActionMenu from '@/components/navigation/ListHome/CategoryActionMenu.vue'
+import CategoryActionMenu from '@/components/MyPage/NavigationDrawer/ListPublic/CategoryActionMenu.vue'
 
 export default {
   name: 'ListItem',
