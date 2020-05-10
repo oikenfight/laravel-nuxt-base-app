@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-breadcrumbs :items="breadcrumbsItems">
+      <v-breadcrumbs :items="breadcrumbsItems" class="pa-3">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>

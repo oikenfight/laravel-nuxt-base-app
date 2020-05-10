@@ -9,7 +9,7 @@
         <v-divider></v-divider>
       </v-col>
 
-      <v-col cols="10">
+      <v-col cols="10" class="pa-0">
         <BreadCrumbs :breadcrumbs-items="breadcrumbsItems"></BreadCrumbs>
       </v-col>
 
@@ -68,17 +68,17 @@ export default {
         {
           text: 'home',
           disabled: false,
-          href: '/mypage'
+          href: '/'
         },
         {
           text: this.category ? this.category.name : '',
           disabled: false,
-          href: '/mypage/category/' + this.category.id
+          href: '/category/' + this.category.id
         },
         {
           text: this.note ? this.note.name : '',
           disabled: true,
-          href: '/mypage/category/' + (this.category ? this.category.id : '')
+          href: '/' + (this.note ? this.note.id : '')
         }
       ]
     }

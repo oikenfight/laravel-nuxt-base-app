@@ -14,7 +14,7 @@
       </v-col>
 
       <v-col cols="8" class="offset-1">
-        <NoteList :notes="notesReleased"></NoteList>
+        <NoteList :notes="notes"></NoteList>
       </v-col>
 
       <v-col cols="2" class="">
@@ -34,7 +34,7 @@ import NoteList from '@/components/View/Common/NoteList'
 import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
 
 export default {
-  name: 'Index',
+  name: 'Category',
   components: { Header, BreadCrumbs, NoteList, CategoryList },
   data() {
     return {
@@ -43,15 +43,27 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleased: 'note/notesReleased',
-      categoriesAll: 'category/categoriesAll'
+      notesReleasedOfCategory: 'note/notesReleasedOfCategory',
+      categoriesAll: 'category/categoriesAll',
+      categoryGetter: 'category/category'
     }),
+    notes() {
+      return this.notesReleasedOfCategory(this.$route.params.category)
+    },
+    category() {
+      return this.categoryGetter(this.$route.params.category)
+    },
     breadcrumbsItems() {
       return [
         {
           text: 'Top',
           disabled: false,
           href: '/'
+        },
+        {
+          text: this.category ? this.category.name : '',
+          disabled: true,
+          href: '/category/' + this.$route.params.category
         }
       ]
     }
