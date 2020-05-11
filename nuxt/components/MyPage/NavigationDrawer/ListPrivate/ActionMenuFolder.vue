@@ -23,16 +23,14 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'CategoryActionMenu',
-  props: {
-    category: Object
-  },
+  name: 'FolderActionMenu',
+  props: ['rack', 'folder'],
   data() {
     return {
       menus: [
-        { title: 'Add', action: 'add' },
-        { title: 'Rename', action: 'edit' },
-        { title: 'Delete', action: 'delete' }
+        { title: 'Add Folder', action: 'add' },
+        { title: 'Rename Folder', action: 'edit' },
+        { title: 'Delete Folder', action: 'delete' }
       ]
     }
   },
@@ -54,14 +52,20 @@ export default {
           break
       }
     },
-    add() {
-      this.$store.dispatch('category/create')
+    async add() {
+      const folder = await this.$store.dispatch('folder/create', {
+        rack: this.rack
+      })
+      this.$store.dispatch('rack/addFolder', {
+        rack: this.rack,
+        folder
+      })
     },
     edit() {
-      this.$emit('edit', { category: this.category })
+      this.$emit('edit', { folder: this.folder })
     },
-    delete() {
-      this.$store.dispatch('category/delete', { category: this.category })
+    async delete() {
+      await this.$store.dispatch('folder/delete', { folder: this.folder })
     }
   }
 }
