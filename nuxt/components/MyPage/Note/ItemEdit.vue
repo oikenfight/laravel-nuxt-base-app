@@ -1,11 +1,14 @@
 <template>
   <!-- edit -->
   <v-row>
+    <!-- ここにkeyイベントを仕込むのは気持ち悪いけど、v-markdown-editorの仕様上仕方ない -->
     <v-col
       cols="12"
       class="px-3"
+      @compositionstart="composing = true"
+      @compositionend="composing = false"
       @keydown.enter.exact.prevent
-      @keyup.enter.exact="update"
+      @keydown.enter.exact="update"
       @keydown.enter.shift.exact="newLine($event)"
     >
       <client-only>
@@ -30,6 +33,7 @@ export default {
   data() {
     return {
       item: {},
+      composing: false, // 変換中true
       // default options, see more options at: http://codemirror.net/doc/manual.html#config
       options: {
         // lineNumbers: true,
@@ -50,10 +54,14 @@ export default {
   },
   methods: {
     update() {
-      this.$store.dispatch('item/update', { item: this.item })
-      this.$emit('updatedItem')
-      this.$emit('moveNextItem')
-      this.item = {}
+      // keyupイベントだと変換中かどうか判定できないので、keydownイベントで実行してる
+      // composing フラグで変換中か確認してから update する
+      if (!this.composing) {
+        this.$store.dispatch('item/update', { item: this.item })
+        this.$emit('updatedItem')
+        this.$emit('moveNextItem')
+        this.item = {}
+      }
     },
     newLine(event) {
       // もともと enter で発生していたイベント

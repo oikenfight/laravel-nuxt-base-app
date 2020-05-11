@@ -85,7 +85,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NoteTitle from '@/components/MyPage/Note/Title.vue'
+import NoteTitle from '@/components/MyPage/Note/NoteTitle.vue'
 import ItemEdit from '@/components/MyPage/Note/ItemEdit.vue'
 import ItemShow from '@/components/MyPage/Note/ItemShow.vue'
 import ButtonItemMenu from '@/components/MyPage/Note/ButtonItemMenu'
