@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    page not found
+    <h2>TODO: view /mypage/</h2>
   </v-container>
 </template>
 

@@ -43,14 +43,8 @@
 
       <v-divider></v-divider>
 
-      <!-- 一番左のサイドメニュー -->
-      <SideMenu @toggleMenu="toggleMenu"></SideMenu>
-
-      <v-divider vertical inset class="float-left"></v-divider>
-
-      <ListSearch v-if="shouldShow('ListSearch')"></ListSearch>
-      <ListWork v-else-if="shouldShow('ListWork')"></ListWork>
-      <ListHome v-else-if="shouldShow('ListHome')"></ListHome>
+      <!-- Navigation のメインコンテンツ -->
+      <NavigationController></NavigationController>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -76,14 +70,11 @@
 import { mapGetters, mapActions } from 'vuex'
 // import AppBarMenu from '@/components/appbar/Menu.vue'
 // import AppBarTabs from '@/components/appbar/Tabs.vue'
-import SideMenu from '@/components/navigation/SideMenu.vue'
-import ListSearch from '@/components/navigation/ListSearch.vue'
-import ListWork from '@/components/navigation/ListWork.vue'
-import ListHome from '@/components/navigation/ListHome.vue'
+import NavigationController from '@/components/MyPage/NavigationDrawer/NavigationController'
 
 export default {
   middleware: 'auth',
-  components: { SideMenu, ListSearch, ListWork, ListHome },
+  components: { NavigationController },
   data: () => ({
     mini: true,
     menuTogglable: {

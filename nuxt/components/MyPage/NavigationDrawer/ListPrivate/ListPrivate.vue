@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: そのうちやる。選択中の rack or folder をハイライトする -->
   <!-- ツリーを描画するコンポーネント -->
-  <v-row>
+  <v-row class="ma-0">
     <v-list class="" width="100%">
       <v-row v-for="rack in racksAll" :key="rack.id" style="margin: 0">
         <v-col v-if="isEditingTheRack(rack)">
@@ -82,8 +82,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import RackActionMenu from '@/components/navigation/RackActionMenu.vue'
-import FolderActionMenu from '@/components/navigation/FolderActionMenu.vue'
+import RackActionMenu from '@/components/MyPage/NavigationDrawer/ListPrivate/RackActionMenu.vue'
+import FolderActionMenu from '@/components/MyPage/NavigationDrawer/ListPrivate/FolderActionMenu.vue'
 
 export default {
   name: 'ListWork',
@@ -103,7 +103,7 @@ export default {
   methods: {
     ...mapActions({}),
     select(rack, folder) {
-      this.$router.push('/folder/' + folder.id)
+      this.$router.push('/mypage/folder/' + folder.id)
     },
     isEditingTheRack(rack) {
       return this.rackEdited && this.rackEdited.id === rack.id

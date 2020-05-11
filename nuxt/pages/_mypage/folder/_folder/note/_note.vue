@@ -1,20 +1,31 @@
 <template>
   <v-card height="100%">
-    <!-- NoteHeader -->
-    <v-col cols="12">
-      <NoteBar></NoteBar>
-    </v-col>
+    <!-- ButtonNoteAction -->
+    <v-row ref="fixedHeight">
+      <v-col cols="12" class="pa-0">
+        <ButtonsNoteAction :note-edited="note"></ButtonsNoteAction>
+      </v-col>
 
-    <!-- divider -->
-    <v-col cols="12">
-      <v-divider></v-divider>
-    </v-col>
+      <!-- NoteTitle -->
+      <v-col cols="12" class="pa-0">
+        <v-row justify="center">
+          <v-col cols="10" class="pa-0">
+            <NoteTitle :note-edited="note"></NoteTitle>
+          </v-col>
+        </v-row>
+      </v-col>
+
+      <!-- divider -->
+      <v-col cols="11" class="px-5">
+        <v-divider></v-divider>
+      </v-col>
+    </v-row>
 
     <!-- Note Body -->
     <v-layout
       id="scroll-note"
       class="overflow-y-auto"
-      style="max-height: calc(100% - 89px); width: 100%;"
+      :style="scrollWindowStyle"
     >
       <v-row
         v-scroll:#scroll-note=""
@@ -23,25 +34,6 @@
         style="width: 100%"
         class="ma-4"
       >
-        <!-- ButtonNoteAction -->
-        <v-col cols="12" class="pa-0">
-          <ButtonsNoteAction :note-edited="note"></ButtonsNoteAction>
-        </v-col>
-
-        <!-- NoteTitle -->
-        <v-col cols="12" class="pa-0">
-          <v-row justify="center">
-            <v-col cols="10" class="pa-0">
-              <NoteTitle :note-edited="note"></NoteTitle>
-            </v-col>
-          </v-row>
-        </v-col>
-
-        <!-- divider -->
-        <v-col cols="11" class="px-5">
-          <v-divider></v-divider>
-        </v-col>
-
         <!-- Display Note Contents -->
         <v-col
           v-for="(item, index) in items(note.item_ids)"
@@ -93,20 +85,18 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NoteBar from '@/components/note/NoteBar'
-import NoteTitle from '@/components/note/Title.vue'
-import ItemEdit from '@/components/note/ItemEdit.vue'
-import ItemShow from '@/components/note/ItemShow.vue'
-import ButtonItemMenu from '@/components/note/ButtonItemMenu'
-import ButtonNewItem from '@/components/note/ButtonNewItem'
-import ButtonsNoteAction from '@/components/note/ButtonsNoteAction'
+import NoteTitle from '@/components/MyPage/Note/Title.vue'
+import ItemEdit from '@/components/MyPage/Note/ItemEdit.vue'
+import ItemShow from '@/components/MyPage/Note/ItemShow.vue'
+import ButtonItemMenu from '@/components/MyPage/Note/ButtonItemMenu'
+import ButtonNewItem from '@/components/MyPage/Note/ButtonNewItem'
+import ButtonsNoteAction from '@/components/MyPage/Note/ButtonsNoteAction'
 
 export default {
   name: 'Note',
   layout: 'default',
   middleware: 'auth',
   components: {
-    NoteBar,
     ItemEdit,
     ItemShow,
     NoteTitle,
@@ -117,7 +107,11 @@ export default {
   data() {
     return {
       itemIdActive: null, // item の mouseover/mouseout でセット
-      itemEdited: null // 編集中 Item
+      itemEdited: null, // 編集中 Item
+      refs: {
+        componentHeight: 0,
+        fixedHeight: 0
+      }
     }
   },
   computed: {
@@ -133,7 +127,16 @@ export default {
     },
     note() {
       return this.noteVuex(this.$route.params.note)
+    },
+    scrollWindowStyle() {
+      return {
+        width: '100%',
+        'max-height': 'calc(100% - ' + this.refs.fixedHeight + 'px)'
+      }
     }
+  },
+  mounted() {
+    this.refs.fixedHeight = this.$refs.fixedHeight.clientHeight
   },
   methods: {
     ...mapActions({}),

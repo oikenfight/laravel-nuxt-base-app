@@ -9,49 +9,44 @@
         <v-divider></v-divider>
       </v-col>
 
-      <v-col cols="10" class="pa-0">
+      <v-col cols="10">
         <BreadCrumbs :breadcrumbs-items="breadcrumbsItems"></BreadCrumbs>
       </v-col>
 
-      <v-col cols="8" class="offset-1">
-        <NoteList :notes="notesReleased"></NoteList>
+      <v-col cols="10">
+        <FolderList :folders="foldersAll"></FolderList>
       </v-col>
-
-      <v-col cols="2" class="">
-        <CategoryList :categories="categoriesAll"></CategoryList>
-      </v-col>
-
-      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Header from '@/components/View/Common/Header'
+import Header from '@/components/MyPage/Common/Header'
 import BreadCrumbs from '@/components/MyPage/Common/BreadCrumbs'
-import NoteList from '@/components/View/Common/NoteList'
-import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
+import FolderList from '@/components/MyPage/Folder/FolderList'
 
 export default {
   name: 'Index',
-  components: { Header, BreadCrumbs, NoteList, CategoryList },
+  components: { Header, BreadCrumbs, FolderList },
   data() {
-    return {
-      categoryEdited: {}
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
-      notesReleased: 'note/notesReleased',
-      categoriesAll: 'category/categoriesAll'
+      foldersAll: 'folder/foldersAll'
     }),
     breadcrumbsItems() {
       return [
         {
-          text: 'Top',
+          text: 'My Page',
           disabled: false,
-          href: '/'
+          href: '/mypage'
+        },
+        {
+          text: 'Folder List',
+          disabled: true,
+          href: '/mypage/folder'
         }
       ]
     }

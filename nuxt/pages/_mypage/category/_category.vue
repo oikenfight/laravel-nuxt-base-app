@@ -2,49 +2,47 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="10">
-        <Header></Header>
+        <v-row justify="center">
+          <v-col cols="auto" class="display-2 pa-0">
+            note
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col cols="10">
         <v-divider></v-divider>
       </v-col>
 
-      <v-col cols="10" class="pa-0">
-        <BreadCrumbs :breadcrumbs-items="breadcrumbsItems"></BreadCrumbs>
+      <v-col cols="10">
+        <v-row>
+          <v-breadcrumbs :items="breadcrumbsItems">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+          </v-breadcrumbs>
+        </v-row>
       </v-col>
 
-      <v-col cols="8" class="offset-1">
-        <NoteList :notes="notes"></NoteList>
+      <v-col cols="10">
+        <NoteList :notes="notes" :select="select"></NoteList>
       </v-col>
-
-      <v-col cols="2" class="">
-        <CategoryList :categories="categoriesAll"></CategoryList>
-      </v-col>
-
-      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Header from '@/components/View/Common/Header'
-import BreadCrumbs from '@/components/MyPage/Common/BreadCrumbs'
-import NoteList from '@/components/View/Common/NoteList'
-import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
+import NoteList from '@/components/MyPage/Common/NoteList.vue'
 
 export default {
-  name: 'Category',
-  components: { Header, BreadCrumbs, NoteList, CategoryList },
+  name: 'Index',
+  components: { NoteList },
   data() {
-    return {
-      categoryEdited: {}
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
       notesReleasedOfCategory: 'note/notesReleasedOfCategory',
-      categoriesAll: 'category/categoriesAll',
       categoryGetter: 'category/category'
     }),
     notes() {
@@ -56,20 +54,23 @@ export default {
     breadcrumbsItems() {
       return [
         {
-          text: 'Top',
+          text: 'My Page',
           disabled: false,
-          href: '/'
+          href: '/mypage'
         },
         {
           text: this.category ? this.category.name : '',
           disabled: true,
-          href: '/category/' + this.$route.params.category
+          href: '/mypage/category/' + this.$route.params.category
         }
       ]
     }
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      this.$router.push('/mypage/' + note.id)
+    }
   }
 }
 </script>
