@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>TODO: view /mypage/</h2>
+    <h2>TODO: view /mypage</h2>
   </v-container>
 </template>
 
