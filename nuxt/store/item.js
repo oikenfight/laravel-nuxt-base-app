@@ -1,5 +1,6 @@
 export const state = () => ({
-  itemsAll: []
+  itemsAll: [],
+  itemEdited: {}
 })
 
 export const getters = {
@@ -10,6 +11,9 @@ export const getters = {
     return itemIds
       ? state.itemsAll.filter((item) => itemIds.includes(item.id))
       : {}
+  },
+  itemEdited: (state) => {
+    return state.itemEdited
   }
 }
 
@@ -42,6 +46,9 @@ export const actions = {
       console.log(error)
     })
     commit('DELETE', { item })
+  },
+  setItemEdited({ commit }, { item }) {
+    commit('SET_ITEM_EDITED', { item })
   }
 }
 
@@ -59,5 +66,12 @@ export const mutations = {
   DELETE(state, { item }) {
     const index = state.itemsAll.findIndex((val) => val.id === item.id)
     state.itemsAll.splice(index, 1)
+  },
+  SET_ITEM_EDITED(state, { item }) {
+    state.itemEdited = Object.assign({}, item)
+  },
+  UPDATE_ITEM_BODY(state, value) {
+    // body の先頭と末尾の余計な文字列を除く
+    state.itemEdited.body = value
   }
 }
