@@ -34,36 +34,7 @@
         style="width: 100%"
         class="ma-4"
       >
-        <!-- Display Note Contents -->
-        <v-col
-          v-for="(item, index) in items(note.item_ids)"
-          :key="item.id"
-          cols="12"
-          class="pa-0"
-          @click="select(item)"
-        >
-          <v-row>
-            <!-- ButtonItemMenu -->
-            <v-col cols="1" class="pa-0">
-              <ButtonItemMenu
-                :item="item"
-                :should-show-item-menu="shouldShowItemMenu"
-              ></ButtonItemMenu>
-            </v-col>
-            <!-- ItemEdit if this is selected -->
-            <v-col v-if="isEditing(item)" cols="10" class="pa-0">
-              <ItemEdit
-                :item-edited="itemEdited"
-                @updatedItem="updatedItem"
-                @moveNextItem="moveNextItem(index)"
-              ></ItemEdit>
-            </v-col>
-            <!-- ItemShow if this is not selected-->
-            <v-col v-else cols="10" class="pa-0">
-              <ItemShow :item="item" style="min-height: 48px"></ItemShow>
-            </v-col>
-          </v-row>
-        </v-col>
+        <ItemList :note="note"></ItemList>
 
         <!-- divider -->
         <v-col cols="12">
@@ -85,28 +56,23 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import NoteTitle from '@/components/MyPage/Note/Title.vue'
-import ItemEdit from '@/components/MyPage/Note/ItemEdit.vue'
-import ItemShow from '@/components/MyPage/Note/ItemShow.vue'
-import ButtonItemMenu from '@/components/MyPage/Note/ButtonItemMenu'
+import NoteTitle from '@/components/MyPage/Note/NoteTitle.vue'
 import ButtonNewItem from '@/components/MyPage/Note/ButtonNewItem'
 import ButtonsNoteAction from '@/components/MyPage/Note/ButtonsNoteAction'
+import ItemList from '@/components/MyPage/Note/ItemList'
 
 export default {
   name: 'Note',
   layout: 'default',
   middleware: 'auth',
   components: {
-    ItemEdit,
-    ItemShow,
     NoteTitle,
-    ButtonItemMenu,
     ButtonNewItem,
-    ButtonsNoteAction
+    ButtonsNoteAction,
+    ItemList
   },
   data() {
     return {
-      itemIdActive: null, // item の mouseover/mouseout でセット
       itemEdited: null, // 編集中 Item
       refs: {
         componentHeight: 0,
@@ -117,16 +83,15 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user', // ログインユーザ
-      folderVuex: 'folder/folder',
-      noteVuex: 'note/note',
-      itemVuex: 'item/item',
+      folderGetter: 'folder/folder',
+      noteGetter: 'note/note',
       items: 'item/items'
     }),
     folder() {
-      return this.folderVuex(this.$route.params.folder)
+      return this.folderGetter(this.$route.params.folder)
     },
     note() {
-      return this.noteVuex(this.$route.params.note)
+      return this.noteGetter(this.$route.params.note)
     },
     scrollWindowStyle() {
       return {
@@ -140,9 +105,6 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    deleteNote() {
-      this.$store.dispatch('note/delete', { note: this.note })
-    },
     async addedItem() {
       const item = await this.$store.dispatch('item/create', {
         note: this.note
@@ -153,34 +115,8 @@ export default {
       })
       this.itemEdited = item
     },
-    editingItem({ item }) {
-      this.itemIdEdited = item.id
-    },
-    updatedItem() {
-      this.itemEdited = null
-    },
-    moveNextItem(index) {
-      if (index < this.note.item_ids.length - 1) {
-        // 次の item がある場合、その item の編集に移行
-        const nextItemId = this.note.item_ids[index + 1]
-        this.itemEdited = this.itemVuex(nextItemId)
-      } else {
-        // 一番最後の item の場合、次の item を作成する
-        this.addedItem()
-      }
-    },
     select(item) {
       this.itemEdited = item
-    },
-    isEditing(item) {
-      return (
-        this.itemEdited &&
-        Object.prototype.hasOwnProperty.call(this.itemEdited, 'id') &&
-        this.itemEdited.id === item.id
-      )
-    },
-    shouldShowItemMenu(item) {
-      return this.isEditing(item) && item.body === ''
     }
   }
 }

@@ -2,7 +2,7 @@
   <v-menu open-on-hover bottom offset-x right>
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
-        <v-icon x-small>mdi-dots-vertical</v-icon>
+        <v-icon small>mdi-dots-vertical</v-icon>
       </v-btn>
     </template>
 
@@ -13,7 +13,13 @@
         dense
         @click="triggerClick(menu.action)"
       >
-        <v-list-item-title>{{ menu.title }}</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title
+            v-if="menu.title"
+            v-text="menu.title"
+          ></v-list-item-title>
+          <v-subheader v-else pl-0 ml-0>{{ menu.target }}</v-subheader>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -23,14 +29,17 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'FolderActionMenu',
-  props: ['rack', 'folder'],
+  name: 'RackActionMenu',
+  props: ['rack'],
   data() {
     return {
       menus: [
+        { target: 'Folder' },
         { title: 'Add Folder', action: 'addFolder' },
-        { title: 'Rename Folder', action: 'editFolder' },
-        { title: 'Delete Folder', action: 'deleteFolder' }
+        { target: 'Rack' },
+        { title: 'Add Rack', action: 'add' },
+        { title: 'Rename Rack', action: 'edit' },
+        { title: 'Delete Rack', action: 'delete' }
       ]
     }
   },
@@ -41,16 +50,28 @@ export default {
     ...mapActions({}),
     triggerClick(action) {
       switch (action) {
+        case 'add':
+          this.add()
+          break
+        case 'edit':
+          this.edit()
+          break
+        case 'delete':
+          this.delete()
+          break
         case 'addFolder':
           this.addFolder()
           break
-        case 'editFolder':
-          this.editFolder()
-          break
-        case 'deleteFolder':
-          this.deleteFolder()
-          break
       }
+    },
+    add() {
+      this.$store.dispatch('rack/create')
+    },
+    edit() {
+      this.$emit('edit', { rack: this.rack })
+    },
+    async delete() {
+      await this.$store.dispatch('rack/delete', { rack: this.rack })
     },
     async addFolder() {
       const folder = await this.$store.dispatch('folder/create', {
@@ -60,12 +81,6 @@ export default {
         rack: this.rack,
         folder
       })
-    },
-    editFolder() {
-      this.$emit('editFolder', { folder: this.folder })
-    },
-    async deleteFolder() {
-      await this.$store.dispatch('folder/delete', { folder: this.folder })
     }
   }
 }

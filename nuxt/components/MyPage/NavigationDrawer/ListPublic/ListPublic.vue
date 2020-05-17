@@ -28,7 +28,7 @@
         dense
         @click="select(category)"
       >
-        <ListItem :category="category"></ListItem>
+        <ListItemCategory :category="category" class="pl-2"></ListItemCategory>
       </v-list-item>
     </v-list>
   </v-row>
@@ -36,11 +36,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ListItem from '@/components/MyPage/NavigationDrawer/ListPublic/ListItem.vue'
+import ListItemCategory from '@/components/MyPage/NavigationDrawer/ListPublic/ListItemCategory.vue'
 
 export default {
   name: 'ListPublic',
-  components: { ListItem },
+  components: { ListItemCategory },
   data() {
     return {
       categoryEdited: {}

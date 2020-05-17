@@ -11,20 +11,19 @@
       </div>
     </v-col>
     <!-- タイトル編集中 -->
-    <v-col
-      v-else
-      cols="12"
-      class="pa-0"
-      @keydown.enter.exact.prevent
-      @keyup.enter.exact="update"
-    >
+    <v-col v-else cols="12" class="pa-0">
       <v-text-field
         v-model="note.name"
         label="Title"
         single-line
         hide-details
         height="60px"
-        class="display-1 textfield-title"
+        class="display-1 textfield-title pa-0"
+        style="margin-top: -20px"
+        @compositionstart="composing = true"
+        @compositionend="composing = false"
+        @keydown.enter.exact.prevent
+        @keydown.enter.exact="update"
       >
         <template v-slot:append>
           <v-btn class="ma-1" large color="" icon @click="clearTitle">
@@ -47,7 +46,8 @@ export default {
   data() {
     return {
       note: {},
-      isEditing: false
+      isEditing: false,
+      composing: false // 変換中true
     }
   },
   computed: {
@@ -70,9 +70,13 @@ export default {
     clearTitle() {
       this.note.name = ''
     },
-    update() {
-      this.$store.dispatch('note/update', { note: this.note })
-      this.toggleEdit()
+    update(event) {
+      // keyupイベントだと変換中かどうか判定できないので、keydownイベントで実行してる
+      // composing フラグで変換中か確認してから update する
+      if (!this.composing) {
+        this.$store.dispatch('note/update', { note: this.note })
+        this.toggleEdit()
+      }
     }
   }
 }

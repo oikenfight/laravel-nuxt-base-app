@@ -16,11 +16,10 @@
       <v-col cols="9">
         <v-row>
           <v-col
-            v-for="item in items"
-            :key="item.id"
+            v-for="(item, index) in items"
+            :key="index"
             cols="12"
             class="pa-0"
-            @click="select(item)"
           >
             <v-row align="center">
               <v-col cols="12" class="pa-3">
@@ -73,7 +72,7 @@ export default {
         {
           text: this.category ? this.category.name : '',
           disabled: false,
-          href: '/category/' + this.category.id
+          href: '/category/' + (this.category ? this.category.id : '')
         },
         {
           text: this.note ? this.note.name : '',
