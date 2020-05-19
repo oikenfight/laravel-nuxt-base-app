@@ -30,6 +30,9 @@ Route::middleware('auth:api')->delete('/user/access_token', function (Request $r
 /**
  * Auth
  */
+Route::group(['prefix' => 'auth', 'namespace' => 'Api\Auth', 'middleware' => 'guest:api'], function () {
+    Route::post('register', 'RegisterController@create')->name('apiRegister');
+});
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'middleware' => 'guest:api'], function () {
     Route::get('{provider}', 'OAuthController@socialOAuth')->where('provider', 'google')->name('socialOAuth');
     Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->where('provider', 'google')->name('oauthCallback');
