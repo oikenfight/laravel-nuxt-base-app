@@ -70,10 +70,43 @@ export const actions = {
     commit('setUser', { user: data.user })
     return data.user
   },
+  async login({ commit, error }, { user }) {
+    try {
+      // アクセストークンを取得
+      await this.$axios
+        .$post('/oauth/token', {
+          grant_type: 'password',
+          client_id: '3',
+          client_secret: 'SHHESm5I6GBh3HLjuiUpJNgZxIW3zCby4BmIHy2u',
+          username: user.email,
+          password: user.password,
+          scope: '*'
+        })
+        .then((response) => {
+          commit('setToken', { token: response.access_token })
+        })
+      // ユーザ情報を取得
+      const data = await this.$axios.$get('/api/user')
+      commit('setUser', { user: data.user })
+      return true
+    } catch (e) {
+      return false
+    }
+  },
   async logout({ commit, error }) {
     await this.$axios.$delete('/api/user/access_token').then((response) => {
       commit('setToken', { token: null })
     })
+  },
+  async register({ commit, error }, { user }) {
+    await this.$axios
+      .$post('/api/auth/register', { user })
+      .then((response) => {
+        return true
+      })
+      .catch((e) => {
+        return false
+      })
   },
   async dispatchAll({ dispatch }) {
     await Promise.all([
