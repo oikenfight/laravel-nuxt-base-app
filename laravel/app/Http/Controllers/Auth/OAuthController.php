@@ -7,8 +7,6 @@ use App\Entities\Contracts\RackInterface;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
 use App\Http\UseCases\Contracts\Rack\StoreUseCaseInterface;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User;
 
