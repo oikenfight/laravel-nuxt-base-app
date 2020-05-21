@@ -7,13 +7,13 @@
       class="px-3"
       @compositionstart="composing = true"
       @compositionend="composing = false"
-      @keydown.enter.exact.prevent="updateIfNotComposing($event)"
+      @keydown.enter.exact.prevent="updateIf"
       @keydown.enter.shift.exact="newLine($event)"
-      @keydown.delete="deleteIfBodyIsNull"
+      @keydown.delete="deleteIf"
     >
       <client-only>
         <markdown-editor
-          v-model="item"
+          v-model="body"
           height="auto"
           toolbar=""
           theme="primary"
@@ -51,60 +51,53 @@ export default {
   computed: {
     ...mapGetters({
       itemGetter: 'item/item',
-      itemEdited: 'item/itemEdited'
+      // itemEdited: 'item/itemEdited',
+      itemEmpty: 'item/itemEmpty',
+      editedItemBody: 'item/editedItemBody'
     }),
-    item: {
+    body: {
       get() {
-        return this.itemEdited.body
+        return this.editedItemBody
       },
       set(value) {
-        this.$store.commit('item/UPDATE_ITEM_BODY', value)
+        this.$store.commit('item/UPDATE_EDITED_ITEM_BODY', { value })
       }
     }
   },
   watch: {
-    'itemEdited.body'(val, oldVal) {
+    body(val, oldVal) {
       this.oldBody = oldVal
     }
+    // 'itemEdited.body'(val, oldVal) {
+    //   this.oldBody = oldVal
+    // }
   },
   mounted() {
-    this.oldBody = this.itemEdited.body
+    // this.oldBody = this.itemEdited.body
+    this.oldBody = this.editedItemBody
   },
   methods: {
     newLine(event) {
       // もともと enter で発生していたイベント
       event.returnValue = true
     },
-    updateIfNotComposing() {
+    updateIf() {
       // composing フラグで変換中か確認してから update する
       if (!this.composing) {
         // v-markdown-editor の仕様上、keyイベントがどうしても改行後になってしまうため、改行前の値をセットし直す
-        this.$store.commit('item/UPDATE_ITEM_BODY', this.oldBody)
         // TODO: 文の途中でenterが押された場合、enterが押された場所までをそのbodyとする
-        this.updateIfChanged()
-        // this.$store.dispatch('item/update', { item: this.itemEdited })
-        // 次のitemを作成する
-        this.$store.dispatch('item/setItemEdited', {})
-        // this.$store.dispatch('item/create')
-        // TODO: note.item_ids を更新する
-        // TODO: 追加したitemを編集状態にする
+        this.$store.commit('item/UPDATE_EDITED_ITEM_BODY', {
+          value: this.oldBody
+        })
+        this.$emit('updated', { item: this.itemEdited })
       }
     },
-    deleteIfBodyIsNull() {
-      if (this.itemEdited.body === '' && this.oldBody === '') {
-        // itemを削除する
-        this.$store.dispatch('item/delete', { item: this.itemEdited })
-        // TODO: note.item_ids を更新する
-        // TODO: 前のitemを編集状態にする
-        this.$store.dispatch('item/setItemEdited', {})
-      } else {
+    deleteIf() {
+      // bodyが空でdeleteキーが押された場合、編集中のitemを削除する
+      if (this.editedItemBody === '' && this.oldBody === '') {
+        this.$emit('remove')
+      } else if (this.editedItemBody === '') {
         this.oldBody = ''
-      }
-    },
-    updateIfChanged() {
-      const item = this.itemGetter(this.itemEdited.id)
-      if (item.body !== this.itemEdited.body) {
-        this.$store.dispatch('item/update', { item: this.itemEdited })
       }
     }
   }

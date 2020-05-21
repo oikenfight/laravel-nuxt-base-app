@@ -161,6 +161,7 @@ final class NoteTest extends TestCase
 
         /** @var Mockery\Mock|Collection $collection */
         $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('sortBy')->with('order_index')->once()->andReturn($collection);
         $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
         $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayItemIds);
 
@@ -187,6 +188,7 @@ final class NoteTest extends TestCase
 
         /** @var Mockery\Mock|Collection $collection */
         $collection = Mockery::mock(Collection::class);
+        $collection->shouldReceive('sortBy')->with('order_index')->once()->andReturn($collection);
         $collection->shouldReceive('pluck')->with('id')->once()->andReturn($collection);
         $collection->shouldReceive('toArray')->with()->once()->andReturn($arrayItemIds);
 
