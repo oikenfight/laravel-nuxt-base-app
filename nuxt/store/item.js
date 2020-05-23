@@ -13,7 +13,7 @@ export const state = () => ({
     unsaved: false // 更新あり
   },
   isEditing: false, // 編集が止まったらitemsNoteに対して更新をかける
-  editingStopTime: 0,
+  timeEditingStop: 0,
   itemsAll: [],
   itemsNote: [] // 表示中noteのitemリスト
 })
@@ -50,8 +50,8 @@ export const getters = {
     return state.saveStatus.unsaved
   },
   // noteの編集が一定時間以上経過したかどうか
-  editingStopTime: (state) => {
-    return state.editingStopTime
+  timeEditingStop: (state) => {
+    return state.timeEditingStop
   },
   // 編集中itemのbody
   editedItemBody: (state) => {
@@ -72,7 +72,9 @@ export const actions = {
       .catch((error) => {
         console.log(error)
       })
-    commit('SET_ITEMS_NOTE', { items: data.items })
+    console.log('=================')
+    console.log(Object.values(data.items))
+    commit('SET_ITEMS_NOTE', { items: Object.values(data.items) })
     commit('SET_ITEMS_NOTE_ORDER_INDEX')
   },
   async create({ commit }, { note }) {
@@ -81,6 +83,7 @@ export const actions = {
       .catch((error) => {
         console.log(error)
       })
+    commit('SET_ITEMS_NOTE_ORDER_INDEX')
     return data.item
   },
   async update({ commit }, { item }) {
@@ -91,10 +94,17 @@ export const actions = {
       })
     commit('UPDATE', { item: data.item })
   },
+  async updateNoteItems({ commit }, { items }) {
+    console.log('updateNoteItems method in action')
+    console.log(items)
+    commit('SET_ITEMS_NOTE_ORDER_INDEX')
+    await this.$axios.$put('/api/item/note_items', { items })
+  },
   async delete({ commit }, { item }) {
     await this.$axios.$delete('/api/item/' + item.id).catch((error) => {
       console.log(error)
     })
+    commit('SET_ITEMS_NOTE_ORDER_INDEX')
   }
 }
 
@@ -106,6 +116,13 @@ export const mutations = {
     state.itemsAll = items
   },
   SET_ITEMS_NOTE(state, { items }) {
+    // order_index で並び替え
+    // TODO: 邪魔なのでlodash入れる
+    items.sort((a, b) => {
+      if (a.order_index < b.order_index) return -1
+      if (a.order_index > b.order_index) return 1
+      return 0
+    })
     state.itemsNote = items
   },
   SET_ITEMS_NOTE_ORDER_INDEX(state) {
@@ -130,7 +147,7 @@ export const mutations = {
       state.saveStatus[key] = key === status
     })
   },
-  SET_EDITING_STOP_TIME(state, { time }) {
-    state.editingStopTime = time
+  SET_TIME_EDITING_STOP(state, { time }) {
+    state.timeEditingStop = time
   }
 }

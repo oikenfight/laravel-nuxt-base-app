@@ -52,7 +52,7 @@ export default {
     item: {
       handler(val, oldVal) {
         console.log('item is updated', this.item)
-        this.$store.commit('item/SET_EDITING_STOP_TIME', { time: 0 })
+        this.$store.commit('item/SET_TIME_EDITING_STOP', { time: 0 })
         this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'unsaved' })
       },
       deep: true
@@ -72,13 +72,17 @@ export default {
     },
     remove() {
       // 削除
-      this.$store.dispatch('item/delete', { item: this.item })
+      this.$store
+        .dispatch('item/delete', { item: this.item })
+        .catch((error) => {
+          console.log(error)
+        })
       this.$store.commit('item/DELETE_NOTE_ITEM', { index: this.index })
       // 前のitemに移動する
       this.movePrevious()
       // 削除の場合もorder_indexの更新が必要なため、変更ありステータスにする
       this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'unsaved' })
-      this.$store.commit('item/SET_EDITING_STOP_TIME', { time: 0 })
+      this.$store.commit('item/SET_TIME_EDITING_STOP', { time: 0 })
     },
     moveNext() {
       this.$store.commit('item/SET_ACTIVE_INDEX', { index: this.index + 1 })

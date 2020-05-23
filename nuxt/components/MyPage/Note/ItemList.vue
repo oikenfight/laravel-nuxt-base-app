@@ -25,27 +25,23 @@ export default {
   },
   data() {
     return {
-      // itemEdited: null // 編集中 Item
+      timer: null
     }
   },
   computed: {
     ...mapGetters({
       itemsNote: 'item/itemsNote',
       saveStatusIsUnsaved: 'item/saveStatusIsUnsaved',
-      editingStopTime: 'item/editingStopTime'
+      timeEditingStop: 'item/timeEditingStop'
     })
-  },
-  watch: {
-    noteItems: {
-      handler(val, oldVal) {
-        console.log('noteItems is updated')
-      },
-      deep: true
-    }
   },
   mounted() {
     this.$store.dispatch('item/fetchNoteItems', { note: this.note })
-    this.updateItemsNoteIfChanged()
+    this.startTimer()
+    console.log('mounted')
+  },
+  destroyed() {
+    clearInterval(this.timer)
   },
   methods: {
     ...mapActions({}),
@@ -53,22 +49,38 @@ export default {
       // this.$store.commit('item/SET_ITEM_EDITED', { item })
       this.$store.commit('item/SET_ACTIVE_INDEX', { index })
     },
-    updateItemsNoteIfChanged() {
-      setInterval(() => {
+    startTimer() {
+      // noteの変更を監視して、更新かつ一定時間変更なしのとき、ノートを更新する
+      // TODO: 別ページに飛んだときに消さないとずっと回り続けるから止める！
+      this.timer = setInterval(() => {
+        console.log('interval')
         // 変更があるか、編集停止時間が5秒を超えたかどうか
-        if (this.saveStatusIsUnsaved && this.editingStopTime > 5) {
-          console.log('execute update')
-          // TODO: 対象itemsを更新する
-          // TODO: 更新中statusをsavingにする
-          this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'saved' })
-          this.$store.commit('item/SET_EDITING_STOP_TIME', { time: 0 })
+        if (this.saveStatusIsUnsaved && this.timeEditingStop > 5) {
+          this.updateNoteItems()
         } else if (this.saveStatusIsUnsaved) {
-          this.$store.commit('item/SET_EDITING_STOP_TIME', {
-            time: this.editingStopTime + 1 // 1秒更新
+          this.$store.commit('item/SET_TIME_EDITING_STOP', {
+            time: this.timeEditingStop + 1 // 1秒更新
           })
-          console.log(this.editingStopTime)
+          console.log(this.timeEditingStop)
         }
       }, 1000)
+    },
+    updateNoteItems() {
+      console.log('execute update')
+      // 更新中statusをsavingにする
+      this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'saving' })
+      this.$store.commit('item/SET_TIME_EDITING_STOP', { time: 0 })
+      // 対象itemsを更新する
+      this.$store
+        .dispatch('item/updateNoteItems', { items: this.itemsNote })
+        .then(() => {
+          this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'saved' })
+          console.log('updated !!!!')
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log('here is error')
+        })
     }
   }
 }
