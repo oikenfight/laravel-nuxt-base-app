@@ -28,6 +28,10 @@ final class NoteItemsController extends Controller
         /** @var ItemInterface[] $items */
         $items = $note->items()->get();
 
+        foreach ($items as $item) {
+            \Log::debug($item->id . ', ' . $item->order_index);
+        }
+
         return response()->json(['items' => $items]);
     }
 }

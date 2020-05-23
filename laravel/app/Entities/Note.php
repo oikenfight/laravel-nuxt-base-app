@@ -95,7 +95,7 @@ class Note extends Entity implements NoteInterface
      */
     public function getItemIdsAttribute(): array
     {
-        return $this->items()->get()->pluck('id')->toArray();
+        return $this->items()->get()->sortBy('order_index')->pluck('id')->toArray();
     }
 
     /* ------------------------------- status ------------------------------- */
