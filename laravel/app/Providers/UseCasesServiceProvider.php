@@ -90,6 +90,10 @@ class UseCasesServiceProvider extends ServiceProvider
             \App\Http\UseCases\Contracts\Item\UpdateUseCaseInterface::class,
             \App\Http\UseCases\Item\UpdateUseCase::class
         );
+        $this->app->bind(
+            \App\Http\UseCases\Contracts\Item\UpdateNoteItemsUseCaseInterface::class,
+            \App\Http\UseCases\Item\UpdateNoteItemsUseCase::class
+        );
 
         // Category
         $this->app->bind(

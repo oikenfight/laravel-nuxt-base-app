@@ -62,8 +62,8 @@ export const actions = {
     })
     commit('DELETE', { note })
   },
-  addItem({ commit }, { note, item }) {
-    commit('ADD_ITEM', { note, item })
+  addItem({ commit }, { note, item, index }) {
+    commit('ADD_ITEM', { note, item, index })
   },
   deleteItem({ commit }, { note, item }) {
     commit('DELETE_ITEM', { note, item })
@@ -85,17 +85,16 @@ export const mutations = {
     const index = state.notesAll.findIndex((val) => val.id === note.id)
     state.notesAll.splice(index, 1)
   },
-  ADD_ITEM(state, { note, item }) {
-    note.item_ids.push(item.id)
+  ADD_ITEM(state, { note, item, index }) {
+    // 指定された位置（index）の次に新しい item を追加
+    note.item_ids.splice(index, 0, item.id)
   },
   DELETE_ITEM(state, { note, item }) {
     note.item_ids = note.item_ids.filter((id) => id !== item.id)
   },
-  REMOVE_ITEM(state, { itemId }) {
-    const noteIndex = state.notesAll.findIndex(
-      (note) => note.id === state.noteId
-    )
-    const itemIndex = state.notesAll[noteIndex].item_ids.indexOf(itemId)
-    delete state.notesAll[noteIndex].item_ids[itemIndex]
+  REPLACE_NOTE_ITEM(state, { note, oldItemId, newItemId }) {
+    console.log(note)
+    const index = note.item_ids.findIndex((id) => id === oldItemId)
+    note.item_ids.splice(index, 1, newItemId)
   }
 }

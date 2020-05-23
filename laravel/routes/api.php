@@ -66,8 +66,10 @@ Route::group(['prefix' => 'note', 'namespace' => 'Note', 'middleware' => 'auth:a
 Route::group(['prefix' => 'item', 'namespace' => 'Item', 'middleware' => 'auth:api'], function () {
   Route::get('', 'IndexController');
   Route::post('', 'StoreController');
+  Route::put('/note_items', 'UpdateNoteItemsController');
   Route::put('{Item}', 'UpdateController');
   Route::delete('{Item}', 'DestroyController');
+  Route::get('/note_items/{Note}', 'NoteItemsController');
 });
 
 // Category
