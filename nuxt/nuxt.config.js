@@ -1,7 +1,36 @@
-import colors from 'vuetify/es5/util/colors'
+const colors = require('vuetify/es5/util/colors').default
 
-export default {
+const { ENV } = require('./configs/env')
+
+const routerConfig = {}
+if (ENV.BASE_URL) {
+  routerConfig.base = ENV.BASE_URL
+}
+
+const generate = {}
+if (ENV.GENERATE_ERROR_PAGE) {
+  generate.routes = ['/403', '/404', '/500']
+}
+
+module.exports = {
   mode: 'universal',
+
+  srcDir: 'app',
+
+  router: {
+    ...routerConfig
+  },
+
+  render: {
+    /**
+     * compression を通すと2重に Gzip がかかりブラウザが表示できないので
+     * なにもしないミドルウェアを定義しておく
+     */
+    compressor: (req, res, next) => {
+      next()
+    }
+  },
+
   /*
    ** Headers of the page
    */
