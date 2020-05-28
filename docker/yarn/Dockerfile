@@ -3,5 +3,5 @@
 #
 FROM web
 
-ENTRYPOINT [ "npm" ]
+ENTRYPOINT [ "yarn" ]
 CMD ["-v"]
