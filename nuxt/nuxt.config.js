@@ -1,6 +1,7 @@
 const colors = require('vuetify/es5/util/colors').default
 
 const { ENV } = require('./configs/env')
+require('dotenv').config()
 
 const routerConfig = {}
 if (ENV.BASE_URL) {
@@ -16,6 +17,15 @@ module.exports = {
   mode: 'universal',
 
   srcDir: 'app',
+
+  env: {
+    PASSPORT_PASSWORD_GRANT_CLIENT_ID:
+      process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
+    PASSPORT_PASSWORD_GRANT_CLIENT_SECRET:
+      process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
+    BASE_API_URL_CLIENT: process.env.BASE_API_URL_CLIENT,
+    BASE_API_URL_SERVER: process.env.BASE_API_URL_SERVER
+  },
 
   router: {
     ...routerConfig
@@ -80,7 +90,16 @@ module.exports = {
     '@nuxtjs/markdownit',
     'nuxt-material-design-icons',
     'nuxtjs-mdi-font',
-    ['cookie-universal-nuxt', { parseJSON: false }]
+    ['cookie-universal-nuxt', { parseJSON: false }],
+    [
+      '@nuxtjs/dotenv',
+      {
+        filename:
+          process.env.NODE_ENV === 'production'
+            ? '../.env.production'
+            : '../.env.development'
+      }
+    ]
   ],
   /*
    ** Axios module configuration

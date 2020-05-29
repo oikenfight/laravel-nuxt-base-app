@@ -1,10 +1,14 @@
 export default function({ $axios, store }) {
+  // devの際はdockerでurlが異なる
   if (process.client) {
-    $axios.setBaseURL('http://localhost:8080')
+    console.log('here is axios client')
+    $axios.setBaseURL(process.env.BASE_API_URL_CLIENT)
   }
   // Change URL only for server
   if (process.server) {
-    $axios.setBaseURL('http://nginx_api')
+    console.log('here is axios server')
+    console.log(process.env.BASE_API_URL_SERVER)
+    $axios.setBaseURL(process.env.BASE_API_URL_SERVER)
   }
   $axios.onRequest((config) => {
     config.headers.common.Accept = 'application/json'

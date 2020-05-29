@@ -18,17 +18,12 @@ $ docker-compose up
 ```
 
 ### Initial setting for Laravel
-composer install
-```bash
-$ docker-compose run --rm phpcli composer install
-```
-
-migrate
+Migrate
 ```bash
 $ docker-compose run --rm phpcli php artisan migrate
 ```
 
-set up laravel passport
+Set up laravel passport
 ```bash
 $ docker-compose run --rm phpcli php artisan passport:install
 ```
