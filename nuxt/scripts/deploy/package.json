@@ -1,0 +1,30 @@
+{
+  "name": "nuxt-on-lambda-deploy",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "tsc": "tsc",
+    "lint": "eslint ./src/**/*.ts ./src/*.ts",
+    "lint:fix": "eslint --fix ./src/**/*.ts ./src/*.ts"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.0",
+    "@types/node": "^12.0.10",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
+    "cross-spawn": "^6.0.5",
+    "eslint": "^6.0.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.480.0",
+    "consola": "^2.9.0",
+    "dayjs": "^1.8.14",
+    "minimatch": "^3.0.4"
+  }
+}

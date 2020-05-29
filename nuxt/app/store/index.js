@@ -76,8 +76,8 @@ export const actions = {
       await this.$axios
         .$post('/oauth/token', {
           grant_type: 'password',
-          client_id: '3',
-          client_secret: 'SHHESm5I6GBh3HLjuiUpJNgZxIW3zCby4BmIHy2u',
+          client_id: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
+          client_secret: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
           username: user.email,
           password: user.password,
           scope: '*'
@@ -102,9 +102,11 @@ export const actions = {
     await this.$axios
       .$post('/api/auth/register', { user })
       .then((response) => {
+        console.log('register then')
         return true
       })
       .catch((e) => {
+        console.log('register catch')
         return false
       })
   },

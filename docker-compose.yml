@@ -43,8 +43,8 @@ services:
     volumes:
       - ./nuxt:/src
     command:
-      # "npm run start"
-      "npm run dev"
+      # "yarn start"
+      "yarn dev"
   nginx_web:
     image: nginx_web
     container_name: nginx_web
@@ -80,12 +80,12 @@ services:
       dockerfile: docker/phpcli/Dockerfile
     volumes:
       - ./laravel:/src
-  npm:
-    image: npm
-    container_name: npm
+  yarn:
+    image: yarn
+    container_name: yarn
     build:
       context: ./
-      dockerfile: docker/npm/Dockerfile
+      dockerfile: docker/yarn/Dockerfile
       args:
         MY_APP: "./laravel"
         APP_ROOT: "/src"

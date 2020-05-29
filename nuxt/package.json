@@ -1,36 +1,53 @@
 {
-  "name": "web",
+  "name": "logazin",
   "version": "1.0.0",
-  "description": "My tiptop Nuxt.js project",
+  "description": "",
   "author": "Oikawa Yuta",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "cross-env NODE_ENV=development nodemon server/local.js --watch server",
     "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint": "eslint --fix --ext .js,.vue ./ --ignore-path .gitignore ."
+    "start": "cross-env NODE_ENV=production node server/local.js",
+    "generate:error": "cross-env NODE_ENV=production GENERATE_ERROR_PAGE=true nuxt generate",
+    "lint": "vue-cli-service lint --no-fix .",
+    "lint:fix": "vue-cli-service lint .",
+    "precommit": "npm run lint",
+    "sls": "sls",
+    "sls:deploy": "sls deploy",
+    "deploy": "cross-env NODE_ENV=production ENDPOINT_ENV=cf node bin/deploy/index.js",
+    "deploy:api_gw": "cross-env NODE_ENV=production ENDPOINT_ENV=api_gw run-s build sls:deploy",
+    "delete": "sls remove"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/markdownit": "^1.2.7",
+    "@nuxtjs/vuetify": "^1.9.1",
+    "aws-serverless-express": "^3.3.8",
+    "cookie-universal-nuxt": "^2.1.2",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
     "nuxt": "^2.10.2",
     "v-markdown-editor": "^1.2.5"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.1.0",
-    "@nuxtjs/markdownit": "^1.2.7",
-    "@nuxtjs/vuetify": "^1.9.1",
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-service": "^4.3.1",
+    "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.0.3",
-    "cookie-universal-nuxt": "^2.1.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-nuxt": "^0.5.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.1.1",
+    "nodemon": "^2.0.3",
+    "npm-run-all": "^4.1.3",
     "nuxt-material-design-icons": "^1.0.4",
     "nuxtjs-mdi-font": "^1.0.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "serverless": "^1.71.3"
   }
 }
