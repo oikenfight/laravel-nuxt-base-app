@@ -31,9 +31,12 @@
       <!-- Profile -->
       <v-list-item class="px-2">
         <v-list-item-avatar>
+          <v-icon>mdi-account</v-icon>
+          <!--
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          -->
         </v-list-item-avatar>
-        <v-list-item-title>Yuta Oikawa</v-list-item-title>
+        <v-list-item-title>{{ user.name }}</v-list-item-title>
 
         <!-- ナビゲーションバー閉じるボタン -->
         <v-btn icon @click.stop="mini = !mini">
@@ -84,7 +87,9 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      user: 'user'
+    })
   },
   methods: {
     ...mapActions({}),
