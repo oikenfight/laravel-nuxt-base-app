@@ -23,6 +23,7 @@ use Illuminate\Support\Collection;
  * @property-read \App\Entities\Folder $folder
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
  * @property-read array $item_ids
+ * @property-read array $head_body
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newQuery()
@@ -87,7 +88,8 @@ class Note extends Entity implements NoteInterface
     ];
 
     protected $appends = [
-        'item_ids'
+        'item_ids',
+        'head_body',
     ];
 
     /**
@@ -96,6 +98,25 @@ class Note extends Entity implements NoteInterface
     public function getItemIdsAttribute(): array
     {
         return $this->items()->get()->sortBy('order_index')->pluck('id')->toArray();
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeadBodyAttribute(): string
+    {
+        $headBody = '';
+        /** @var Collection|ItemInterface[] items */
+        $items = $this->items()->get()->sortBy('order_index');
+        foreach ($items as $item) {
+            $str = $item->body;
+            // 改行/タブを半角スペースに変換
+            $str = preg_replace('/[\n\r\t]/', ' ', $str);
+            // 複数スペースを一つに変換
+            $str = preg_replace('/\s(?=\s)/', '', $str);
+            $headBody .= $str . ' ';
+        }
+        return $headBody;
     }
 
     /* ------------------------------- status ------------------------------- */

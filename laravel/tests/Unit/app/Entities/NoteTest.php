@@ -145,6 +145,7 @@ final class NoteTest extends TestCase
         $this->assertSame(
             [
                 'item_ids',
+                'head_body'
             ],
             $appendsRef->getValue($note)
         );
@@ -201,6 +202,26 @@ final class NoteTest extends TestCase
         $note->shouldReceive('items')->with()->once()->andReturn($hasMany);
 
         $this->assertSame($expected, $note->item_ids);
+    }
+
+    /**
+     * test getItemIdAttribute method
+     *
+     * @return void
+     */
+    public function testGetHeadBodyAttribute()
+    {
+        $this->assertTrue(false);
+    }
+
+    /**
+     * test item_ids property
+     *
+     * @return void
+     */
+    public function testHeadBodyProperty()
+    {
+        $this->assertTrue(false);
     }
 
     /**
