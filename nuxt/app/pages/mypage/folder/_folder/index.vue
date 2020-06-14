@@ -1,5 +1,5 @@
 <template>
-  <v-layout
+  <v-row
     id="scroll-folder-note-list"
     class="overflow-y-auto"
     style="max-height: 100%;"
@@ -15,10 +15,10 @@
       </v-col>
 
       <v-col cols="12">
-        <NoteList :notes="notes" :select="select"></NoteList>
+        <NoteList :notes="notes" :folder="folder" :select="select"></NoteList>
       </v-col>
     </v-row>
-  </v-layout>
+  </v-row>
 </template>
 
 <script>
@@ -51,7 +51,7 @@ export default {
           href: '/mypage'
         },
         {
-          text: this.folder ? this.folder.name : '',
+          text: this.folder && this.folder.name ? this.folder.name : 'no name',
           disabled: true,
           href: '/mypage/folder/' + this.$route.params.folder
         }

@@ -1,12 +1,8 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="10">
-        <v-row justify="center">
-          <v-col cols="auto" class="display-2 pa-0">
-            note
-          </v-col>
-        </v-row>
+      <v-col ref="titleHeader" cols="10" class="pb-0">
+        <Header></Header>
       </v-col>
 
       <v-col cols="10">
@@ -32,11 +28,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Header from '@/components/MyPage/Common/Header'
 import NoteList from '@/components/MyPage/Common/NoteList.vue'
 
 export default {
   name: 'Index',
-  components: { NoteList },
+  components: { Header, NoteList },
   data() {
     return {}
   },
