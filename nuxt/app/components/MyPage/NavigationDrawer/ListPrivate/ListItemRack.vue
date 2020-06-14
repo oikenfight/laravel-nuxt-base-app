@@ -18,7 +18,7 @@
     <v-col v-else cols="12" class="text-truncate pa-0 ma-0">
       <span
         class="subtitle-1"
-        style="display: inline-block; padding: 4px 0 0 5px;"
+        style="display: inline-block; padding: 4px 0 0 15px;"
       >
         {{ rack.name }}
       </span>

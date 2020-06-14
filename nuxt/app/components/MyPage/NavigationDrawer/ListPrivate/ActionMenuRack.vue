@@ -64,8 +64,9 @@ export default {
           break
       }
     },
-    add() {
-      this.$store.dispatch('rack/create')
+    async add() {
+      const newRack = await this.$store.dispatch('rack/create')
+      this.$emit('edit', { rack: newRack })
     },
     edit() {
       this.$emit('edit', { rack: this.rack })

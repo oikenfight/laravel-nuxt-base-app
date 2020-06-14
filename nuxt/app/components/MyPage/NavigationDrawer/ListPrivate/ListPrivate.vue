@@ -2,6 +2,29 @@
   <!-- TODO: そのうちやる。選択中の rack or folder をハイライトする -->
   <!-- ツリーを描画するコンポーネント -->
   <v-row class="ma-0">
+    <v-col cols="12" class="py-0">
+      <v-row>
+        <v-col cols="9" class="pr-0">
+          <v-text-field
+            placeholder="Search"
+            filled
+            rounded
+            dense
+            disabled
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3" class="pl-0 pt-4">
+          <v-btn color="white" text dark small @click="addRack">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-col cols="12" class="pt-0">
+      <v-divider></v-divider>
+    </v-col>
+
     <v-list class="" width="100%">
       <v-row v-for="rack in racksAll" :key="rack.id" class="ma-0">
         <v-col cols="12" class="py-2">
@@ -61,6 +84,9 @@ export default {
     },
     isEditingTheFolder(folder) {
       return this.folderEdited && this.folderEdited.id === folder.id
+    },
+    addRack() {
+      this.$store.dispatch('rack/create')
     },
     editRack({ rack }) {
       this.rackEdited = Object.assign({}, rack)
