@@ -1,43 +1,7 @@
 <template>
-  <v-row class="d-flex justify-space-between" style="margin-right: 30px;">
+  <v-row style="margin-right: 30px;">
     <!--  left content  -->
-    <v-col cols="7" class="py-0 pl-5">
-      <v-row>
-        <v-col cols="5" class="pa-0 py-0">
-          <v-row>
-            <v-col cols="5" class="pa-0 d-flex justify-end">
-              <v-subheader class="">Category:</v-subheader>
-            </v-col>
-            <v-col cols="7" class="pa-0">
-              <v-select
-                v-model="input.category"
-                :items="categoriesSelectable"
-                item-text="name"
-                label=""
-                dense
-                return-object
-                @change="updateNoteCategory"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="7" class="pa-0 py-0">
-          <v-row>
-            <v-col cols="3" class="pa-0 d-flex justify-end">
-              <v-subheader class="">Tags:</v-subheader>
-            </v-col>
-            <v-col cols="8" class="pa-0">
-              <v-select :items="tagsAll" label="" dense></v-select>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-col>
-
-    <!-- center content -->
-    <div class="display-1"></div>
-
-    <v-col>
+    <v-col cols="12">
       <v-row justify="end">
         <v-switch
           v-model="input.status"
@@ -90,16 +54,11 @@ export default {
       statusMessages: {
         true: '公開中',
         false: '下書き'
-      },
-      categoriesSelectable: [{ id: null, name: '' }],
-      tagsAll: ['tag1', 'tag2', 'tag3', 'tag4']
+      }
     }
   },
   computed: {
-    ...mapGetters({
-      categoriesAll: 'category/categoriesAll',
-      category: 'category/category'
-    }),
+    ...mapGetters({}),
     statusMessage() {
       return this.note.status === 1
         ? this.statusMessages.true
@@ -110,26 +69,10 @@ export default {
     noteEdited(val, oldVal) {
       this.note = Object.assign({}, this.noteEdited)
       this.input.status = this.note.status
-      this.input.category = this.note.category_id
-        ? this.category(this.note.category_id)
-        : null
-    },
-    categoriesAll(val, old) {
-      this.categoriesSelectable = this.categoriesSelectable.concat(
-        this.categoriesAll
-      )
     }
   },
   mounted() {
     this.note = Object.assign({}, this.noteEdited)
-    // 選択可能なカテゴリをセット
-    this.categoriesSelectable = this.categoriesSelectable.concat(
-      this.categoriesAll
-    )
-    // カテゴリの初期値をセット
-    this.input.category = this.note.category_id
-      ? this.category(this.note.category_id)
-      : null
     // ステータスの初期値をセット
     this.input.status = this.note.status
   },
@@ -138,11 +81,6 @@ export default {
     deleteNote() {
       this.$store.dispatch('note/delete', { note: this.noteEdited })
       this.$router.push('/folder/' + this.$route.params.folder)
-    },
-    updateNoteCategory() {
-      console.log('updateNoteCategory method')
-      this.note.category_id = this.input.category.id
-      this.$store.dispatch('note/update', { note: this.note })
     },
     updateNoteStatus() {
       console.log('updateNoteStatus method')
