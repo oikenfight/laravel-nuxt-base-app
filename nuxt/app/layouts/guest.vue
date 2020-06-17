@@ -1,12 +1,14 @@
 <template>
-  <v-app id="" dark>
-    <v-content app>
-      <v-container fill-height>
-        <v-layout wrap align-center>
-          <nuxt />
-        </v-layout>
-      </v-container>
+  <v-app id="">
+    <!-- Content -->
+    <v-content class="" app>
+      <nuxt />
     </v-content>
+
+    <!-- Footer -->
+    <v-footer class="" app inset>
+      <span class="">md-editor @oikawa</span>
+    </v-footer>
   </v-app>
 </template>
 

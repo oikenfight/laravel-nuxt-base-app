@@ -41,6 +41,7 @@ import BreadCrumbs from '@/components/MyPage/Common/BreadCrumbs'
 
 export default {
   name: 'Article',
+  layout: 'guest',
   components: { BreadCrumbs, Header },
   data() {
     return {
@@ -65,7 +66,7 @@ export default {
     breadcrumbsItems() {
       return [
         {
-          text: 'home',
+          text: 'TOP',
           disabled: false,
           href: '/'
         },

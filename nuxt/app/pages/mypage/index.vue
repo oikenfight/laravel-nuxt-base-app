@@ -8,6 +8,10 @@
       <v-col cols="12">
         <v-divider></v-divider>
       </v-col>
+
+      <v-col cols="11" class="pa-0">
+        <BreadCrumbs :breadcrumbs-items="breadcrumbsItems"></BreadCrumbs>
+      </v-col>
     </v-row>
 
     <v-row justify="center">
@@ -66,11 +70,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Header from '@/components/MyPage/Common/Header'
+import BreadCrumbs from '@/components/MyPage/Common/BreadCrumbs'
 import NoteList from '@/components/MyPage/Common/NoteList.vue'
 
 export default {
   name: 'Index',
-  components: { Header, NoteList },
+  components: { Header, BreadCrumbs, NoteList },
   data() {
     return {
       tab: null,
@@ -96,6 +101,20 @@ export default {
           break
       }
       return notes
+    },
+    breadcrumbsItems() {
+      return [
+        {
+          text: 'TOP',
+          disabled: false,
+          href: '/'
+        },
+        {
+          text: 'マイページ',
+          disabled: true,
+          href: '/mypage'
+        }
+      ]
     }
   },
   methods: {

@@ -35,6 +35,7 @@ import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
 
 export default {
   name: 'Index',
+  layout: 'guest',
   components: { Header, BreadCrumbs, NoteList, CategoryList },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
     breadcrumbsItems() {
       return [
         {
-          text: 'Top',
+          text: 'TOP',
           disabled: false,
           href: '/'
         }

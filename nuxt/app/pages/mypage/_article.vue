@@ -65,7 +65,12 @@ export default {
     breadcrumbsItems() {
       return [
         {
-          text: 'home',
+          text: 'TOP',
+          disabled: false,
+          href: '/'
+        },
+        {
+          text: 'マイページ',
           disabled: false,
           href: '/mypage'
         },

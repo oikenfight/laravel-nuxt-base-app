@@ -22,10 +22,10 @@
         </template>
         <v-list>
           <v-list-item @click="logout">
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>ログアウト</v-list-item-title>
           </v-list-item>
           <v-list-item disabled>
-            <v-list-item-title>Setting</v-list-item-title>
+            <v-list-item-title>設定</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -38,7 +38,7 @@ export default {
   name: 'Header',
   data() {
     return {
-      title: 'note'
+      title: 'Logazin'
     }
   },
   methods: {

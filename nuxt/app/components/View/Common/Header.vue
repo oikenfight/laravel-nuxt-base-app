@@ -21,11 +21,14 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click="logout">
-            <v-list-item-title>Logout</v-list-item-title>
+          <v-list-item v-if="user" @click="logout">
+            <v-list-item-title>ログアウト</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-else @click="login">
+            <v-list-item-title>ログイン</v-list-item-title>
           </v-list-item>
           <v-list-item disabled>
-            <v-list-item-title>Setting</v-list-item-title>
+            <v-list-item-title>設定</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -34,6 +37,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Header',
   data() {
@@ -41,13 +46,21 @@ export default {
       title: 'note'
     }
   },
+  computed: {
+    ...mapGetters({
+      user: 'user'
+    })
+  },
   methods: {
+    ...mapActions({}),
     async logout() {
       try {
         await this.$store.dispatch('logout')
       } catch {
         console.log('logout error !!')
       }
+    },
+    login() {
       window.location.href = '/auth/login'
     }
   }
