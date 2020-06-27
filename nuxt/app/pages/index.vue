@@ -14,11 +14,11 @@
       </v-col>
 
       <v-col cols="8" class="offset-1">
-        <NoteList :notes="notesReleased"></NoteList>
+        <NoteList :notes="notes" :select="select"></NoteList>
       </v-col>
 
       <v-col cols="2" class="">
-        <CategoryList :categories="categoriesAll"></CategoryList>
+        <CategoryList :categories="categories"></CategoryList>
       </v-col>
 
       <v-spacer></v-spacer>
@@ -44,8 +44,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleased: 'note/notesReleased',
-      categoriesAll: 'category/categoriesAll'
+      notes: 'view/note/notesAll',
+      categories: 'category/categoriesAll'
     }),
     breadcrumbsItems() {
       return [
@@ -58,7 +58,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      console.log('select', '/' + note.id)
+      this.$router.push('/' + note.id)
+    }
   }
 }
 </script>

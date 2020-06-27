@@ -4,7 +4,7 @@
     <div class=""></div>
 
     <!-- center content -->
-    <div class="display-1">{{ title }}</div>
+    <div class="display-1" @click="top()">{{ title }}</div>
 
     <!-- right content -->
     <div class="space-between" style="margin-right: 10px">
@@ -27,6 +27,9 @@
           <v-list-item v-else @click="login">
             <v-list-item-title>ログイン</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="mypage">
+            <v-list-item-title>マイページ</v-list-item-title>
+          </v-list-item>
           <v-list-item disabled>
             <v-list-item-title>設定</v-list-item-title>
           </v-list-item>
@@ -43,7 +46,7 @@ export default {
   name: 'Header',
   data() {
     return {
-      title: 'note'
+      title: 'Logagin'
     }
   },
   computed: {
@@ -61,7 +64,13 @@ export default {
       }
     },
     login() {
-      window.location.href = '/auth/login'
+      this.$router.push('/auth/login')
+    },
+    top() {
+      this.$router.push('/')
+    },
+    mypage() {
+      this.$router.push('/mypage')
     }
   }
 }

@@ -71,9 +71,14 @@ export default {
           href: '/'
         },
         {
-          text: this.category ? this.category.name : '',
+          text:
+            this.category && this.category.name
+              ? this.category.name
+              : 'no category',
           disabled: false,
-          href: '/category/' + (this.category ? this.category.id : '')
+          href:
+            '/category/' +
+            (this.category && this.category.name ? this.category.id : '')
         },
         {
           text: this.note ? this.note.name : '',
