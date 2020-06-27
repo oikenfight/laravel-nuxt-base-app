@@ -42,13 +42,13 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit({ dispatch, commit, state }, { error }) {
+    // 初期データ取得
+    await dispatch('dispatchViewData')
     // cookie から token を取得
     const token = this.$cookies.get('token')
-
     if (!token) {
       return Promise.resolve()
     }
-
     // トークンからユーザを取得
     const user = await dispatch('fetchUserByAccessToken', { token }).catch(
       (e) => {
@@ -58,10 +58,9 @@ export const actions = {
         })
       }
     )
-
-    // 初期データを取得
+    // ログイン時初期データを取得
     if (user) {
-      await dispatch('dispatchAll')
+      await dispatch('dispatchMyData')
     }
   },
   async fetchUserByAccessToken({ commit, dispatch }, { token }) {
@@ -110,13 +109,19 @@ export const actions = {
         return false
       })
   },
-  async dispatchAll({ dispatch }) {
+  async dispatchMyData({ dispatch }) {
     await Promise.all([
       dispatch('rack/fetchAll'),
       dispatch('folder/fetchAll'),
       dispatch('note/fetchAll'),
       dispatch('item/fetchAll'),
       dispatch('category/fetchAll')
+    ])
+  },
+  async dispatchViewData({ dispatch }) {
+    await Promise.all([
+      dispatch('view/note/fetchAll'),
+      dispatch('view/category/fetchAll')
     ])
   }
 }
