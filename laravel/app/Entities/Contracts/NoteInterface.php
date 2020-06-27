@@ -20,7 +20,8 @@ use Illuminate\Support\Collection;
  * @property-read \App\Entities\Folder $folder
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entities\Item[] $items
  * @property-read array $item_ids
- * @property-read array $head_body
+ * @property-read string $username
+ * @property-read string $head_body
  * @property-read \App\Entities\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Entities\Note newQuery()
