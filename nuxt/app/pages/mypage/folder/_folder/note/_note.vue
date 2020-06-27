@@ -151,9 +151,6 @@ export default {
         item
       })
       this.itemEdited = item
-    },
-    select(item) {
-      this.itemEdited = item
     }
   }
 }

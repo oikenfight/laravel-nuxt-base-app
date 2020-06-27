@@ -32,14 +32,14 @@
               <v-card-text>
                 <v-text-field
                   v-model="user.email"
-                  prepend-icon="email"
+                  prepend-icon="mdi-email"
                   outline
                   label="メールアドレス"
                   type="email"
                 ></v-text-field>
                 <v-text-field
                   v-model="user.password"
-                  prepend-icon="lock"
+                  prepend-icon="mdi-key"
                   label="パスワード"
                   type="password"
                 ></v-text-field>
@@ -50,7 +50,7 @@
                     <v-row justify="center">
                       <v-col cols="6">
                         <v-btn color="info" block @click="login">
-                          <v-icon>lock</v-icon>
+                          <v-icon class="mr-3">mdi-login</v-icon>
                           ログイン
                         </v-btn>
                       </v-col>

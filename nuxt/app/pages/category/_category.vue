@@ -14,7 +14,7 @@
       </v-col>
 
       <v-col cols="8" class="offset-1">
-        <NoteList :notes="notes"></NoteList>
+        <NoteList :notes="notes" :select="select"></NoteList>
       </v-col>
 
       <v-col cols="2" class="">
@@ -69,7 +69,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      console.log('select', '/' + note.id)
+      this.$router.push('/' + note.id)
+    }
   }
 }
 </script>

@@ -80,10 +80,6 @@ export default {
   },
   methods: {
     ...mapActions({}),
-    noteBody(note) {
-      console.log(note.item_ids)
-      return 'sample'
-    },
     async create() {
       const note = await this.$store.dispatch('note/create', {
         folder: this.folder

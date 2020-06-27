@@ -56,6 +56,12 @@ module.exports = {
         content: process.env.npm_package_description || ''
       }
     ],
+    script: [
+      {
+        src:
+          '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">'
+      }
+    ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
@@ -88,7 +94,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/markdownit',
-    'nuxt-material-design-icons',
+    // 'nuxt-material-design-icons',
     'nuxtjs-mdi-font',
     ['cookie-universal-nuxt', { parseJSON: false }],
     [

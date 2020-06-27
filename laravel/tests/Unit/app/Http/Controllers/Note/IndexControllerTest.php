@@ -6,7 +6,6 @@ namespace Tests\Unit\app\Http\Controllers\Note;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Note\IndexController;
-use App\Services\ResponseDataMakers\Contracts\ResponseNotesMakerInterface;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;

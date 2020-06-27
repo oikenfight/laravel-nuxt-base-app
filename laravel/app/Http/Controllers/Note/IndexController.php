@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Note;
 use App\Entities\Contracts\NoteInterface;
 use App\Entities\Contracts\UserInterface;
 use App\Http\Controllers\Controller;
-use App\Services\ResponseDataMakers\Contracts\ResponseNotesMakerInterface;
 use Illuminate\Http\Request;
 
 /**
@@ -18,7 +17,6 @@ final class IndexController extends Controller
 {
     /**
      * @param Request $request
-     * @param ResponseNotesMakerInterface $responseMaker
      *
      * @return \Illuminate\Http\JsonResponse
      */
