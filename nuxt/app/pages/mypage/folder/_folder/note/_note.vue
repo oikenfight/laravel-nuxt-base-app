@@ -13,48 +13,51 @@
 
     <!-- Note Body -->
     <v-row id="scroll-note" class="overflow-y-auto" :style="scrollWindowStyle">
-      <v-row
-        v-scroll:#scroll-note=""
-        align="center"
-        justify="center"
-        style="width: 100%"
-        class="ma-4"
-      >
-        <!-- Attribute -->
-        <v-col cols="12" class="pb-0 pl-5">
-          <v-row justify="start">
-            <v-col cols="7" class="pa-0">
-              <NoteAttribute :note-edited="note"></NoteAttribute>
-            </v-col>
-          </v-row>
-        </v-col>
+      <v-col cols="12">
+        <v-row
+          v-scroll:#scroll-note=""
+          align="center"
+          justify="center"
+          style="width: 100%"
+        >
+          <!-- Attribute -->
+          <v-col cols="11" offset="1" class="pb-0">
+            <v-row justify="start">
+              <v-col cols="7" class="pa-0">
+                <NoteAttribute :note-edited="note"></NoteAttribute>
+              </v-col>
+            </v-row>
+          </v-col>
 
-        <!-- Title -->
-        <v-col cols="12" class="pb-2 pl-4">
-          <NoteTitle :note-edited="note"></NoteTitle>
-        </v-col>
+          <!-- Title -->
+          <v-col cols="11" offset="1" class="pb-2">
+            <NoteTitle :note-edited="note"></NoteTitle>
+          </v-col>
 
-        <!-- divider -->
-        <v-col cols="12" class="pb-5">
-          <v-divider></v-divider>
-        </v-col>
+          <!-- divider -->
+          <v-col cols="11" offset="1" class="pb-5 px-0">
+            <v-divider></v-divider>
+          </v-col>
 
-        <ItemList :note="note"></ItemList>
+          <v-col cols="12">
+            <ItemList :note="note"></ItemList>
+          </v-col>
 
-        <!-- divider -->
-        <v-col cols="12">
-          <v-divider></v-divider>
-        </v-col>
+          <!-- divider -->
+          <v-col cols="11" offset="1">
+            <v-divider></v-divider>
+          </v-col>
 
-        <!-- ButtonNewItem -->
-        <v-col cols="12" class="pa-0">
-          <ButtonNewItem
-            :note="note"
-            style="height: 60px;"
-            @addItem="addedItem"
-          ></ButtonNewItem>
-        </v-col>
-      </v-row>
+          <!-- ButtonNewItem -->
+          <v-col cols="11" offset="1" class="pa-0">
+            <ButtonNewItem
+              :note="note"
+              style="height: 60px;"
+              @addItem="addedItem"
+            ></ButtonNewItem>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </div>
 </template>
