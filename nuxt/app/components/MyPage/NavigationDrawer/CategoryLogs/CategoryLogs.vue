@@ -27,8 +27,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      categoriesAll: 'category/categoriesAll',
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory'
+      categoriesAll: 'category/categoriesAll'
     })
   },
   methods: {
