@@ -18,7 +18,6 @@ final class IndexController extends Controller
 {
     /**
      * @param Request $request
-     * @param ResponseItemsMakerInterface $responseMaker
      *
      * @return \Illuminate\Http\JsonResponse
      */
