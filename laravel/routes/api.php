@@ -28,8 +28,9 @@ Route::middleware('auth:api')->delete('/user/access_token', function (Request $r
 
 // View
 Route::group(['prefix' => 'view', 'namespace' => 'View', 'middleware' => 'api'], function () {
-    Route::get('note', 'Note\IndexController');
-    Route::get('category', 'Category\IndexController');
+    Route::get('notes', 'Note\IndexController');
+    Route::get('note_items/{Note}', 'Item\NoteItemsController');
+    Route::get('categories', 'Category\IndexController');
 });
 
 // Auth
