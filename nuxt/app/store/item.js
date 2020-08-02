@@ -13,7 +13,7 @@ export const state = () => ({
     unsaved: false // 更新あり
   },
   isEditing: false, // 編集が止まったらitemsNoteに対して更新をかける
-  timeEditingStop: 0,
+  timeEditingStopped: 0,
   itemsAll: [],
   itemsNote: [] // 表示中noteのitemリスト
 })
@@ -50,8 +50,8 @@ export const getters = {
     return state.saveStatus.unsaved
   },
   // noteの編集が一定時間以上経過したかどうか
-  timeEditingStop: (state) => {
-    return state.timeEditingStop
+  timeEditingStopped: (state) => {
+    return state.timeEditingStopped
   },
   // 編集中itemのbody
   editedItemBody: (state) => {
@@ -147,7 +147,7 @@ export const mutations = {
       state.saveStatus[key] = key === status
     })
   },
-  SET_TIME_EDITING_STOP(state, { time }) {
-    state.timeEditingStop = time
+  SET_TIME_EDITING_STOPPED(state, { time }) {
+    state.timeEditingStopped = time
   }
 }

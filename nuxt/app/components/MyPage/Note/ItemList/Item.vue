@@ -1,11 +1,11 @@
 <template>
   <v-row>
     <!-- ButtonItemMenu -->
-    <v-col cols="1" class="pa-0">
+    <v-col cols="1" class="py-0">
       <ButtonItemMenu v-if="shouldShowItemMenu" :item="item"></ButtonItemMenu>
     </v-col>
     <!-- ItemEdit if this is selected -->
-    <v-col v-if="isEdit(item)" cols="10" class="pa-0">
+    <v-col v-if="isEdit(item)" cols="10" class="py-0">
       <ItemEdit
         :note="note"
         @updated="updated"
@@ -15,7 +15,7 @@
       ></ItemEdit>
     </v-col>
     <!-- ItemShow if this is not selected-->
-    <v-col v-else cols="10" class="pa-0">
+    <v-col v-else cols="10" class="py-0">
       <ItemShow :item="item" style="min-height: 48px"></ItemShow>
     </v-col>
   </v-row>
@@ -51,8 +51,7 @@ export default {
   watch: {
     item: {
       handler(val, oldVal) {
-        console.log('item is updated', this.item)
-        this.$store.commit('item/SET_TIME_EDITING_STOP', { time: 0 })
+        this.$store.commit('item/SET_TIME_EDITING_STOPPED', { time: 0 })
         this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'unsaved' })
       },
       deep: true
@@ -82,7 +81,7 @@ export default {
       this.movePrevious()
       // 削除の場合もorder_indexの更新が必要なため、変更ありステータスにする
       this.$store.commit('item/TOGGLE_SAVE_STATUS', { status: 'unsaved' })
-      this.$store.commit('item/SET_TIME_EDITING_STOP', { time: 0 })
+      this.$store.commit('item/SET_TIME_EDITING_STOPPED', { time: 0 })
     },
     moveNext() {
       this.$store.commit('item/SET_ACTIVE_INDEX', { index: this.index + 1 })

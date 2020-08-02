@@ -10,6 +10,19 @@
       </v-col>
 
       <v-col cols="10">
+        <div class="display-1">{{ category.name }}</div>
+        <div>
+          <v-chip x-small class="ma-2">
+            {{ currentNoteStatusText }}
+          </v-chip>
+          <span class="subtitle-2">
+            <v-icon>mdi-book-open</v-icon>
+            {{ notes.length }}本
+          </span>
+        </div>
+      </v-col>
+
+      <v-col cols="10">
         <v-row>
           <v-breadcrumbs :items="breadcrumbsItems">
             <template v-slot:divider>
@@ -39,14 +52,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory',
-      categoryGetter: 'category/category'
+      categoryNotesByStatus: 'note/categoryNotesByStatus',
+      currentNoteStatus: 'currentNoteStatus',
+      categoryGetter: 'view/category/category'
     }),
     notes() {
-      return this.notesReleasedOfCategory(this.$route.params.category)
+      return this.categoryNotesByStatus({
+        categoryId: this.$route.params.category,
+        noteStatus: this.currentNoteStatus
+      })
     },
     category() {
       return this.categoryGetter(this.$route.params.category)
+    },
+    currentNoteStatusText() {
+      return this.$constants.noteStatusesText[this.currentNoteStatus]
     },
     breadcrumbsItems() {
       return [
@@ -61,7 +81,7 @@ export default {
           href: '/mypage'
         },
         {
-          text: this.category ? this.category.name : '',
+          text: this.category ? this.category.name : 'no category',
           disabled: true,
           href: '/mypage/category/' + this.$route.params.category
         }
@@ -71,7 +91,7 @@ export default {
   methods: {
     ...mapActions({}),
     select(note) {
-      this.$router.push('/mypage/' + note.id)
+      this.$router.push('/mypage/folder/' + note.folder_id + '/note/' + note.id)
     }
   }
 }
