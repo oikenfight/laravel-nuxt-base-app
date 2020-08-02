@@ -58,20 +58,20 @@
                   </v-col>
                 </v-row>
               </v-card-actions>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-row>
-                  <v-col cols="12" class="pa-0">
-                    <v-row justify="center">
-                      <v-col cols="6">
-                        <v-btn to="/auth/redirect" color="info" nuxt block>
-                          Google
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </v-card-actions>
+              <!--              <v-divider></v-divider>-->
+              <!--              <v-card-actions>-->
+              <!--                <v-row>-->
+              <!--                  <v-col cols="12" class="pa-0">-->
+              <!--                    <v-row justify="center">-->
+              <!--                      <v-col cols="6">-->
+              <!--                        <v-btn to="/auth/redirect" color="info" nuxt block>-->
+              <!--                          Google-->
+              <!--                        </v-btn>-->
+              <!--                      </v-col>-->
+              <!--                    </v-row>-->
+              <!--                  </v-col>-->
+              <!--                </v-row>-->
+              <!--              </v-card-actions>-->
             </v-card>
           </v-col>
         </v-row>
@@ -105,6 +105,7 @@ export default {
     async login() {
       const result = await this.$store.dispatch('login', { user: this.user })
       if (result) {
+        this.$store.dispatch('dispatchMyData')
         this.$router.push('/mypage')
       } else {
         this.alert.type = 'error'
