@@ -3,7 +3,8 @@ const inBrowser = typeof window !== 'undefined'
 export const state = () => ({
   loggedIn: false,
   user: null,
-  token: null
+  token: null,
+  currentNoteStatus: 2 // デフォルトはallの2（see: plugins/constants）
 })
 
 export const getters = {
@@ -15,6 +16,9 @@ export const getters = {
   },
   token: (state) => {
     return state.token
+  },
+  currentNoteStatus: (state) => {
+    return state.currentNoteStatus
   }
 }
 
@@ -37,6 +41,9 @@ export const mutations = {
         this.$cookies.remove('token')
       }
     }
+  },
+  setCurrentNoteStatus(state, { noteStatus }) {
+    state.currentNoteStatus = noteStatus
   }
 }
 
@@ -72,23 +79,29 @@ export const actions = {
   async login({ commit, error }, { user }) {
     try {
       // アクセストークンを取得
-      await this.$axios
-        .$post('/oauth/token', {
-          grant_type: 'password',
-          client_id: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
-          client_secret: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
-          username: user.email,
-          password: user.password,
-          scope: '*'
-        })
-        .then((response) => {
-          commit('setToken', { token: response.access_token })
-        })
+      const response = await this.$axios.$post('/oauth/token', {
+        grant_type: 'password',
+        client_id: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
+        client_secret: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
+        username: user.email,
+        password: user.password,
+        scope: '*'
+      })
+      commit('setToken', { token: response.access_token })
+
+      // .then((response) => {
+      //   commit('setToken', { token: response.access_token })
+      // })
+      // .catch(() => {
+      //   console.log('here is error')
+      //   // console.log(error)
+      // })
       // ユーザ情報を取得
       const data = await this.$axios.$get('/api/user')
       commit('setUser', { user: data.user })
       return true
     } catch (e) {
+      console.log(e)
       return false
     }
   },
@@ -98,16 +111,7 @@ export const actions = {
     })
   },
   async register({ commit, error }, { user }) {
-    await this.$axios
-      .$post('/api/auth/register', { user })
-      .then((response) => {
-        console.log('register then')
-        return true
-      })
-      .catch((e) => {
-        console.log('register catch')
-        return false
-      })
+    return await this.$axios.$post('/api/auth/register', { user })
   },
   async dispatchMyData({ dispatch }) {
     await Promise.all([
