@@ -1,26 +1,5 @@
 <template>
-  <v-row class="ma-0">
-    <v-col cols="12" class="py-0">
-      <v-row>
-        <v-col cols="9" class="pr-0">
-          <div>
-            <span class="title white--text">
-              Category
-            </span>
-          </div>
-        </v-col>
-        <v-col cols="3" class="pl-0 pt-4">
-          <v-btn color="white" text dark small @click="add">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-col>
-
-    <v-col cols="12" class="pt-0">
-      <v-divider></v-divider>
-    </v-col>
-
+  <v-row justify="center">
     <v-list width="100%">
       <v-list-item
         v-for="category in categoriesAll"
@@ -35,11 +14,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import ListItemCategory from '@/components/MyPage/NavigationDrawer/ListPublic/ListItemCategory.vue'
+import { mapActions, mapGetters } from 'vuex'
+import ListItemCategory from '@/components/MyPage/NavigationDrawer/CategoryLogs/ListItemCategory.vue'
 
 export default {
-  name: 'ListPublic',
+  name: 'CategoryLogs',
   components: { ListItemCategory },
   data() {
     return {

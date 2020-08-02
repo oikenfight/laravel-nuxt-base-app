@@ -3,9 +3,9 @@
   <v-list dense width="50" class="fill-height">
     <v-list-item-group>
       <v-list-item
-        v-for="(menu, index) in menuTogglable"
+        v-for="(menu, index) in menusTogglable"
         :key="index"
-        @click="toggleMenu(menu.name)"
+        @click="toggleMenu(menu)"
       >
         <v-list-item-icon class="">
           <v-icon class="" v-text="menu.icon"></v-icon>
@@ -17,16 +17,17 @@
 
 <script>
 export default {
-  name: 'ListBaseMenu',
+  name: 'LeftMenu',
   props: {
-    menuTogglable: Array,
+    currentMenu: Object,
+    menusTogglable: Array,
     toggleMenu: Function
   },
   data() {
     return {}
   },
   mounted() {
-    console.log(this.menuTogglable)
+    console.log(this.menusTogglable)
   },
   methods: {}
 }
