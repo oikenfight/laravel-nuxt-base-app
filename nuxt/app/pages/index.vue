@@ -45,7 +45,7 @@ export default {
   computed: {
     ...mapGetters({
       notes: 'view/note/notesAll',
-      categories: 'category/categoriesAll'
+      categories: 'view/category/categoriesAll'
     }),
     breadcrumbsItems() {
       return [
@@ -60,7 +60,6 @@ export default {
   methods: {
     ...mapActions({}),
     select(note) {
-      console.log('select', '/' + note.id)
       this.$router.push('/' + note.id)
     }
   }

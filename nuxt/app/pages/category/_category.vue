@@ -35,6 +35,7 @@ import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
 
 export default {
   name: 'Category',
+  layout: 'guest',
   components: { Header, BreadCrumbs, NoteList, CategoryList },
   data() {
     return {
@@ -43,12 +44,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory',
-      categoriesAll: 'category/categoriesAll',
-      categoryGetter: 'category/category'
+      notesCategory: 'view/note/notesCategory',
+      categoriesAll: 'view/category/categoriesAll',
+      categoryGetter: 'view/category/category'
     }),
     notes() {
-      return this.notesReleasedOfCategory(this.$route.params.category)
+      return this.notesCategory(this.$route.params.category)
     },
     category() {
       return this.categoryGetter(this.$route.params.category)
@@ -61,9 +62,14 @@ export default {
           href: '/'
         },
         {
-          text: this.category ? this.category.name : '',
-          disabled: true,
-          href: '/category/' + this.$route.params.category
+          text:
+            this.category && this.category.name
+              ? this.category.name
+              : 'no name',
+          disabled: !(this.category && this.category.name),
+          href:
+            '/category/' +
+            (this.category && this.category.name ? this.category.id : '')
         }
       ]
     }

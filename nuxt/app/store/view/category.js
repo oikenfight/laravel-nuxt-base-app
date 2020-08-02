@@ -19,7 +19,7 @@ export const getters = {
 
 export const actions = {
   async fetchAll({ commit }) {
-    const data = await this.$axios.$get('/api/view/category').catch((err) => {
+    const data = await this.$axios.$get('/api/view/categories').catch((err) => {
       console.log(err)
     })
     commit('SET_CATEGORIES_ALL', { categories: data.categories })

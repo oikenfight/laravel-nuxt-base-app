@@ -24,7 +24,7 @@ export const getters = {
 
 export const actions = {
   async fetchAll({ commit }) {
-    const data = await this.$axios.$get('/api/view/note').catch((err) => {
+    const data = await this.$axios.$get('/api/view/notes').catch((err) => {
       console.log(err)
     })
     commit('SET_NOTES_ALL', { notes: Object.values(data.notes) })
