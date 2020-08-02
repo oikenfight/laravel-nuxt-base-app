@@ -3,11 +3,12 @@
     <!--  left content  -->
     <v-col cols="12">
       <v-row justify="end">
+        <v-chip label outlined class="mr-3">{{ saveStatusMessage }}</v-chip>
         <v-switch
           v-model="input.status"
           :true-value="statusValues.true"
           :false-value="statusValues.false"
-          :label="statusMessage"
+          :label="noteStatusMessage"
           style="margin: 0 20px 0 0"
           @change="updateNoteStatus"
         >
@@ -51,7 +52,7 @@ export default {
         true: 1,
         false: 0
       },
-      statusMessages: {
+      noteStatusMessages: {
         true: '公開中',
         false: '下書き'
       }
@@ -59,10 +60,19 @@ export default {
   },
   computed: {
     ...mapGetters({}),
-    statusMessage() {
+    noteStatusMessage() {
       return this.note.status === 1
-        ? this.statusMessages.true
-        : this.statusMessages.false
+        ? this.noteStatusMessages.true
+        : this.noteStatusMessages.false
+    },
+    saveStatusMessage() {
+      if (this.$store.getters['item/saveStatusIsSaved']) {
+        return this.$constants.saveStatusText[0]
+      } else if (this.$store.getters['item/saveStatusIsSaving']) {
+        return this.$constants.saveStatusText[1]
+      } else {
+        return this.$constants.saveStatusText[2]
+      }
     }
   },
   watch: {
@@ -83,7 +93,6 @@ export default {
       this.$router.push('/folder/' + this.$route.params.folder)
     },
     updateNoteStatus() {
-      console.log('updateNoteStatus method')
       this.note.status = this.input.status
       this.$store.dispatch('note/update', { note: this.note })
     },
