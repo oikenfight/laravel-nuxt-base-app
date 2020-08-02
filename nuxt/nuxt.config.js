@@ -77,6 +77,7 @@ module.exports = {
    */
   plugins: [
     'plugins/axios.js',
+    '~/plugins/constants',
     { src: '~/plugins/v-markdown-editor.js', mode: 'client' }
   ],
   /*
