@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit\app\Entities;
 
 use App\Entities\Contracts\NoteInterface;
+use App\Entities\Contracts\UserInterface;
 use App\Entities\Folder;
 use App\Entities\Item;
 use App\Entities\Note;
@@ -145,6 +146,8 @@ final class NoteTest extends TestCase
         $this->assertSame(
             [
                 'item_ids',
+                'username',
+                'head_body',
             ],
             $appendsRef->getValue($note)
         );
@@ -201,6 +204,67 @@ final class NoteTest extends TestCase
         $note->shouldReceive('items')->with()->once()->andReturn($hasMany);
 
         $this->assertSame($expected, $note->item_ids);
+    }
+
+    /**
+     * test getUsernameAttribute method
+     *
+     * @return void
+     */
+    public function testGetUsernameAttribute()
+    {
+        $username = 'dummy username';
+
+        /** @var Mockery\Mock|UserInterface $userMock */
+        $userMock = Mockery::mock(UserInterface::class);
+        $userMock->name = $username;
+
+        /** @var Mockery\Mock|Note $note */
+        $note = Mockery::mock(Note::class)->makePartial();
+        $note->shouldReceive('user')->with()->once()->andReturn($userMock);
+
+        $note->getUsernameAttribute();
+    }
+
+    /**
+     * test item_ids property
+     *
+     * @return void
+     */
+    public function testUsernameProperty()
+    {
+        $username = 'dummy username';
+        $expected = $username;
+
+        /** @var Mockery\Mock|UserInterface $userMock */
+        $userMock = Mockery::mock(UserInterface::class);
+        $userMock->name = $username;
+
+        /** @var Mockery\Mock|Note $note */
+        $note = Mockery::mock(Note::class)->makePartial();
+        $note->shouldReceive('user')->with()->once()->andReturn($userMock);
+
+        $this->assertSame($expected, $note->username);
+    }
+
+    /**
+     * test getItemIdAttribute method
+     *
+     * @return void
+     */
+    public function testGetHeadBodyAttribute()
+    {
+        $this->assertTrue(false);
+    }
+
+    /**
+     * test item_ids property
+     *
+     * @return void
+     */
+    public function testHeadBodyProperty()
+    {
+        $this->assertTrue(false);
     }
 
     /**

@@ -2,7 +2,7 @@
   <v-row class="ma-0">
     <v-col cols="12" class="py-0">
       <span class="title">
-        Category hoge
+        Category
       </span>
     </v-col>
 
@@ -12,7 +12,7 @@
 
     <v-list width="100%" style="background: #fafafa">
       <v-list-item
-        v-for="category in categoriesAll"
+        v-for="category in categories"
         :key="category.id"
         dense
         @click="select(category)"
@@ -37,10 +37,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters({
-      categoriesAll: 'category/categoriesAll',
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory'
-    })
+    ...mapGetters({})
   },
   methods: {
     ...mapActions({}),

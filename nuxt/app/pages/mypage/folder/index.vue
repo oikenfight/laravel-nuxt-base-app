@@ -39,6 +39,11 @@ export default {
     breadcrumbsItems() {
       return [
         {
+          text: 'Top',
+          disabled: false,
+          href: '/'
+        },
+        {
           text: 'My Page',
           disabled: false,
           href: '/mypage'

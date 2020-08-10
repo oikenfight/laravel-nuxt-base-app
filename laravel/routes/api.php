@@ -21,15 +21,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:api')->delete('/user/access_token', function (Request $request) {
     \Log::debug($request->user()->token());
-
     return response()->json([
         'result' => $request->user()->token()->revoke()
     ]);
 });
 
-/**
- * Auth
- */
+// View
+Route::group(['prefix' => 'view', 'namespace' => 'View', 'middleware' => 'api'], function () {
+    Route::get('notes', 'Note\IndexController');
+    Route::get('note_items/{Note}', 'Item\NoteItemsController');
+    Route::get('categories', 'Category\IndexController');
+});
+
+// Auth
 Route::group(['prefix' => 'auth', 'namespace' => 'Api\Auth', 'middleware' => 'guest:api'], function () {
     Route::post('register', 'RegisterController@create')->name('apiRegister');
 });

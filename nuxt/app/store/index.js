@@ -3,7 +3,8 @@ const inBrowser = typeof window !== 'undefined'
 export const state = () => ({
   loggedIn: false,
   user: null,
-  token: null
+  token: null,
+  currentNoteStatus: 2 // デフォルトはallの2（see: plugins/constants）
 })
 
 export const getters = {
@@ -15,6 +16,9 @@ export const getters = {
   },
   token: (state) => {
     return state.token
+  },
+  currentNoteStatus: (state) => {
+    return state.currentNoteStatus
   }
 }
 
@@ -37,18 +41,21 @@ export const mutations = {
         this.$cookies.remove('token')
       }
     }
+  },
+  setCurrentNoteStatus(state, { noteStatus }) {
+    state.currentNoteStatus = noteStatus
   }
 }
 
 export const actions = {
   async nuxtServerInit({ dispatch, commit, state }, { error }) {
+    // 初期データ取得
+    await dispatch('dispatchViewData')
     // cookie から token を取得
     const token = this.$cookies.get('token')
-
     if (!token) {
       return Promise.resolve()
     }
-
     // トークンからユーザを取得
     const user = await dispatch('fetchUserByAccessToken', { token }).catch(
       (e) => {
@@ -58,10 +65,9 @@ export const actions = {
         })
       }
     )
-
-    // 初期データを取得
+    // ログイン時初期データを取得
     if (user) {
-      await dispatch('dispatchAll')
+      await dispatch('dispatchMyData')
     }
   },
   async fetchUserByAccessToken({ commit, dispatch }, { token }) {
@@ -73,23 +79,29 @@ export const actions = {
   async login({ commit, error }, { user }) {
     try {
       // アクセストークンを取得
-      await this.$axios
-        .$post('/oauth/token', {
-          grant_type: 'password',
-          client_id: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
-          client_secret: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
-          username: user.email,
-          password: user.password,
-          scope: '*'
-        })
-        .then((response) => {
-          commit('setToken', { token: response.access_token })
-        })
+      const response = await this.$axios.$post('/oauth/token', {
+        grant_type: 'password',
+        client_id: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_ID,
+        client_secret: process.env.PASSPORT_PASSWORD_GRANT_CLIENT_SECRET,
+        username: user.email,
+        password: user.password,
+        scope: '*'
+      })
+      commit('setToken', { token: response.access_token })
+
+      // .then((response) => {
+      //   commit('setToken', { token: response.access_token })
+      // })
+      // .catch(() => {
+      //   console.log('here is error')
+      //   // console.log(error)
+      // })
       // ユーザ情報を取得
       const data = await this.$axios.$get('/api/user')
       commit('setUser', { user: data.user })
       return true
     } catch (e) {
+      console.log(e)
       return false
     }
   },
@@ -99,24 +111,21 @@ export const actions = {
     })
   },
   async register({ commit, error }, { user }) {
-    await this.$axios
-      .$post('/api/auth/register', { user })
-      .then((response) => {
-        console.log('register then')
-        return true
-      })
-      .catch((e) => {
-        console.log('register catch')
-        return false
-      })
+    return await this.$axios.$post('/api/auth/register', { user })
   },
-  async dispatchAll({ dispatch }) {
+  async dispatchMyData({ dispatch }) {
     await Promise.all([
       dispatch('rack/fetchAll'),
       dispatch('folder/fetchAll'),
       dispatch('note/fetchAll'),
       dispatch('item/fetchAll'),
       dispatch('category/fetchAll')
+    ])
+  },
+  async dispatchViewData({ dispatch }) {
+    await Promise.all([
+      dispatch('view/note/fetchAll'),
+      dispatch('view/category/fetchAll')
     ])
   }
 }

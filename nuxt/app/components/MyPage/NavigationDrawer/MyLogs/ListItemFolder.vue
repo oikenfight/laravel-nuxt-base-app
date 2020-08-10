@@ -18,11 +18,12 @@
     <!-- if:Show Text-Field -->
     <v-col v-else cols="12" class="text-truncate pa-0 ma-0">
       <span style="display: inline-block; padding: 4px 10px 0 15px">
-        <v-icon small>folder_open</v-icon>
+        <v-icon small>mdi-folder</v-icon>
       </span>
       <span class="body-2" style="display: inline-block; padding-top: 4px">
         {{ folder.name }}
       </span>
+      <span> （{{ noteCount }}） </span>
       <span style="float: right;">
         <!-- Folder アクションメニュー -->
         <ActionMenuFolder
@@ -37,7 +38,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ActionMenuFolder from '@/components/MyPage/NavigationDrawer/ListPrivate/ActionMenuFolder.vue'
+import ActionMenuFolder from '@/components/MyPage/NavigationDrawer/MyLogs/ActionMenuFolder.vue'
 
 export default {
   name: 'ListItemFolder',
@@ -53,7 +54,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      folderNotesByStatus: 'note/folderNotesByStatus',
+      currentNoteStatus: 'currentNoteStatus'
+    }),
+    noteCount() {
+      return this.folderNotesByStatus({
+        folderId: this.folder.id,
+        noteStatus: this.currentNoteStatus
+      }).length
+    }
   },
   methods: {
     ...mapActions({}),

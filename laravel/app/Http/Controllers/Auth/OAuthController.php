@@ -74,9 +74,6 @@ final class OAuthController extends Controller
 
         $token = $user->createToken('access_token')->accessToken;
 
-        \Log::debug($socialUser->getName());
-        \Log::debug($token);
-
         return response()->json([
             'user' => $user,
             'token' => $token,

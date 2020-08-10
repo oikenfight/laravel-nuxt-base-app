@@ -4,7 +4,7 @@
       <span class="subtitle2">
         {{ category.name }}
       </span>
-      <span> （{{ countNoteReleasedInCategory }}）</span>
+      <span> （{{ notesLength }}）</span>
     </v-col>
   </v-row>
 </template>
@@ -24,10 +24,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory'
+      notesCategory: 'view/note/notesCategory'
     }),
-    countNoteReleasedInCategory() {
-      return this.notesReleasedOfCategory(this.category.id).length
+    notesLength() {
+      return this.notesCategory(this.category.id).length
     }
   },
   methods: {

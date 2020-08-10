@@ -14,11 +14,11 @@
       </v-col>
 
       <v-col cols="8" class="offset-1">
-        <NoteList :notes="notesReleased"></NoteList>
+        <NoteList :notes="notes" :select="select"></NoteList>
       </v-col>
 
       <v-col cols="2" class="">
-        <CategoryList :categories="categoriesAll"></CategoryList>
+        <CategoryList :categories="categories"></CategoryList>
       </v-col>
 
       <v-spacer></v-spacer>
@@ -35,6 +35,7 @@ import CategoryList from '@/components/View/Top/CategoryList/CategoryList'
 
 export default {
   name: 'Index',
+  layout: 'guest',
   components: { Header, BreadCrumbs, NoteList, CategoryList },
   data() {
     return {
@@ -43,13 +44,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleased: 'note/notesReleased',
-      categoriesAll: 'category/categoriesAll'
+      notes: 'view/note/notesAll',
+      categories: 'view/category/categoriesAll'
     }),
     breadcrumbsItems() {
       return [
         {
-          text: 'Top',
+          text: 'TOP',
           disabled: false,
           href: '/'
         }
@@ -57,7 +58,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    select(note) {
+      this.$router.push('/' + note.id)
+    }
   }
 }
 </script>

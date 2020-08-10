@@ -1,11 +1,14 @@
-const noteStatus = {
+// TODO: plugins/constantsを参照できるようにしたい
+const noteStatuses = {
   nonReleased: 0,
-  released: 1
+  released: 1,
+  all: 2
 }
 
 export const state = () => ({
   // 全データ
-  notesAll: []
+  notesAll: [],
+  displayedStatus: 2
 })
 
 export const getters = {
@@ -22,13 +25,33 @@ export const getters = {
     return state.notesAll
   },
   notesReleased: (state) => {
-    return state.notesAll.filter((note) => note.status === noteStatus.released)
+    return state.notesAll.filter(
+      (note) => note.status === noteStatuses.released
+    )
   },
-  notesReleasedOfCategory: (state) => (categoryId) => {
+  folderNotesByStatus: (state) => ({ folderId, noteStatus }) => {
+    folderId = parseInt(folderId)
+    noteStatus = parseInt(noteStatus)
+    let notes = state.notesAll.filter((note) => note.folder_id === folderId)
+    if (
+      noteStatus === noteStatuses.released ||
+      noteStatus === noteStatuses.nonReleased
+    ) {
+      notes = notes.filter((note) => note.status === noteStatus)
+    }
+    return notes
+  },
+  categoryNotesByStatus: (state) => ({ categoryId, noteStatus }) => {
     categoryId = parseInt(categoryId)
-    return state.notesAll
-      .filter((note) => note.status === noteStatus.released)
-      .filter((note) => note.category_id === categoryId)
+    noteStatus = parseInt(noteStatus)
+    let notes = state.notesAll.filter((note) => note.category_id === categoryId)
+    if (
+      noteStatus === noteStatuses.released ||
+      noteStatus === noteStatuses.nonReleased
+    ) {
+      notes = notes.filter((note) => note.status === noteStatus)
+    }
+    return notes
   }
 }
 

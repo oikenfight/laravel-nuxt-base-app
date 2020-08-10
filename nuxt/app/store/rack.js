@@ -27,6 +27,7 @@ export const actions = {
       console.log(error)
     })
     commit('ADD', { rack: data.rack })
+    return data.rack
   },
   async update({ commit }, { rack }) {
     const data = await this.$axios

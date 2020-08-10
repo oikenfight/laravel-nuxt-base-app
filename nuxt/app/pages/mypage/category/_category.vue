@@ -1,16 +1,25 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="10">
-        <v-row justify="center">
-          <v-col cols="auto" class="display-2 pa-0">
-            note
-          </v-col>
-        </v-row>
+      <v-col ref="titleHeader" cols="10" class="pb-0">
+        <Header></Header>
       </v-col>
 
       <v-col cols="10">
         <v-divider></v-divider>
+      </v-col>
+
+      <v-col cols="10">
+        <div class="display-1">{{ category.name }}</div>
+        <div>
+          <v-chip x-small class="ma-2">
+            {{ currentNoteStatusText }}
+          </v-chip>
+          <span class="subtitle-2">
+            <v-icon>mdi-book-open</v-icon>
+            {{ notes.length }}本
+          </span>
+        </div>
       </v-col>
 
       <v-col cols="10">
@@ -32,34 +41,47 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Header from '@/components/MyPage/Common/Header'
 import NoteList from '@/components/MyPage/Common/NoteList.vue'
 
 export default {
   name: 'Index',
-  components: { NoteList },
+  components: { Header, NoteList },
   data() {
     return {}
   },
   computed: {
     ...mapGetters({
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory',
-      categoryGetter: 'category/category'
+      categoryNotesByStatus: 'note/categoryNotesByStatus',
+      currentNoteStatus: 'currentNoteStatus',
+      categoryGetter: 'view/category/category'
     }),
     notes() {
-      return this.notesReleasedOfCategory(this.$route.params.category)
+      return this.categoryNotesByStatus({
+        categoryId: this.$route.params.category,
+        noteStatus: this.currentNoteStatus
+      })
     },
     category() {
       return this.categoryGetter(this.$route.params.category)
     },
+    currentNoteStatusText() {
+      return this.$constants.noteStatusesText[this.currentNoteStatus]
+    },
     breadcrumbsItems() {
       return [
         {
-          text: 'My Page',
+          text: 'TOP',
+          disabled: false,
+          href: '/'
+        },
+        {
+          text: 'マイページ',
           disabled: false,
           href: '/mypage'
         },
         {
-          text: this.category ? this.category.name : '',
+          text: this.category ? this.category.name : 'no category',
           disabled: true,
           href: '/mypage/category/' + this.$route.params.category
         }
@@ -69,7 +91,7 @@ export default {
   methods: {
     ...mapActions({}),
     select(note) {
-      this.$router.push('/mypage/' + note.id)
+      this.$router.push('/mypage/folder/' + note.folder_id + '/note/' + note.id)
     }
   }
 }

@@ -15,11 +15,32 @@
 
       <v-col cols="9">
         <v-row>
+          <v-col cols="12">
+            <v-img
+              :src="require('@/assets/img/noimage.png')"
+              class="white--text align-end"
+              max-height="300px"
+            ></v-img>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="12" class="display-1">
+            {{ note.name }}
+          </v-col>
+        </v-row>
+
+        <!-- divider -->
+        <v-col cols="12" class="pb-5">
+          <v-divider></v-divider>
+        </v-col>
+
+        <v-row justify="center">
           <v-col
             v-for="(item, index) in items"
             :key="index"
             cols="12"
-            class="pa-0"
+            class="py-0"
           >
             <v-row align="center">
               <v-col cols="12" class="pa-3">
@@ -41,6 +62,7 @@ import BreadCrumbs from '@/components/MyPage/Common/BreadCrumbs'
 
 export default {
   name: 'Article',
+  layout: 'guest',
   components: { BreadCrumbs, Header },
   data() {
     return {
@@ -49,9 +71,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      noteGetter: 'note/note',
-      categoryGetter: 'category/category',
-      itemsGetter: 'item/items'
+      noteGetter: 'view/note/note',
+      categoryGetter: 'view/category/category',
+      items: 'view/item/items'
     }),
     note() {
       return this.noteGetter(this.$route.params.article)
@@ -59,20 +81,22 @@ export default {
     category() {
       return this.note ? this.categoryGetter(this.note.category_id) : null
     },
-    items() {
-      return this.note ? this.itemsGetter(this.note.item_ids) : []
-    },
     breadcrumbsItems() {
       return [
         {
-          text: 'home',
+          text: 'TOP',
           disabled: false,
           href: '/'
         },
         {
-          text: this.category ? this.category.name : '',
-          disabled: false,
-          href: '/category/' + (this.category ? this.category.id : '')
+          text:
+            this.category && this.category.name
+              ? this.category.name
+              : 'no category',
+          disabled: !(this.category && this.category.name),
+          href:
+            '/category/' +
+            (this.category && this.category.name ? this.category.id : '')
         },
         {
           text: this.note ? this.note.name : '',
@@ -81,6 +105,11 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    this.$store.dispatch('view/item/fetch', {
+      noteId: this.$route.params.article
+    })
   },
   methods: {
     ...mapActions({})

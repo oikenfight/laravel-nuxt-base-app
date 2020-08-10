@@ -28,9 +28,10 @@ export default {
   data() {
     return {
       menus: [
-        { title: 'Add Folder', action: 'add' },
-        { title: 'Rename Folder', action: 'edit' },
-        { title: 'Delete Folder', action: 'delete' }
+        { title: '新規ログ', action: 'newNote' },
+        { title: '新規フォルダ', action: 'new' },
+        { title: 'フォルダ名変更', action: 'edit' },
+        { title: 'フォルダ削除', action: 'delete' }
       ]
     }
   },
@@ -41,8 +42,11 @@ export default {
     ...mapActions({}),
     triggerClick(action) {
       switch (action) {
-        case 'add':
-          this.add()
+        case 'newNote':
+          this.newNote()
+          break
+        case 'new':
+          this.new()
           break
         case 'edit':
           this.edit()
@@ -52,14 +56,24 @@ export default {
           break
       }
     },
-    async add() {
-      const folder = await this.$store.dispatch('folder/create', {
+    async newNote() {
+      const note = await this.$store.dispatch('note/create', {
+        folder: this.folder
+      })
+      this.$store.dispatch('folder/addNote', {
+        folder: this.folder,
+        note
+      })
+    },
+    async new() {
+      const newFolder = await this.$store.dispatch('folder/create', {
         rack: this.rack
       })
       this.$store.dispatch('rack/addFolder', {
         rack: this.rack,
-        folder
+        folder: newFolder
       })
+      this.$emit('edit', { folder: newFolder })
     },
     edit() {
       this.$emit('edit', { folder: this.folder })

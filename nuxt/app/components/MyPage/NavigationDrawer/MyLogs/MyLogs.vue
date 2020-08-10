@@ -1,7 +1,5 @@
 <template>
-  <!-- TODO: そのうちやる。選択中の rack or folder をハイライトする -->
-  <!-- ツリーを描画するコンポーネント -->
-  <v-row class="ma-0">
+  <v-row justify="center">
     <v-list class="" width="100%">
       <v-row v-for="rack in racksAll" :key="rack.id" class="ma-0">
         <v-col cols="12" class="py-2">
@@ -30,14 +28,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-// import RackActionMenu from '@/components/MyPage/NavigationDrawer/ListPrivate/RackActionMenu.vue'
-// import FolderActionMenu from '@/components/MyPage/NavigationDrawer/ListPrivate/FolderActionMenu.vue'
-import ListItemRack from '@/components/MyPage/NavigationDrawer/ListPrivate/ListItemRack.vue'
-import ListItemFolder from '@/components/MyPage/NavigationDrawer/ListPrivate/ListItemFolder.vue'
+import { mapActions, mapGetters } from 'vuex'
+import ListItemRack from '@/components/MyPage/NavigationDrawer/MyLogs/ListItemRack.vue'
+import ListItemFolder from '@/components/MyPage/NavigationDrawer/MyLogs/ListItemFolder.vue'
 
 export default {
-  name: 'ListPrivate',
+  name: 'MyLogs',
   components: { ListItemRack, ListItemFolder },
   data() {
     return {
@@ -61,6 +57,9 @@ export default {
     },
     isEditingTheFolder(folder) {
       return this.folderEdited && this.folderEdited.id === folder.id
+    },
+    addRack() {
+      this.$store.dispatch('rack/create')
     },
     editRack({ rack }) {
       this.rackEdited = Object.assign({}, rack)

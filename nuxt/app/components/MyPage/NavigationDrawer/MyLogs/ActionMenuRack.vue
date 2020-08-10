@@ -14,11 +14,7 @@
         @click="triggerClick(menu.action)"
       >
         <v-list-item-content>
-          <v-list-item-title
-            v-if="menu.title"
-            v-text="menu.title"
-          ></v-list-item-title>
-          <v-subheader v-else pl-0 ml-0>{{ menu.target }}</v-subheader>
+          <v-list-item-title v-text="menu.title"></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -34,12 +30,10 @@ export default {
   data() {
     return {
       menus: [
-        { target: 'Folder' },
-        { title: 'Add Folder', action: 'addFolder' },
-        { target: 'Rack' },
-        { title: 'Add Rack', action: 'add' },
-        { title: 'Rename Rack', action: 'edit' },
-        { title: 'Delete Rack', action: 'delete' }
+        { title: '新規フォルダ', action: 'addFolder' },
+        { title: '新規グループ', action: 'add' },
+        { title: 'グループ名変更', action: 'edit' },
+        { title: 'グループ削除', action: 'delete' }
       ]
     }
   },
@@ -64,8 +58,9 @@ export default {
           break
       }
     },
-    add() {
-      this.$store.dispatch('rack/create')
+    async add() {
+      const newRack = await this.$store.dispatch('rack/create')
+      this.$emit('edit', { rack: newRack })
     },
     edit() {
       this.$emit('edit', { rack: this.rack })

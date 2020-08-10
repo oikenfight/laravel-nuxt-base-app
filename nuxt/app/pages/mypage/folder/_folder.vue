@@ -13,17 +13,6 @@
         <nuxt-child></nuxt-child>
       </v-col>
     </v-row>
-
-    <!--    -->
-    <!--    &lt;!&ndash; scrollable height: ウィンドウの高さ - フッターの高さ &ndash;&gt;-->
-    <!--    <v-flex style="width: 140px; height: calc(100vh - 36px);">-->
-    <!--      <NotesSelectable :folder="folder"></NotesSelectable>-->
-    <!--    </v-flex>-->
-
-    <!--    &lt;!&ndash; scrollable height: ウィンドウの高さ - フッターの高さ &ndash;&gt;-->
-    <!--    <v-flex style="width: 100%; height: calc(100vh - 36px);">-->
-    <!--      <nuxt-child></nuxt-child>-->
-    <!--    </v-flex>-->
   </v-layout>
 </template>
 

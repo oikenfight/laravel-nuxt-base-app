@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Entities\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class RegisterController
+ * @package App\Http\Controllers\Api\Auth
+ */
 final class RegisterController extends Controller
 {
     /**
@@ -20,14 +24,19 @@ final class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    protected function create(Request $request)
+    protected function create(RegisterRequest $request)
     {
         // TODO: UseCaseを作る
         // TODO: UserRepositoryの実装サボってたのでちゃんとやる
-        return User::create([
+        $user = User::create([
             'name' => $request->input('user.name'),
             'email' => $request->input('user.email'),
             'password' => Hash::make($request->input('user.password')),
+        ]);
+
+        return response()->json([
+            'user' => $user,
+            'status' => 200
         ]);
     }
 }

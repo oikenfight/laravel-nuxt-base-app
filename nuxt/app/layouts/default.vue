@@ -1,25 +1,5 @@
 <template>
   <v-app id="">
-    <!--    <v-app-bar app>-->
-    <!--      <v-row>-->
-    <!--        <v-col cols class="col-9">-->
-    <!--          <v-toolbar-title>Web Markdown Editor</v-toolbar-title>-->
-    <!--        </v-col>-->
-    <!--        <v-col cols class="col-3">-->
-    <!--          <AppBarMenu></AppBarMenu>-->
-    <!--        </v-col>-->
-    <!--      </v-row>-->
-
-    <!--      &lt;!&ndash; タブ機能はそのうち付けたい &ndash;&gt;-->
-    <!--      &lt;!&ndash;      <template v-slot:extension>&ndash;&gt;-->
-    <!--      &lt;!&ndash;        <v-tabs align-with-title>&ndash;&gt;-->
-    <!--      &lt;!&ndash;          <v-tab>Tab 1</v-tab>&ndash;&gt;-->
-    <!--      &lt;!&ndash;          <v-tab>Tab 2</v-tab>&ndash;&gt;-->
-    <!--      &lt;!&ndash;          <v-tab>Tab 3</v-tab>&ndash;&gt;-->
-    <!--      &lt;!&ndash;        </v-tabs>&ndash;&gt;-->
-    <!--      &lt;!&ndash;      </template>&ndash;&gt;-->
-    <!--    </v-app-bar>-->
-
     <!-- Navigation -->
     <v-navigation-drawer
       app
@@ -31,9 +11,12 @@
       <!-- Profile -->
       <v-list-item class="px-2">
         <v-list-item-avatar>
+          <v-icon>mdi-account</v-icon>
+          <!--
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          -->
         </v-list-item-avatar>
-        <v-list-item-title>Yuta Oikawa</v-list-item-title>
+        <v-list-item-title>{{ user.name }}</v-list-item-title>
 
         <!-- ナビゲーションバー閉じるボタン -->
         <v-btn icon @click.stop="mini = !mini">
@@ -44,7 +27,7 @@
       <v-divider></v-divider>
 
       <!-- Navigation のメインコンテンツ -->
-      <NavigationController></NavigationController>
+      <NavigationBase></NavigationBase>
     </v-navigation-drawer>
 
     <!-- Application Bar -->
@@ -68,34 +51,21 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import AppBarMenu from '@/components/appbar/Menu.vue'
-// import AppBarTabs from '@/components/appbar/Tabs.vue'
-import NavigationController from '@/components/MyPage/NavigationDrawer/NavigationController'
+import NavigationBase from '@/components/MyPage/NavigationDrawer/NavigationBase'
 
 export default {
   middleware: 'auth',
-  components: { NavigationController },
+  components: { NavigationBase },
   data: () => ({
-    mini: true,
-    menuTogglable: {
-      ListSearch: false,
-      ListWork: true,
-      ListHome: false
-    }
+    mini: true
   }),
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      user: 'user'
+    })
   },
   methods: {
-    ...mapActions({}),
-    toggleMenu({ menuName }) {
-      Object.keys(this.menuTogglable).forEach((key) => {
-        this.menuTogglable[key] = key === menuName
-      })
-    },
-    shouldShow(menuName) {
-      return this.menuTogglable[menuName]
-    }
+    ...mapActions({})
   }
 }
 </script>

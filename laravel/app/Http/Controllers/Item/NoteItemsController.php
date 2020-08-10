@@ -22,7 +22,7 @@ final class NoteItemsController extends Controller
      */
     public function __invoke(Request $request, FindUseCaseInterface $findUseCase)
     {
-        /** @var NoteInterface $user */
+        /** @var NoteInterface $note */
         $note = $findUseCase((int)$request->route('Note'));
 
         /** @var ItemInterface[] $items */

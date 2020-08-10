@@ -16,10 +16,8 @@
       ></v-text-field>
     </v-col>
     <v-col v-else cols="12" class="text-truncate pa-0 ma-0">
-      <span class="subtitle-2">
-        {{ category.name }}
-      </span>
-      <span> （{{ countNoteReleasedInCategory }}） </span>
+      <span class="subtitle-2">{{ category.name }}</span>
+      <span> （{{ noteCount }}） </span>
       <span style="float: right;">
         <!-- Rack アクションメニュー -->
         <ActionMenuCategory
@@ -33,7 +31,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ActionMenuCategory from '@/components/MyPage/NavigationDrawer/ListPublic/ActionMenuCategory.vue'
+import ActionMenuCategory from '@/components/MyPage/NavigationDrawer/CategoryLogs/ActionMenuCategory.vue'
 
 export default {
   name: 'ListItemCategory',
@@ -49,10 +47,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notesReleasedOfCategory: 'note/notesReleasedOfCategory'
+      categoryNotesByStatus: 'note/categoryNotesByStatus',
+      currentNoteStatus: 'currentNoteStatus'
     }),
-    countNoteReleasedInCategory() {
-      return this.notesReleasedOfCategory(this.category.id).length
+    noteCount() {
+      return this.categoryNotesByStatus({
+        categoryId: this.category.id,
+        noteStatus: this.currentNoteStatus
+      }).length
     }
   },
   methods: {
